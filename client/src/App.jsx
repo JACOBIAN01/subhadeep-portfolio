@@ -1,7 +1,11 @@
-export default function App(){
-    return(
-        <>
-            <h1 className="text-rose-600 font-bold text-center bg-gray-200 p-3">Hi</h1>
-        </>
-    )
+// src/App.jsx
+import Home from "./pages/Home";
+import "./index.css";
+
+export default function App() {
+  return (
+    <div className="bg-[#0B0C10] text-white min-h-screen">
+      <Home />
+    </div>
+  );
 }
