@@ -8,7 +8,7 @@ import Image from "../assets/HeroV3.png";
 
 export default function Hero() {
   return (
-    <section id="home" className="top-0">
+    <section id="home" className="top-0 pt-25">
       {/* Background gradient blobs */}
       <div className="pointer-events-none absolute -top-40 -left-40 h-80 w-80 rounded-full bg-linear-to-tr from-fuchsia-500/30 to-sky-400/30 blur-3xl" />
       <div className="pointer-events-none absolute top-0 -right-40 h-80 w-80 rounded-full bg-linear-to-tr from-amber-300/30 to-purple-400/30 blur-3xl" />
@@ -24,17 +24,17 @@ export default function Hero() {
           <div className="md:col-span-5">
             <div className="relative bg-black/80 rounded-2xl border border-white/10 p-6 md:p-8 shadow-lg overflow-hidden group transition-all duration-500 hover:border-white/20">
               {/* Subtle hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-white/5 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
 
               {/* Image Section */}
               <div className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-black flex items-center justify-center">
                 <img
                   src={Image}
                   alt="Profile"
-                  className="w-full h-full object-cover rounded-xl grayscale-[10%] brightness-90 hover:brightness-100 transition-all duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover rounded-xl grayscale-10 brightness-90 hover:brightness-100 transition-all duration-700 group-hover:scale-105"
                 />
                 {/* dark gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/60" />
               </div>
 
               {/* Profile Info */}
@@ -43,7 +43,6 @@ export default function Hero() {
                   {PROFILE.name}
                 </h2>
                 <p className="text-sm text-white/70 mt-1">{PROFILE.title}</p>
-                <p className="text-xs text-white/50 mt-1">{PROFILE.location}</p>
               </div>
             </div>
           </div>
