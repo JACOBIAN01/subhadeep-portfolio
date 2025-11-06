@@ -10,7 +10,7 @@ export default function GlassCard({ children, className = "" }) {
       transition={{ type: "spring", stiffness: 200 }}
     >
       {/* Subtle glossy layer */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/0 to-white/0" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-white/10 via-white/0 to-white/0" />
       {children}
     </motion.div>
   );

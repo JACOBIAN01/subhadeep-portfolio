@@ -4,7 +4,7 @@ import "./index.css";
 
 export default function App() {
   return (
-    <div className="bg-[#0B0C10] text-white min-h-screen">
+    <div className="bg-black overflow-x-hidden">
       <Home />
     </div>
   );

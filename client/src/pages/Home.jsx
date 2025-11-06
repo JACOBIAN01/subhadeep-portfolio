@@ -11,12 +11,7 @@ import FloatingDock from "../components/FloatingDock";
 
 export default function Home() {
   return (
-    <main className="min-h-screen text-white bg-[#0B0C10] relative">
-      // eslint-disable-next-line no-unused-vars
-      {/* global gradient gloss */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_-10%,rgba(255,255,255,0.15),rgba(255,255,255,0)_70%)]" />
-
-      {/* Section Components */}
+    <main>
       <Navbar />
       <Hero />
       <StatsStrip />
