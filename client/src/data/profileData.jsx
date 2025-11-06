@@ -84,17 +84,14 @@ export const EXPERIENCE = [
       "4.7/5 avg rating and 80% renewal through personalized learning.",
     ],
   },
+];
+
+export const Leadership = [
   {
     role: "Vice President",
     org: "BONGOJO (VIT-AP)",
     period: "Jan 2025 – Jun 2025",
     bullets: ["Led a 25-member team; organized 5+ events; +25% membership."],
-  },
-  {
-    role: "Junior Relationship Officer",
-    org: "Axis Bank",
-    period: "Sep 2022 – Dec 2022",
-    bullets: ["Client portfolio growth and tailored banking solutions."],
   },
 ];
 
@@ -131,5 +128,55 @@ export const CONTACTS = [
     label: PROFILE.phone,
     href: `tel:${PROFILE.phone.replace(/\\s/g, "")}`,
     icon: <FaPhoneAlt />,
+  },
+];
+
+// ------------------ Job Certificates & Recognitions ------------------
+
+export const JOB_CERTIFICATES = [
+  {
+    title: "Certificate of Excellence – Codingal Inc.",
+    org: "Codingal Inc.",
+    date: "July 2024",
+    metric: "3000+ live sessions • 4.7★ rating",
+    desc: "Recognized for outstanding mentorship, innovation, and global educational impact.",
+    img: "/certs/Coding_Instructor.jpg",
+    link: "/certs/Coding_Instructor.pdf",
+  },
+  {
+    title: "Performance Recognition – 5+ Renewals in a Month",
+    org: "Codingal Inc.",
+    date: "Nov 2022",
+    metric: "5+ Monthly Renewals • 18% Client Growth",
+    desc: "Awarded for exceptional educator engagement and renewal performance.",
+    img: "/certs/Plus_Renewal.jpg",
+    link: "/certs/Plus_Renewal.jpg",
+  },
+  {
+    title: "Promotion – Senior Coding Instructor",
+    org: "Codingal Inc.",
+    date: "May 2025",
+    metric: "Mentored 100+ students • Led instructor teams",
+    desc: "Promoted for leadership, quality delivery, and consistent excellence.",
+    img: "/certs/Senior_Coding_Instructor.jpg",
+    link: "/certs/Senior_Coding_Instructor.pdf",
+  },
+  {
+    title: "Teacher Mentor Promotion",
+    org: "Codingal Inc.",
+    date: "Aug 2024",
+    metric: "Top Mentor Recognition • Educator Leadership",
+    desc: "Recognized for mentoring and supporting instructor growth initiatives.",
+    img: "/certs/Teacher_Mentor.jpg",
+    link: "/certs/Teacher_Mentor.pdf",
+  },
+  {
+    title: "Subject Matter Expert (Python)",
+    org: "Codingal Inc.",
+    date: "Mar 2025",
+    metric: "100+ Students Mentored • 80% Renewal Rate",
+    desc: "Appreciated for expertise in Python curriculum design and mentorship.",
+    img: "/certs/Python_SME.jpg",
+    link: "/certs/Python_SME.pdf",
   },
 ];
