@@ -1,4 +1,5 @@
 // src/components/Projects.jsx
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import GlassCard from "./GlassCard";

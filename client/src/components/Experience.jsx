@@ -1,4 +1,5 @@
 // src/components/Experience.jsx
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";

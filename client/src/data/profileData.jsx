@@ -21,7 +21,6 @@ import {
   SiGit,
   SiRedux,
   SiSocketdotio,
-  SiPowerbi,
 } from "react-icons/si";
 
 export const PROFILE = {
@@ -52,7 +51,6 @@ export const STACK = [
   { name: "Redux", icon: <SiRedux className="text-2xl" /> },
   { name: "WebSockets", icon: <SiSocketdotio className="text-2xl" /> },
   { name: "SQL/DB", icon: <FaDatabase className="text-2xl" /> },
-  { name: "Power BI", icon: <SiPowerbi className="text-2xl" /> },
 ];
 
 export const PROJECTS = [
