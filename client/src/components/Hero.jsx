@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import GlassCard from "./GlassCard";
 import { PROFILE, CONTACTS } from "../data/profileData";
 import TechMarquee from "./TechMarquee";
-import Image from "../assets/HeroImage.png"
+import Image from "../assets/HeroV3.png";
 
 export default function Hero() {
   return (
@@ -21,6 +21,34 @@ export default function Hero() {
           className="grid md:grid-cols-12 gap-8 items-center"
         >
           {/* -------- LEFT SIDE -------- */}
+          <div className="md:col-span-5">
+            <div className="relative bg-black/80 rounded-2xl border border-white/10 p-6 md:p-8 shadow-lg overflow-hidden group transition-all duration-500 hover:border-white/20">
+              {/* Subtle hover glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700"></div>
+
+              {/* Image Section */}
+              <div className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-black flex items-center justify-center">
+                <img
+                  src={Image}
+                  alt="Profile"
+                  className="w-full h-full object-cover rounded-xl grayscale-[10%] brightness-90 hover:brightness-100 transition-all duration-700 group-hover:scale-105"
+                />
+                {/* dark gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
+              </div>
+
+              {/* Profile Info */}
+              <div className="mt-5 text-center">
+                <h2 className="text-2xl font-semibold text-white">
+                  {PROFILE.name}
+                </h2>
+                <p className="text-sm text-white/70 mt-1">{PROFILE.title}</p>
+                <p className="text-xs text-white/50 mt-1">{PROFILE.location}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* -------- RIGHT SIDE -------- */}
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white/80 mb-4 backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -36,29 +64,6 @@ export default function Hero() {
               </span>
             </h1>
           </div>
-
-          {/* -------- RIGHT SIDE -------- */}
-          <div className="md:col-span-5">
-            <GlassCard className="p-6 md:p-8">
-              <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 bg-linear-to-br from-white/10 to-white/0 flex items-center justify-center">
-                <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-                  <div className="absolute -inset-6 bg-white/1 blur-2xl rounded-full" />
-                  <img src={Image} />
-                </div>
-              </div>
-              <div className="mt-4 text-center">
-                <div className="text-xl text-white font-medium">
-                  {PROFILE.name}
-                </div>
-                <div className="text-sm text-white/80">{PROFILE.title}</div>
-                <div className="text-xs text-white/90 mt-1">
-                  {PROFILE.location}
-                </div>
-              </div>
-            </GlassCard>
-          </div>
-
-
         </motion.div>
       </div>
 
