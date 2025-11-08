@@ -3,6 +3,7 @@ import { PROFILE } from "../data/profileData";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { IoCloudDownloadOutline } from "react-icons/io5";
 
 export default function Navbar() {
   const links = [
@@ -75,6 +76,17 @@ export default function Navbar() {
 
           {/* Icons + Buttons */}
           <div className="flex items-center gap-3">
+            {/* Resume Icon */}
+            <motion.a
+              href="/Subhadeep_Ghorai_SDE.pdf"
+              download
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.9 }}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/20 bg-white/5 text-white/70 text-xs hover:text-blue-400 hover:border-blue-400 hover:bg-white/10 transition-all duration-300"
+            >
+              <IoCloudDownloadOutline className="text-[13px]" />
+              Resume
+            </motion.a>
             {/* GitHub Icon */}
             <motion.a
               href={PROFILE.github}
