@@ -5,7 +5,7 @@ import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
 import { JOB_CERTIFICATES, EXPERIENCE } from "../data/profileData";
 import { FaExternalLinkAlt } from "react-icons/fa";
-
+import logo from "../assets/Codingal.png";
 export default function Experience() {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -37,7 +37,7 @@ export default function Experience() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img
-                  src="/logos/codingal.png"
+                  src={logo}
                   alt="Codingal Logo"
                   className="w-10 h-10 rounded-lg object-cover"
                 />

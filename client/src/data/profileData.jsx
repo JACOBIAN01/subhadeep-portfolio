@@ -95,19 +95,6 @@ export const Leadership = [
   },
 ];
 
-export const CERTS = [
-  {
-    name: "Oracle Cloud Infrastructure Foundations Associate",
-    org: "Oracle",
-    date: "Jul 2025",
-  },
-  { name: "System Design Masterclass", org: "Udemy", date: "Jun 2025" },
-  {
-    name: "Full Stack Developer Bootcamp — GeeksforGeeks",
-    org: "GeeksforGeeks",
-    date: "Mar 2025",
-  },
-];
 
 export const ACHIEVEMENTS = [
   "Smart India Hackathon — University Finalist",
@@ -178,5 +165,56 @@ export const JOB_CERTIFICATES = [
     desc: "Appreciated for expertise in Python curriculum design and mentorship.",
     img: "/certs/Python_SME.jpg",
     link: "/certs/Python_SME.pdf",
+  },
+];
+
+export const SKILL_CERTIFICATES = [
+  {
+    title: "Full-Stack Web Development Bootcamp",
+    platform: "Udemy",
+    date: "March 2025",
+    img: "/certs/GFG.jpg",
+    desc: "Covered React, Node.js, Express, and MongoDB with 10+ real-world projects.",
+    link: "https://www.udemy.com/certificate/UC-XXXXXX/",
+  },
+  {
+    title: "System Design Masterclass",
+    platform: "Udemy",
+    date: "June 2025",
+    img: "/certs/System_Design.jpg",
+    desc: "Learned scalable backend design and distributed architecture principles.",
+    link: "https://www.udemy.com/certificate/UC-XXXXXX/",
+  },
+  {
+    title: "Python for Everybody",
+    platform: "Coursera",
+    date: "Jan 2024",
+    img: "/certs/DS.jpg",
+    desc: "Mastered Python fundamentals, APIs, and data processing.",
+    link: "https://www.coursera.org/account/accomplishments/certificate/XXXXXX",
+  },
+  {
+    title: "Oracle Cloud Infrastructure Foundations Associate",
+    platform: "Oracle",
+    date: "July 2025",
+    img: "/certs/Oracle.jpg",
+    desc: "Validated understanding of OCI architecture, compute, and networking.",
+    link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=XXXXXX",
+  },
+  {
+    title: "Matlab",
+    platform: "GeeksforGeeks",
+    date: "March 2025",
+    img: "/certs/Matlab.jpg",
+    desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
+    link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
+  },
+  {
+    title: "V-INN Expo",
+    platform: "VIT-AP",
+    date: "March 2025",
+    img: "/certs/VINN(1).jpg",
+    desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
+    link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
   },
 ];
