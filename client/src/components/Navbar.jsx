@@ -1,11 +1,17 @@
 // src/components/Navbar.js
+import { useEffect, useState } from "react";
 import { PROFILE } from "../data/profileData";
 // eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { IoCloudDownloadOutline } from "react-icons/io5";
+import { IoCloudDownloadOutline, IoClose, IoMenu } from "react-icons/io5";
+
+const EASE = [0.16, 1, 0.3, 1];
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const links = [
     { href: "#projects", label: "Projects" },
     { href: "#experience", label: "Experience" },
@@ -15,106 +21,121 @@ export default function Navbar() {
     { href: "#contact", label: "Contact" },
   ];
 
-  // Animation Variants
-  const containerVariants = {
-    hidden: { y: -40, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const linkVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.1, duration: 0.3 },
-    }),
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-full z-50"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <div className="mx-auto max-w-7xl px-4 py-3">
-        <motion.div
-          className="mb-4 rounded-2xl border border-white/10 bg-white/10 backdrop-blur-xl px-4 py-3 flex items-center justify-between shadow-xl"
-          variants={containerVariants}
-        >
-          {/* Logo / Name */}
-          <motion.a
-            href="#"
-            className="font-semibold tracking-tight"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="text-white/80">Subhadeep Ghorai</span>
-          </motion.a>
+    <>
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: EASE }}
+        className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 transition-shadow duration-500 ${
+          scrolled ? "border-b border-hairline" : "border-b border-transparent"
+        }`}
+      >
+        <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
+          <a href="#home" className="text-[15px] font-medium text-ink tracking-tight">
+            {PROFILE.name}
+          </a>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center gap-6 text-sm text-white/70">
-            {links.map((l, i) => (
-              <motion.a
+          <nav className="hidden md:flex items-center gap-8 text-[13px] text-subtle">
+            {links.map((l) => (
+              <a
                 key={l.href}
                 href={l.href}
-                custom={i}
-                variants={linkVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ scale: 1.1, color: "#fff" }}
-                whileTap={{ scale: 0.95 }}
+                className="hover:text-ink transition-colors duration-300"
               >
                 {l.label}
-              </motion.a>
+              </a>
             ))}
-          </div>
+          </nav>
 
-          {/* Icons + Buttons */}
-          <div className="flex items-center gap-3">
-            {/* Resume Icon */}
-            <motion.a
+          <div className="hidden md:flex items-center gap-5">
+            <a
               href="/Subhadeep_Ghorai_SDE.pdf"
               download
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/20 bg-white/5 text-white/70 text-xs hover:text-blue-400 hover:border-blue-400 hover:bg-white/10 transition-all duration-300"
+              className="flex items-center gap-1.5 text-[13px] text-subtle hover:text-ink transition-colors duration-300"
             >
-              <IoCloudDownloadOutline className="text-[13px]" />
+              <IoCloudDownloadOutline className="text-[14px]" />
               Resume
-            </motion.a>
-            {/* GitHub Icon */}
-            <motion.a
+            </a>
+            <a
               href={PROFILE.github}
               target="_blank"
               rel="noreferrer"
-              className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs hover:bg-white/15 flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
+              className="text-subtle hover:text-ink transition-colors duration-300"
+              aria-label="GitHub"
             >
-              <FaGithub className="text-white text-base" />
-              <span className="text-white">GitHub</span>
-            </motion.a>
-
-            {/* LinkedIn Icon */}
-            <motion.a
+              <FaGithub className="text-[16px]" />
+            </a>
+            <a
               href={PROFILE.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="flex  rounded-xl bg-white text-black px-3 py-2 text-xs font-medium hover:opacity-90 items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9 }}
+              className="rounded-full bg-ink text-white px-4 py-1.5 text-[13px] font-medium hover:bg-black transition-colors duration-300"
             >
-              <FaLinkedin className="text-blue-600 text-base" />
-              <span>Connect</span>
-            </motion.a>
+              Connect
+            </a>
           </div>
-        </motion.div>
-      </div>
-    </motion.div>
+
+          <button
+            onClick={() => setOpen(true)}
+            className="md:hidden text-ink"
+            aria-label="Open menu"
+          >
+            <IoMenu className="text-2xl" />
+          </button>
+        </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl md:hidden"
+          >
+            <div className="flex items-center justify-between px-6 h-14">
+              <span className="text-[15px] font-medium text-ink">{PROFILE.name}</span>
+              <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-ink">
+                <IoClose className="text-2xl" />
+              </button>
+            </div>
+
+            <nav className="flex flex-col items-center justify-center gap-8 h-[calc(100%-3.5rem)]">
+              {links.map((l, i) => (
+                <motion.a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.05, duration: 0.4, ease: EASE }}
+                  className="text-3xl font-semibold tracking-tight text-ink"
+                >
+                  {l.label}
+                </motion.a>
+              ))}
+
+              <div className="flex items-center gap-6 mt-6 text-subtle">
+                <a href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+                  <FaGithub className="text-2xl" />
+                </a>
+                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <FaLinkedin className="text-2xl" />
+                </a>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

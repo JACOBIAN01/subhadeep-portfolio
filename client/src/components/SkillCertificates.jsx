@@ -8,86 +8,77 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 export default function SkillCertificates() {
   const [isHovered, setIsHovered] = useState(false);
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.2 },
-    },
-  };
-
   return (
-    <section id="skill-certificates" className="mx-auto max-w-7xl px-6 py-16">
-      <SectionTitle kicker="Upskilling" title="Skill Certificates" />
+    <section id="skill-certificates" className="bg-canvas-alt">
+      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+        <SectionTitle kicker="Upskilling" title="Skill Certificates" />
 
-      <h3 className="text-xl font-semibold text-white/80 mt-10 mb-6 text-center">
-        📜 Online Learning & Course Achievements
-      </h3>
+        <h3 className="text-sm font-medium tracking-wide uppercase text-subtle -mt-6 mb-10 text-center">
+          Online Learning & Course Achievements
+        </h3>
 
-      {/* --- Infinite Smooth Certificates Carousel --- */}
-      <div
-        className="relative overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <motion.div
-          className="flex gap-8"
-          animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
-          transition={{
-            ease: "linear",
-            duration: 22,
-            repeat: Infinity,
-          }}
+        {/* --- Infinite Smooth Certificates Carousel --- */}
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {[...SKILL_CERTIFICATES, ...SKILL_CERTIFICATES].map((cert, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="shrink-0 w-[320px] md:w-[400px] bg-white/15 border border-white/10 rounded-2xl backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-            >
-              {/* Certificate Image */}
-              <div className="w-full h-48 rounded-t-2xl overflow-hidden">
-                <img
-                  src={cert.img}
-                  alt={cert.title}
-                  className="w-full h-full object-cover"
-                  draggable="false"
-                />
-              </div>
-
-              {/* Certificate Content */}
-              <div className="p-5 text-white space-y-2">
-                <h4 className="text-lg font-semibold text-white/90">
-                  {cert.title}
-                </h4>
-                <div className="text-sm text-white/60">
-                  {cert.platform} • {cert.date}
+          <motion.div
+            className="flex gap-8"
+            animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
+            transition={{
+              ease: "linear",
+              duration: 28,
+              repeat: Infinity,
+            }}
+          >
+            {[...SKILL_CERTIFICATES, ...SKILL_CERTIFICATES].map((cert, index) => (
+              <div
+                key={index}
+                className="shrink-0 w-80 md:w-100 bg-white border border-hairline rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+              >
+                <div className="w-full h-44 overflow-hidden">
+                  <img
+                    src={cert.img}
+                    alt={cert.title}
+                    className="w-full h-full object-cover"
+                    draggable="false"
+                  />
                 </div>
-                {cert.metric && (
-                  <div className="text-sm text-blue-300 font-medium">
-                    {cert.metric}
-                  </div>
-                )}
-                {cert.desc && (
-                  <p className="text-xs text-white/70 line-clamp-2">
-                    {cert.desc}
-                  </p>
-                )}
 
-                {cert.link && (
-                  <a
-                    href={cert.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-xs text-white/80 hover:text-blue-300 transition mt-2"
-                  >
-                    <FaExternalLinkAlt /> View Certificate
-                  </a>
-                )}
+                <div className="p-6 space-y-2">
+                  <h4 className="text-base font-medium text-ink leading-snug">
+                    {cert.title}
+                  </h4>
+                  <div className="text-sm text-subtle">
+                    {cert.platform} · {cert.date}
+                  </div>
+                  {cert.metric && (
+                    <div className="text-sm text-accent font-medium">
+                      {cert.metric}
+                    </div>
+                  )}
+                  {cert.desc && (
+                    <p className="text-xs text-subtle leading-relaxed line-clamp-2">
+                      {cert.desc}
+                    </p>
+                  )}
+
+                  {cert.link && (
+                    <a
+                      href={cert.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-xs text-subtle hover:text-accent transition-colors duration-300 mt-2"
+                    >
+                      <FaExternalLinkAlt /> View Certificate
+                    </a>
+                  )}
+                </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );

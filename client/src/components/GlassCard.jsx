@@ -5,12 +5,10 @@ import { motion } from "framer-motion";
 export default function GlassCard({ children, className = "" }) {
   return (
     <motion.div
-      className={`relative rounded-2xl p-5 md:p-6 border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.35)] ${className}`}
-      whileHover={{ y: -2, scale: 1.01 }}
-      transition={{ type: "spring", stiffness: 200 }}
+      className={`rounded-[28px] border border-hairline bg-white p-6 md:p-8 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] ${className}`}
+      whileHover={{ y: -3 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      {/* Subtle glossy layer */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-br from-white/10 via-white/0 to-white/0" />
       {children}
     </motion.div>
   );

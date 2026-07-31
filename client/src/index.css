@@ -1,5 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --color-ink: #1d1d1f;
+  --color-subtle: #6e6e73;
+  --color-faint: #86868b;
+  --color-hairline: #d2d2d7;
+  --color-canvas: #fbfbfd;
+  --color-canvas-alt: #f5f5f7;
+  --color-accent: #0071e3;
+}
+
 html,
 body {
-    overflow-x: hidden;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-canvas);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-hairline) transparent;
 }

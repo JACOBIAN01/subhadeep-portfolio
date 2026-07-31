@@ -5,21 +5,21 @@ import { STACK } from "../data/profileData";
 
 export default function TechMarquee() {
   return (
-    <div id="stack" className="border-y border-white/10 bg-white/5">
-      <div className="mx-auto max-w-7xl px-4 py-6 overflow-hidden">
+    <div id="stack" className="border-t border-white/10 mt-20 md:mt-28">
+      <div className="mx-auto max-w-6xl px-6 py-10 overflow-hidden">
         <motion.div
           initial={{ x: 0 }}
           animate={{ x: [0, -600] }}
-          transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-          className="flex items-center gap-8 whitespace-nowrap"
+          transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
+          className="flex items-center gap-12 whitespace-nowrap"
         >
           {STACK.concat(STACK).map((t, i) => (
             <div
               key={i}
-              className="inline-flex items-center gap-2 text-white/80"
+              className="inline-flex items-center gap-2 text-white/40 hover:text-white/80 transition-colors duration-500"
             >
-              <span>{t.icon}</span>
-              <span className="text-sm">{t.name}</span>
+              <span className="text-lg">{t.icon}</span>
+              <span className="text-xs tracking-wide">{t.name}</span>
             </div>
           ))}
         </motion.div>

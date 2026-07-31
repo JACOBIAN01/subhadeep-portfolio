@@ -4,17 +4,17 @@ import { PROFILE } from "../data/profileData";
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-7xl px-4 pb-10">
-      <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 text-sm text-white/60 flex flex-col md:flex-row items-center justify-between gap-3">
+    <footer className="bg-canvas-alt border-t border-hairline">
+      <div className="mx-auto max-w-6xl px-6 py-10 text-sm text-subtle flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
           © {new Date().getFullYear()} {PROFILE.name}. All rights reserved.
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <a
             href={PROFILE.github}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-white inline-flex items-center gap-2"
+            className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
             <FaGithub /> GitHub
           </a>
@@ -22,13 +22,13 @@ export default function Footer() {
             href={PROFILE.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="hover:text-white inline-flex items-center gap-2"
+            className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
             <FaLinkedin /> LinkedIn
           </a>
           <a
             href={`mailto:${PROFILE.email}`}
-            className="hover:text-white inline-flex items-center gap-2"
+            className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
             <FaEnvelope /> Email
           </a>
