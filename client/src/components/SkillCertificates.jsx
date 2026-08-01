@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import { SKILL_CERTIFICATES, ADDITIONAL_CERTIFICATIONS } from "../data/profileData";
-import { FaExternalLinkAlt } from "react-icons/fa";
 
 function SkillCertCard({ cert }) {
   return (
@@ -33,17 +32,6 @@ function SkillCertCard({ cert }) {
           <p className="text-xs text-subtle leading-relaxed line-clamp-2">
             {cert.desc}
           </p>
-        )}
-
-        {cert.link && (
-          <a
-            href={cert.link}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 text-xs text-subtle hover:text-accent transition-colors duration-300 mt-2"
-          >
-            <FaExternalLinkAlt aria-hidden="true" /> View Certificate
-          </a>
         )}
       </div>
     </div>

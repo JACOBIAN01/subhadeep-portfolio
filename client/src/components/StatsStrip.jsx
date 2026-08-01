@@ -4,8 +4,8 @@ import Marquee from "./Marquee";
 
 export default function StatsStrip() {
   const stats = [
-    { k: "Live Sessions", v: 3000, suffix: "+" },
-    { k: "Student Rating", v: 4.7, suffix: "/5" },
+    { k: "Live Sessions", v: 2500, suffix: "+" },
+    { k: "Student Rating", v: 4.44, suffix: "/5" },
     { k: "Learners", v: 400, suffix: "+" },
     { k: "Offline Lectures", v: 100, suffix: "+" },
     { k: "Workshops & Masterclasses", v: 5, suffix: "+" },

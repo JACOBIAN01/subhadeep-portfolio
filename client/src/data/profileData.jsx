@@ -200,7 +200,7 @@ export const EXPERIENCE = [
     period: "Dec 2023 – Jan 2026",
     bullets: [
       "Mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development.",
-      "Achieved a 4.7/5 average rating and 80% student renewal rate through engaging, personalized learning.",
+      "Achieved a 4.44/5 average rating and 80% student renewal rate through engaging, personalized learning.",
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
   },
@@ -342,10 +342,9 @@ export const JOB_CERTIFICATES = [
     title: "Certificate of Excellence – Codingal Inc.",
     org: "Codingal Inc.",
     date: "July 2024",
-    metric: "3000+ live sessions • 4.7★ rating",
+    metric: "2,500+ live sessions • 4.44★ rating",
     desc: "Recognized for outstanding mentorship, innovation, and global educational impact.",
     img: "/certs/Coding_Instructor.jpg",
-    link: "/certs/Coding_Instructor.pdf",
   },
   {
     title: "Performance Recognition – 5+ Renewals in a Month",
@@ -354,7 +353,6 @@ export const JOB_CERTIFICATES = [
     metric: "5+ Monthly Renewals • 18% Client Growth",
     desc: "Awarded for exceptional educator engagement and renewal performance.",
     img: "/certs/Plus_Renewal.jpg",
-    link: "/certs/Plus_Renewal.jpg",
   },
   {
     title: "Promotion – Senior Coding Instructor",
@@ -363,7 +361,6 @@ export const JOB_CERTIFICATES = [
     metric: "Mentored 100+ students • Led instructor teams",
     desc: "Promoted for leadership, quality delivery, and consistent excellence.",
     img: "/certs/Senior_Coding_Instructor.jpg",
-    link: "/certs/Senior_Coding_Instructor.pdf",
   },
   {
     title: "Teacher Mentor Promotion",
@@ -372,7 +369,6 @@ export const JOB_CERTIFICATES = [
     metric: "Top Mentor Recognition • Educator Leadership",
     desc: "Recognized for mentoring and supporting instructor growth initiatives.",
     img: "/certs/Teacher_Mentor.jpg",
-    link: "/certs/Teacher_Mentor.pdf",
   },
   {
     title: "Subject Matter Expert (Python)",
@@ -381,34 +377,30 @@ export const JOB_CERTIFICATES = [
     metric: "100+ Students Mentored • 80% Renewal Rate",
     desc: "Appreciated for expertise in Python curriculum design and mentorship.",
     img: "/certs/Python_SME.jpg",
-    link: "/certs/Python_SME.pdf",
   },
 ];
 
 export const SKILL_CERTIFICATES = [
   {
-    title: "Full-Stack Web Development Bootcamp",
-    platform: "Udemy",
+    title: "Full Stack Developer Bootcamp",
+    platform: "GeeksforGeeks",
     date: "March 2025",
     img: "/certs/GFG.jpg",
-    desc: "Covered React, Node.js, Express, and MongoDB with 10+ real-world projects.",
-    link: "https://www.udemy.com/certificate/UC-XXXXXX/",
+    desc: "Completed a 6-week bootcamp covering full-stack development from frontend to backend.",
   },
   {
     title: "System Design Masterclass",
     platform: "Udemy",
-    date: "June 2025",
+    date: "July 2025",
     img: "/certs/System_Design.jpg",
     desc: "Learned scalable backend design and distributed architecture principles.",
-    link: "https://www.udemy.com/certificate/UC-XXXXXX/",
   },
   {
-    title: "Python for Everybody",
-    platform: "Coursera",
-    date: "Jan 2024",
+    title: "Data Visualization Bootcamp Using Python",
+    platform: "CSI Chapter, VIT-AP",
+    date: "November 2023",
     img: "/certs/DS.jpg",
-    desc: "Mastered Python fundamentals, APIs, and data processing.",
-    link: "https://www.coursera.org/account/accomplishments/certificate/XXXXXX",
+    desc: "Completed a hands-on bootcamp on data visualization techniques using Python.",
   },
   {
     title: "Oracle Cloud Infrastructure Foundations Associate",
@@ -416,28 +408,43 @@ export const SKILL_CERTIFICATES = [
     date: "July 2025",
     img: "/certs/Oracle.jpg",
     desc: "Validated understanding of OCI architecture, compute, and networking.",
-    link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=XXXXXX",
   },
   {
-    title: "Matlab",
-    platform: "GeeksforGeeks",
-    date: "March 2025",
+    title: "MATLAB Onramp",
+    platform: "MathWorks",
+    date: "November 2022",
     img: "/certs/Matlab.jpg",
-    desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
-    link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
+    desc: "Completed the MATLAB Onramp self-paced training course with a 100% completion score.",
   },
   {
-    title: "V-INN Expo",
+    title: "V-INN Expo'24",
     platform: "VIT-AP",
-    date: "March 2025",
+    date: "February 2024",
     img: "/certs/VINN (1).jpg",
-    desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
-    link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
+    desc: "Participated in the RGEMS Project category, recognized for contribution to innovation and research.",
+  },
+  {
+    title: "Great India HackFest 2K24",
+    platform: "CSI Chapter, VIT-AP",
+    date: "March 2024",
+    img: "/certs/CSI.jpg",
+    desc: "Certificate of participation in a national-level hackathon organized by the CSI Chapter at VIT-AP.",
+  },
+  {
+    title: "Introduction to Microsoft Excel",
+    platform: "Coursera Project Network",
+    date: "June 2024",
+    img: "/certs/Coursera.jpg",
+    desc: "Completed a hands-on project covering Microsoft Excel fundamentals.",
+  },
+  {
+    title: "Physical Design & Verification",
+    platform: "Entuple Technologies (Abhiyantha)",
+    date: "Aug-Sept 2023",
+    img: "/certs/Entuple.jpg",
+    desc: "Completed a 6-week internship program on physical design and verification, conducted with VIT-AP.",
   },
 ];
 
 // Certifications confirmed on LinkedIn without an accompanying badge image yet
-export const ADDITIONAL_CERTIFICATIONS = [
-  "Introduction to Generative AI",
-  "Physical Design & Verification",
-];
+export const ADDITIONAL_CERTIFICATIONS = ["Introduction to Generative AI"];

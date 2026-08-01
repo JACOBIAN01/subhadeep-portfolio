@@ -6,7 +6,7 @@ import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import Modal from "./Modal";
 import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
-import { FaExternalLinkAlt, FaGraduationCap } from "react-icons/fa";
+import { FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
 import newtonLogo from "../assets/newton.jpeg"
 import adityaManagerPhoto from "../assets/aditya_manager.jpg";
@@ -180,17 +180,6 @@ function CertCard({ cert }) {
         <p className="text-xs text-subtle leading-relaxed line-clamp-2">
           {cert.desc}
         </p>
-
-        {cert.link && (
-          <a
-            href={cert.link}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 text-xs text-subtle hover:text-accent transition-colors duration-300 mt-2"
-          >
-            <FaExternalLinkAlt aria-hidden="true" /> View Certificate
-          </a>
-        )}
       </div>
     </div>
   );
