@@ -149,7 +149,7 @@ export default function Projects() {
             rel="noreferrer"
             className="mt-8 inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
           >
-            <FaGithub /> View Code
+            <FaGithub aria-hidden="true" /> View Code
           </a>
         </motion.div>
 
@@ -169,6 +169,8 @@ export default function Projects() {
                   <img
                     src={p.image}
                     alt={p.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -243,7 +245,7 @@ export default function Projects() {
 
                 {p.publication && (
                   <div className="mt-6 flex items-start gap-3 text-sm text-subtle italic">
-                    <FaFileAlt className="mt-0.5 shrink-0" />
+                    <FaFileAlt aria-hidden="true" className="mt-0.5 shrink-0" />
                     <span>{p.publication}</span>
                   </div>
                 )}
@@ -255,7 +257,7 @@ export default function Projects() {
                     rel="noreferrer"
                     className="flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
                   >
-                    <FaGithub /> View Code
+                    <FaGithub aria-hidden="true" /> View Code
                   </a>
 
                   {p.liveLink && (
@@ -265,7 +267,7 @@ export default function Projects() {
                       rel="noreferrer"
                       className="flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
                     >
-                      <FaExternalLinkAlt /> Live Demo
+                      <FaExternalLinkAlt aria-hidden="true" /> Live Demo
                     </a>
                   )}
                 </div>

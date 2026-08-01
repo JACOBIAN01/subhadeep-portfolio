@@ -16,7 +16,7 @@ export default function Footer() {
             rel="noreferrer"
             className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
-            <FaGithub /> GitHub
+            <FaGithub aria-hidden="true" /> GitHub
           </a>
           <a
             href={PROFILE.linkedin}
@@ -24,13 +24,13 @@ export default function Footer() {
             rel="noreferrer"
             className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
-            <FaLinkedin /> LinkedIn
+            <FaLinkedin aria-hidden="true" /> LinkedIn
           </a>
           <a
             href={`mailto:${PROFILE.email}`}
             className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
-            <FaEnvelope /> Email
+            <FaEnvelope aria-hidden="true" /> Email
           </a>
         </div>
       </div>

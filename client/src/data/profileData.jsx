@@ -44,7 +44,7 @@ export const PROFILE = {
 export const ABOUT = {
   lead: [
     "Most engineers ship code.",
-    "Fewer can explain why it works to someone learning from scratch —",
+    "Fewer can explain why it works to someone learning from scratch",
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
@@ -170,7 +170,7 @@ export const FLAGSHIP_PROJECT = {
 
 export const EXPERIENCE = [
   {
-    role: "Software Engineer",
+    role: "Instructor & Software Engineer",
     org: "Newton School of Technology",
     period: "Dec 2025 – Present",
     bullets: [
@@ -181,7 +181,7 @@ export const EXPERIENCE = [
     ],
   },
   {
-    role: "Senior Coding Instructor",
+    role: "Teacher Mentor & Senior Coding Instructor",
     org: "Codingal",
     period: "Dec 2023 – Jan 2026",
     bullets: [
@@ -312,7 +312,7 @@ export const SKILL_CERTIFICATES = [
     title: "V-INN Expo",
     platform: "VIT-AP",
     date: "March 2025",
-    img: "/certs/VINN(1).jpg",
+    img: "/certs/VINN (1).jpg",
     desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
     link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
   },

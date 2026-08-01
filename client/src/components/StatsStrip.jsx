@@ -29,20 +29,28 @@ export default function StatsStrip() {
             animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
             transition={{ ease: "linear", duration: 24, repeat: Infinity }}
           >
-            {[...stats, ...stats].map((s, i) => (
-              <div
-                key={i}
-                className="shrink-0 w-64 bg-white border border-hairline rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
-              >
-                <div className="text-4xl font-semibold tracking-tight text-ink">
-                  {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
-                </div>
-                <div className="text-sm text-subtle mt-3">{s.k}</div>
-              </div>
+            {stats.map((s) => (
+              <StatCard key={s.k} s={s} />
             ))}
+            <div className="flex gap-6" aria-hidden="true" inert={true}>
+              {stats.map((s) => (
+                <StatCard key={`dup-${s.k}`} s={s} />
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function StatCard({ s }) {
+  return (
+    <div className="shrink-0 w-64 bg-white border border-hairline rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="text-4xl font-semibold tracking-tight text-ink">
+        {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
+      </div>
+      <div className="text-sm text-subtle mt-3">{s.k}</div>
     </div>
   );
 }

@@ -64,7 +64,7 @@ export default function About() {
           </ul>
         </motion.div>
 
-        <p className="mt-10 text-sm text-faint">
+        <p className="mt-10 text-sm text-subtle">
           {ABOUT.languages.join(" · ")}
         </p>
       </div>

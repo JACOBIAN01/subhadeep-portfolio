@@ -62,7 +62,10 @@ export default function Hero() {
                 className="group flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-300"
               >
                 Get in Touch
-                <IoArrowForward className="transition-transform duration-300 group-hover:translate-x-1" />
+                <IoArrowForward
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
               </a>
             </motion.div>
           </div>
@@ -77,6 +80,11 @@ export default function Hero() {
               <img
                 src={Image}
                 alt={PROFILE.name}
+                width={1280}
+                height={1280}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-auto max-h-[520px] object-contain rounded-2xl"
               />
             </div>

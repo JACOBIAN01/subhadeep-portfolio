@@ -1,5 +1,5 @@
 // src/components/Navbar.js
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PROFILE } from "../data/profileData";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,7 @@ const EASE = [0.16, 1, 0.3, 1];
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const closeButtonRef = useRef(null);
 
   const links = [
     { href: "#projects", label: "Projects" },
@@ -27,12 +28,31 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    closeButtonRef.current?.focus();
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
     <>
+      <a
+        href="#home"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-60 focus:rounded-full focus:bg-ink focus:text-white focus:px-4 focus:py-2 focus:text-sm"
+      >
+        Skip to main content
+      </a>
+
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: EASE }}
+        inert={open}
         className={`fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-white/80 transition-shadow duration-500 ${
           scrolled ? "border-b border-hairline" : "border-b border-transparent"
         }`}
@@ -42,7 +62,7 @@ export default function Navbar() {
             {PROFILE.name}
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] text-subtle">
+          <nav className="hidden md:flex items-center gap-8 text-[13px] text-ink/70">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -58,19 +78,19 @@ export default function Navbar() {
             <a
               href="/Subhadeep_Ghorai_SDE.pdf"
               download
-              className="flex items-center gap-1.5 text-[13px] text-subtle hover:text-ink transition-colors duration-300"
+              className="flex items-center gap-1.5 text-[13px] text-ink/70 hover:text-ink transition-colors duration-300"
             >
-              <IoCloudDownloadOutline className="text-[14px]" />
+              <IoCloudDownloadOutline className="text-[14px]" aria-hidden="true" />
               Resume
             </a>
             <a
               href={PROFILE.github}
               target="_blank"
               rel="noreferrer"
-              className="text-subtle hover:text-ink transition-colors duration-300"
+              className="text-ink/70 hover:text-ink transition-colors duration-300"
               aria-label="GitHub"
             >
-              <FaGithub className="text-[16px]" />
+              <FaGithub className="text-[16px]" aria-hidden="true" />
             </a>
             <a
               href={PROFILE.linkedin}
@@ -87,7 +107,7 @@ export default function Navbar() {
             className="md:hidden text-ink"
             aria-label="Open menu"
           >
-            <IoMenu className="text-2xl" />
+            <IoMenu className="text-2xl" aria-hidden="true" />
           </button>
         </div>
       </motion.header>
@@ -95,6 +115,9 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -103,8 +126,13 @@ export default function Navbar() {
           >
             <div className="flex items-center justify-between px-6 h-14">
               <span className="text-[15px] font-medium text-ink">{PROFILE.name}</span>
-              <button onClick={() => setOpen(false)} aria-label="Close menu" className="text-ink">
-                <IoClose className="text-2xl" />
+              <button
+                ref={closeButtonRef}
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+                className="text-ink"
+              >
+                <IoClose className="text-2xl" aria-hidden="true" />
               </button>
             </div>
 
@@ -125,10 +153,10 @@ export default function Navbar() {
 
               <div className="flex items-center gap-6 mt-6 text-subtle">
                 <a href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-                  <FaGithub className="text-2xl" />
+                  <FaGithub className="text-2xl" aria-hidden="true" />
                 </a>
                 <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                  <FaLinkedin className="text-2xl" />
+                  <FaLinkedin className="text-2xl" aria-hidden="true" />
                 </a>
               </div>
             </nav>

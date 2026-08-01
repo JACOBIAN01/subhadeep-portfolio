@@ -97,12 +97,18 @@ export default function Contact() {
                 rel="noreferrer"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-base text-subtle group-hover:text-accent transition-colors duration-300">
+                  <span
+                    aria-hidden="true"
+                    className="text-base text-subtle group-hover:text-accent transition-colors duration-300"
+                  >
                     {c.icon}
                   </span>
                   <div className="text-sm">{c.label}</div>
                 </div>
-                <FaExternalLinkAlt className="text-xs opacity-40 group-hover:opacity-100 transition-opacity duration-300" />
+                <FaExternalLinkAlt
+                  aria-hidden="true"
+                  className="text-xs opacity-40 group-hover:opacity-100 transition-opacity duration-300"
+                />
               </a>
             ))}
           </div>

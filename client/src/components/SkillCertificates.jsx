@@ -5,6 +5,51 @@ import SectionTitle from "./SectionTitle";
 import { SKILL_CERTIFICATES, ADDITIONAL_CERTIFICATIONS } from "../data/profileData";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
+function SkillCertCard({ cert }) {
+  return (
+    <div className="shrink-0 w-80 md:w-100 bg-white border border-hairline rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="w-full h-72 md:h-80 bg-canvas-alt flex items-center justify-center p-4">
+        <img
+          src={cert.img}
+          alt={cert.title}
+          loading="lazy"
+          decoding="async"
+          className="max-w-full max-h-full object-contain rounded-lg"
+          draggable="false"
+        />
+      </div>
+
+      <div className="p-6 space-y-2">
+        <h4 className="text-base font-medium text-ink leading-snug">
+          {cert.title}
+        </h4>
+        <div className="text-sm text-subtle">
+          {cert.platform} · {cert.date}
+        </div>
+        {cert.metric && (
+          <div className="text-sm text-accent font-medium">{cert.metric}</div>
+        )}
+        {cert.desc && (
+          <p className="text-xs text-subtle leading-relaxed line-clamp-2">
+            {cert.desc}
+          </p>
+        )}
+
+        {cert.link && (
+          <a
+            href={cert.link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-xs text-subtle hover:text-accent transition-colors duration-300 mt-2"
+          >
+            <FaExternalLinkAlt aria-hidden="true" /> View Certificate
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function SkillCertificates() {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -32,55 +77,18 @@ export default function SkillCertificates() {
               repeat: Infinity,
             }}
           >
-            {[...SKILL_CERTIFICATES, ...SKILL_CERTIFICATES].map((cert, index) => (
-              <div
-                key={index}
-                className="shrink-0 w-80 md:w-100 bg-white border border-hairline rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
-              >
-                <div className="w-full h-44 overflow-hidden">
-                  <img
-                    src={cert.img}
-                    alt={cert.title}
-                    className="w-full h-full object-cover"
-                    draggable="false"
-                  />
-                </div>
-
-                <div className="p-6 space-y-2">
-                  <h4 className="text-base font-medium text-ink leading-snug">
-                    {cert.title}
-                  </h4>
-                  <div className="text-sm text-subtle">
-                    {cert.platform} · {cert.date}
-                  </div>
-                  {cert.metric && (
-                    <div className="text-sm text-accent font-medium">
-                      {cert.metric}
-                    </div>
-                  )}
-                  {cert.desc && (
-                    <p className="text-xs text-subtle leading-relaxed line-clamp-2">
-                      {cert.desc}
-                    </p>
-                  )}
-
-                  {cert.link && (
-                    <a
-                      href={cert.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-xs text-subtle hover:text-accent transition-colors duration-300 mt-2"
-                    >
-                      <FaExternalLinkAlt /> View Certificate
-                    </a>
-                  )}
-                </div>
-              </div>
+            {SKILL_CERTIFICATES.map((cert) => (
+              <SkillCertCard key={cert.title} cert={cert} />
             ))}
+            <div className="flex gap-8" aria-hidden="true" inert={true}>
+              {SKILL_CERTIFICATES.map((cert) => (
+                <SkillCertCard key={`dup-${cert.title}`} cert={cert} />
+              ))}
+            </div>
           </motion.div>
         </div>
 
-        <p className="mt-10 text-sm text-faint text-center">
+        <p className="mt-10 text-sm text-subtle text-center">
           Also certified in {ADDITIONAL_CERTIFICATIONS.join(" and ")}.
         </p>
       </div>
