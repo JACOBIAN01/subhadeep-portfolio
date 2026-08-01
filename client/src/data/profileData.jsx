@@ -61,7 +61,7 @@ export const ABOUT = {
     "Ran 30+ mock interviews, translating engineering standards into feedback engineers actually use",
   ],
   languages: [
-    "Bengali: Native or Bilingual",
+    "Bengali: Native",
     "Hindi: Full Professional",
     "English: Professional Working",
   ],
@@ -190,6 +190,101 @@ export const EXPERIENCE = [
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
   },
+];
+
+// Sourced from 569 real lecture feedback submissions (Jan-Apr 2026) at Newton
+// School of Technology. Names and student IDs withheld by student request;
+// course/lecture IDs dropped as internal-only. A handful of raw entries were
+// excluded entirely: complaints naming a different faculty member, comments
+// naming specific students negatively, and off-topic exam/CGPA requests -
+// none of that belongs on a public page regardless of curation.
+export const TESTIMONIAL_STATS = {
+  total: 569,
+  positiveRate: 92.6, // rated "Awesome" or "Good"
+  period: "Jan-Apr 2026",
+};
+
+// Curated for variety across rating, date, and tone rather than picking only
+// the most glowing entries, so the mix stays honest instead of reading as
+// cherry-picked praise.
+export const TESTIMONIALS = [
+  {
+    quote:
+      "Thank you sir for this amazing semester, you made things easier to understand. Hope to see you again.",
+    rating: "Awesome",
+    date: "April 30, 2026",
+  },
+  {
+    quote: "Completely understood GitHub Actions.",
+    rating: "Awesome",
+    date: "April 27, 2026",
+  },
+  {
+    quote: "Clear teaching, helpful examples.",
+    rating: "Awesome",
+    date: "April 21, 2026",
+  },
+  {
+    quote: "Every explanation was clear.",
+    rating: "Good",
+    date: "April 20, 2026",
+  },
+  {
+    quote:
+      "Understood the concept well, but the code felt rushed and could have been explained better.",
+    rating: "Average",
+    date: "April 13, 2026",
+  },
+  {
+    quote:
+      "Best lab I've had. Understood everything at once and solved every question on my own, thank you sir.",
+    rating: "Awesome",
+    date: "April 2, 2026",
+  },
+  {
+    quote:
+      "Nice session on LLD (low-level design). This type of session should happen more, like one for HLD.",
+    rating: "Awesome",
+    date: "March 16, 2026",
+  },
+  {
+    quote:
+      "Thank you sir, you put so much energy and consideration into conducting workshops. There's so much learning in the workshops you take.",
+    rating: "Awesome",
+    date: "February 26, 2026",
+  },
+  {
+    quote:
+      "Literally understood everything, very clear. Thanks a lot, sir, for such an explanation.",
+    rating: "Awesome",
+    date: "January 13, 2026",
+  },
+];
+
+// Short one-liners from the same feedback set, too brief to carry a full card
+// alone but real. Used in a scrolling ticker to reflect actual volume rather
+// than implying only the curated quotes above exist.
+export const TESTIMONIAL_TICKER = [
+  "Loved it",
+  "Good revision",
+  "Great explanation",
+  "Nothing to say, everything great",
+  "10/10 class, you should also take our lectures",
+  "Best explanation and question solving",
+  "Really awesome lab, I like it and understand it",
+  "Great class, sir helped us with revision and it was really nice",
+  "This class was much better than the last one",
+  "Nice interactive class",
+  "Great teaching skill",
+  "Class was good, I understand everything, my doubts were cleared",
+  "Everything is extraordinary",
+  "Sir teaches very well",
+  "Fully understood the ER diagram",
+  "Quite easily understood the UML sequence diagram",
+  "Good session",
+  "Understood everything at once",
+  "Nice session, understood everything",
+  "Very good teacher, best teacher",
 ];
 
 export const Leadership = [
