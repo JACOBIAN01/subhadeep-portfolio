@@ -9,15 +9,24 @@ export default function About() {
   return (
     <section id="about" className="bg-canvas">
       <div className="mx-auto max-w-3xl px-6 py-28 md:py-36">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="text-3xl md:text-4xl font-semibold tracking-tight text-ink leading-[1.25]"
-        >
-          {ABOUT.lead}
-        </motion.p>
+        <div className="space-y-3 md:space-y-4">
+          {ABOUT.lead.map((line, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7, ease: EASE, delay: i * 0.12 }}
+              className={
+                i === 0
+                  ? "text-4xl md:text-5xl font-semibold tracking-tight text-ink leading-[1.15]"
+                  : "text-2xl md:text-3xl font-medium tracking-tight text-subtle leading-tight"
+              }
+            >
+              {line}
+            </motion.p>
+          ))}
+        </div>
 
         <div className="mt-10 space-y-6">
           {ABOUT.paragraphs.map((p, i) => (

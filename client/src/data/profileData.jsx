@@ -42,7 +42,11 @@ export const PROFILE = {
 };
 
 export const ABOUT = {
-  lead: "Most engineers ship code. Fewer can explain why it works to someone learning from scratch — and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
+  lead: [
+    "Most engineers ship code.",
+    "Fewer can explain why it works to someone learning from scratch —",
+    "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
+  ],
   paragraphs: [
     "I found that out by accident. Three years ago I started teaching coding part-time. Somewhere in 2,500+ live sessions across 10+ countries, I realised explaining System Design to a beginner forces a level of clarity that writing code alone never does. You can't hide a shaky mental model behind clean syntax when a student asks \"but why?\"",
     "Before this, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries, 2,500+ sessions, 80% renewal rate. That's not a separate chapter. It's where I learned to break down complex systems fast, under real-time pressure, in front of an audience that will tell you immediately if you're wrong.",
@@ -106,30 +110,63 @@ export const PROJECTS = [
     publication:
       "Published research — “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
   },
+  {
+    name: "Jana Academy — Full-Stack Learning Platform",
+    desc: "A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard monitored with Vercel Web Analytics and Core Web Vitals.",
+    tech: ["React", "Firebase Auth", "Vercel Analytics"],
+    repo: "https://github.com/JACOBIAN01/jana-academy-web",
+    live: "https://jana-academy.vercel.app/",
+    stats: [
+      { k: "Page Views", v: "1,143" },
+      { k: "Unique Visitors", v: "117" },
+      { k: "Total Users", v: "45" },
+      { k: "Active Admins", v: "5" },
+    ],
+    webVitals: [
+      { k: "LCP", v: "1.2s", status: "good" },
+      { k: "FID", v: "18ms", status: "good" },
+      { k: "CLS", v: "0.02", status: "good" },
+      { k: "FCP", v: "4.9s", status: "poor" },
+      { k: "TTFB", v: "107ms", status: "good" },
+    ],
+  },
 ];
 
-// Lighter-weight cards for newer, in-progress or internal work without demo media
-export const MORE_PROJECTS = [
-  {
-    name: "RepoScore-V2",
-    desc: "AI-agent-powered code review and evaluation system built on the MERN stack — automates project assessment workflows that used to eat 50+ hours a month.",
-    tech: ["MERN", "AI Agents"],
-    repo: "https://github.com/JACOBIAN01/Repo-Score-V2",
-  },
-  {
-    name: "WAP-Agent",
-    desc: "AI-agent evaluation tool built alongside RepoScore-V2, part of an internal platform for automating engineering project review at scale.",
-    tech: ["MERN", "AI Agents"],
-    repo: "https://github.com/JACOBIAN01/WAP-Agent",
-  },
-  {
-    name: "jana-academy-web",
-    desc: "Full-stack learning platform, currently in active development.",
-    tech: ["Full-Stack"],
-    repo: "https://github.com/JACOBIAN01/jana-academy-web",
-    status: "In Progress",
-  },
-];
+// Flagship case study — the most distinctive, personally-true story: an educator
+// who built the AI system that grades his own 300+ students at scale.
+export const FLAGSHIP_PROJECT = {
+  name: "SESD-Agent",
+  tagline:
+    "Three automated AI-agent grading pipelines that evaluate System Design submissions for 300+ engineers — so mentorship scales without manual grading hours.",
+  problem:
+    "Manually reviewing GitHub repos, case studies, and coding activity for 300+ students across multiple cohorts doesn't scale — grading alone would consume dozens of hours every week.",
+  pipelines: [
+    {
+      name: "Project Evaluator",
+      desc: "Reads each student's GitHub repo, uses Claude to identify the required docs (idea.md + 4 UML diagrams) and evaluate backend/frontend quality, then writes a score out of 10 straight back to the sheet.",
+      stat: "441 students graded in ~110 minutes",
+    },
+    {
+      name: "Case Study Evaluator",
+      desc: "Reads each student's Drive report or blog post and uses Claude to score research depth, clarity, and real-world impact out of 5.",
+      stat: "154 case studies graded in ~40 minutes",
+    },
+    {
+      name: "Streak Evaluator",
+      desc: "Pulls contribution calendars directly from the GitHub, LeetCode, and Codeforces APIs — no LLM involved — and converts the longest coding streak of the year into a 0–10 score.",
+      stat: "~500ms per student, zero API cost",
+    },
+  ],
+  stack: [
+    "Node.js",
+    "Claude API",
+    "GitHub API",
+    "Google Sheets API",
+    "LeetCode API",
+    "Codeforces API",
+  ],
+  repo: "https://github.com/JACOBIAN01/SESD-Agent",
+};
 
 export const EXPERIENCE = [
   {
@@ -164,16 +201,6 @@ export const Leadership = [
   },
 ];
 
-
-export const ACHIEVEMENTS = [
-  "TCS CodeVita Season 13 — Global Rank ~13,000 (Top 9%)",
-  "Smart India Hackathon — University Finalist",
-  "Represented VIT-AP at Mark24 Hackathon",
-  "Certificate of Excellence as PR Lead",
-  "Certificate of Appreciation",
-  "Swami Vivekananda Merit-cum-Means Scholarship (2019)",
-  "Published Author & Speaker",
-];
 
 export const CONTACTS = [
   { label: "GitHub", href: PROFILE.github, icon: <FaGithub /> },

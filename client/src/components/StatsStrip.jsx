@@ -3,35 +3,44 @@ import { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
-const EASE = [0.16, 1, 0.3, 1];
-
 export default function StatsStrip() {
   const stats = [
-    { k: "Live sessions", v: 3000 },
-    { k: "Student rating", v: 4.7, suffix: "/5" },
+    { k: "Live Sessions", v: 3000, suffix: "+" },
+    { k: "Student Rating", v: 4.7, suffix: "/5" },
     { k: "Learners", v: 100, suffix: "+" },
-    { k: "Tech stack", v: "MERN + Cloud", isText: true },
+    { k: "Tech Stack", v: "MERN + Cloud", isText: true },
+    { k: "Offline Lectures", v: 100, suffix: "+" },
+    { k: "Workshops & Masterclasses", v: 5, suffix: "+" },
+    { k: "CSAT", v: 91.55, suffix: "%" },
   ];
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-hairline">
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.k}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ delay: i * 0.08, duration: 0.6, ease: EASE }}
-              className="text-center px-4 py-8 md:py-0"
-            >
-              <div className="text-4xl md:text-5xl font-semibold tracking-tight text-ink">
-                {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
+      <div className="py-20 md:py-28">
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <motion.div
+            className="flex gap-6 px-6"
+            animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 24, repeat: Infinity }}
+          >
+            {[...stats, ...stats].map((s, i) => (
+              <div
+                key={i}
+                className="shrink-0 w-64 bg-white border border-hairline rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+              >
+                <div className="text-4xl font-semibold tracking-tight text-ink">
+                  {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
+                </div>
+                <div className="text-sm text-subtle mt-3">{s.k}</div>
               </div>
-              <div className="text-sm text-subtle mt-2">{s.k}</div>
-            </motion.div>
-          ))}
+            ))}
+          </motion.div>
         </div>
       </div>
     </div>
@@ -63,7 +72,7 @@ function AnimatedCounter({ value, suffix = "" }) {
 
   const formatted =
     typeof value === "number" && value % 1 !== 0
-      ? count.toFixed(1)
+      ? count.toFixed(2).replace(/0+$/, "").replace(/\.$/, "")
       : Math.round(count);
 
   return (
