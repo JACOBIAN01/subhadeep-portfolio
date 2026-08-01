@@ -1,7 +1,6 @@
 // src/components/StatsStrip.jsx
 import { useEffect, useState } from "react";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+import Marquee from "./Marquee";
 
 export default function StatsStrip() {
   const stats = [
@@ -14,31 +13,19 @@ export default function StatsStrip() {
     { k: "CSAT", v: 91.55, suffix: "%" },
   ];
 
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div className="bg-canvas">
       <div className="py-20 md:py-28">
-        <div
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <motion.div
-            className="flex gap-6 px-6"
-            animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 24, repeat: Infinity }}
-          >
+        <Marquee duration={24} gap="gap-6" className="px-6">
+          {stats.map((s) => (
+            <StatCard key={s.k} s={s} />
+          ))}
+          <div className="flex gap-6" aria-hidden="true" inert={true}>
             {stats.map((s) => (
-              <StatCard key={s.k} s={s} />
+              <StatCard key={`dup-${s.k}`} s={s} />
             ))}
-            <div className="flex gap-6" aria-hidden="true" inert={true}>
-              {stats.map((s) => (
-                <StatCard key={`dup-${s.k}`} s={s} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </Marquee>
       </div>
     </div>
   );
@@ -46,11 +33,12 @@ export default function StatsStrip() {
 
 function StatCard({ s }) {
   return (
-    <div className="shrink-0 w-64 bg-white border border-hairline rounded-3xl p-8 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-      <div className="text-4xl font-semibold tracking-tight text-ink">
+    <div className="shrink-0 w-56 bg-white border border-hairline rounded-3xl p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="h-1 w-8 rounded-full bg-accent/70" />
+      <div className="mt-6 text-4xl font-semibold tracking-tight text-ink">
         {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
       </div>
-      <div className="text-sm text-subtle mt-3">{s.k}</div>
+      <div className="text-sm text-subtle mt-2">{s.k}</div>
     </div>
   );
 }

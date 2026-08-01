@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import { useState } from "react";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
+import Marquee from "./Marquee";
 import { JOB_CERTIFICATES, EXPERIENCE } from "../data/profileData";
 import { FaExternalLinkAlt, FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
@@ -16,8 +16,6 @@ const ORG_LOGOS = {
 };
 
 export default function Experience() {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <section id="experience" className="bg-canvas">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
@@ -77,30 +75,16 @@ export default function Experience() {
         </h3>
 
         {/* --- Infinite Smooth Certificates Carousel --- */}
-        <div
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <motion.div
-            className="flex gap-8"
-            animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
-            transition={{
-              ease: "linear",
-              duration: 26,
-              repeat: Infinity,
-            }}
-          >
+        <Marquee duration={26} gap="gap-8">
+          {JOB_CERTIFICATES.map((cert) => (
+            <CertCard key={cert.title} cert={cert} />
+          ))}
+          <div className="flex gap-8" aria-hidden="true" inert={true}>
             {JOB_CERTIFICATES.map((cert) => (
-              <CertCard key={cert.title} cert={cert} />
+              <CertCard key={`dup-${cert.title}`} cert={cert} />
             ))}
-            <div className="flex gap-8" aria-hidden="true" inert={true}>
-              {JOB_CERTIFICATES.map((cert) => (
-                <CertCard key={`dup-${cert.title}`} cert={cert} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </Marquee>
       </div>
     </section>
   );

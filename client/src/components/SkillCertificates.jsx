@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
-import { useState } from "react";
 import SectionTitle from "./SectionTitle";
+import Marquee from "./Marquee";
 import { SKILL_CERTIFICATES, ADDITIONAL_CERTIFICATIONS } from "../data/profileData";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
@@ -51,8 +51,6 @@ function SkillCertCard({ cert }) {
 }
 
 export default function SkillCertificates() {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <section id="certs" className="bg-canvas-alt">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
@@ -63,30 +61,16 @@ export default function SkillCertificates() {
         </h3>
 
         {/* --- Infinite Smooth Certificates Carousel --- */}
-        <div
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <motion.div
-            className="flex gap-8"
-            animate={isHovered ? { x: 0 } : { x: ["0%", "-50%"] }}
-            transition={{
-              ease: "linear",
-              duration: 28,
-              repeat: Infinity,
-            }}
-          >
+        <Marquee duration={28} gap="gap-8">
+          {SKILL_CERTIFICATES.map((cert) => (
+            <SkillCertCard key={cert.title} cert={cert} />
+          ))}
+          <div className="flex gap-8" aria-hidden="true" inert={true}>
             {SKILL_CERTIFICATES.map((cert) => (
-              <SkillCertCard key={cert.title} cert={cert} />
+              <SkillCertCard key={`dup-${cert.title}`} cert={cert} />
             ))}
-            <div className="flex gap-8" aria-hidden="true" inert={true}>
-              {SKILL_CERTIFICATES.map((cert) => (
-                <SkillCertCard key={`dup-${cert.title}`} cert={cert} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </Marquee>
 
         <p className="mt-10 text-sm text-subtle text-center">
           Also certified in {ADDITIONAL_CERTIFICATIONS.join(" and ")}.
