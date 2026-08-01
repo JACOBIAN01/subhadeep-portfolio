@@ -81,7 +81,7 @@ export default function Contact() {
             )}
             {status === "error" && (
               <div className="md:col-span-2 text-sm text-rose-500">
-                Oops — something went wrong. Try again later.
+                Oops, something went wrong. Try again later.
               </div>
             )}
           </form>

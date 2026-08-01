@@ -7,9 +7,9 @@ import { FaGithub, FaExternalLinkAlt, FaFileAlt } from "react-icons/fa";
 const EASE = [0.16, 1, 0.3, 1];
 
 const PROJECT_DETAILS = {
-  "SmartReviewX — Project Review Automation": {
-    title: "SmartReviewX — Project Review Automation",
-    desc: `SmartReviewX automates Codingal project reviews using Python, Flask, and Selenium WebDriver — cutting review time from 3 mins to 6–7 seconds.`,
+  "SmartReviewX: Project Review Automation": {
+    title: "SmartReviewX: Project Review Automation",
+    desc: `SmartReviewX automates Codingal project reviews using Python, Flask, and Selenium WebDriver, cutting review time from 3 mins to 6–7 seconds.`,
     features: [
       "AI-assisted review pipeline",
       "Secure educator login",
@@ -19,9 +19,9 @@ const PROJECT_DETAILS = {
     stack: ["Python", "Flask", "Selenium", "WebSocket", "Tailwind"],
     link: "https://github.com/JACOBIAN01/SmartReviewX",
   },
-  "LifeDrop — Blood Donation Platform": {
-    title: "LifeDrop — Blood Donation Platform",
-    desc: `LifeDrop connects blood donors and hospitals in real time. Four role-based dashboards — User, Donor, Hospital/Organization, and Admin — each get a tailored view, and urgent requests trigger automated WhatsApp alerts via Firebase Cloud Functions and Twilio.`,
+  "LifeDrop: Blood Donation Platform": {
+    title: "LifeDrop: Blood Donation Platform",
+    desc: `LifeDrop connects blood donors and hospitals in real time. Four role-based dashboards (User, Donor, Hospital/Organization, and Admin) each get a tailored view, and urgent requests trigger automated WhatsApp alerts via Firebase Cloud Functions and Twilio.`,
     image:
       "https://github.com/user-attachments/assets/945ef41a-e043-44dd-82f4-f48a19205354",
     features: [
@@ -34,8 +34,8 @@ const PROJECT_DETAILS = {
     link: "https://github.com/JACOBIAN01/LifeDrop",
     live: "https://life-drop-xi.vercel.app/",
   },
-  "AEVM — Advanced Electronic Voting Machine": {
-    title: "AEVM — Advanced Electronic Voting Machine",
+  "AEVM: Advanced Electronic Voting Machine": {
+    title: "AEVM: Advanced Electronic Voting Machine",
     desc: `IoT-powered voting system integrating Raspberry Pi hardware, Firebase, and React dashboards for secure, transparent elections.`,
     features: [
       "Biometric voter auth",
@@ -46,13 +46,13 @@ const PROJECT_DETAILS = {
     stack: ["React", "Firebase", "IoT", "Python"],
     link: "https://github.com/JACOBIAN01",
   },
-  "Jana Academy — Full-Stack Learning Platform": {
-    title: "Jana Academy — Full-Stack Learning Platform",
-    desc: `Jana Academy is a live academy platform — Google OAuth login, a real-time Quiz Arena for hosting sessions, and a role-based admin dashboard (Super Admin/Admin/User) for managing users, quiz results, and feedback.`,
+  "Jana Academy: Full-Stack Learning Platform": {
+    title: "Jana Academy: Full-Stack Learning Platform",
+    desc: `Jana Academy is a live academy platform: Google OAuth login, a real-time Quiz Arena for hosting sessions, and a role-based admin dashboard (Super Admin/Admin/User) for managing users, quiz results, and feedback.`,
     features: [
       "Google OAuth sign-in",
       "Real-time Quiz Arena with live sessions and a questions archive",
-      "Role-based admin dashboard — Users, Quiz & Answers, Results, Feedback Log",
+      "Role-based admin dashboard: Users, Quiz & Answers, Results, Feedback Log",
       "Production monitoring via Vercel Web Analytics and Core Web Vitals",
     ],
     stack: ["React", "Firebase Auth", "Vercel Analytics"],

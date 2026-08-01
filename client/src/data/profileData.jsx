@@ -51,19 +51,19 @@ export const ABOUT = {
     "I found that out by accident. Three years ago I started teaching coding part-time. Somewhere in 2,500+ live sessions across 10+ countries, I realised explaining System Design to a beginner forces a level of clarity that writing code alone never does. You can't hide a shaky mental model behind clean syntax when a student asks \"but why?\"",
     "Before this, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries, 2,500+ sessions, 80% renewal rate. That's not a separate chapter. It's where I learned to break down complex systems fast, under real-time pressure, in front of an audience that will tell you immediately if you're wrong.",
     "If you're an EdTech company that needs an engineer who can also teach at scale, I've delivered 2,500+ K-12 sessions across 10+ countries and 100+ System Design lectures for B.Tech engineers, with the technical depth to build your platform and the clarity to train your learners on it.",
-    "If you're an HR or hiring manager evaluating System Design ability, I don't just talk through tradeoffs — I've built and shipped the systems that prove it: AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end. That's System Design applied to real engineering work, not a whiteboard exercise.",
-    "Either way, let's talk — I'm currently open to SDE and technical mentorship-adjacent roles. Drop a note or DM.",
+    "If you're an HR or hiring manager evaluating System Design ability, I don't just talk through tradeoffs: I've built and shipped the systems that prove it: AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end. That's System Design applied to real engineering work, not a whiteboard exercise.",
+    "Either way, let's talk. I'm currently open to SDE and technical mentorship-adjacent roles. Drop a note or DM.",
   ],
   highlights: [
     "Built and deployed AI-agent-powered evaluation systems (RepoScore-V2, WAP-Agent) on the MERN stack, automating workflows that used to cost 50+ hours a month",
-    "Delivered 100+ System Design and OOP lectures across 3 engineering cohorts — 300+ aspiring engineers, 91.55% CSAT, 4.44/5 rating",
+    "Delivered 100+ System Design and OOP lectures across 3 engineering cohorts: 300+ aspiring engineers, 91.55% CSAT, 4.44/5 rating",
     "Reviewed 150+ GitHub PRs and resolved 99+ technical grievances at scale, without slowing delivery",
     "Ran 30+ mock interviews, translating engineering standards into feedback engineers actually use",
   ],
   languages: [
-    "Bengali — Native or Bilingual",
-    "Hindi — Full Professional",
-    "English — Professional Working",
+    "Bengali: Native or Bilingual",
+    "Hindi: Full Professional",
+    "English: Professional Working",
   ],
 };
 
@@ -91,27 +91,27 @@ export const STACK = [
 
 export const PROJECTS = [
   {
-    name: "SmartReviewX — Project Review Automation",
+    name: "SmartReviewX: Project Review Automation",
     desc: "Automated evaluation pipeline; 3 min → 6–7 sec per review; modular OOP + real-time WebSockets; −25–30% recurring bugs.",
     tech: ["React", "Node.js", "WebSocket", "OOP"],
     repo: "https://github.com/JACOBIAN01/SmartReviewX",
   },
   {
-    name: "LifeDrop — Blood Donation Platform",
+    name: "LifeDrop: Blood Donation Platform",
     desc: "Realtime donors ↔ hospitals with RBAC dashboards, Firestore listeners, Twilio alerts, and Firebase Auth.",
     tech: ["React", "Tailwind", "Firebase", "Functions"],
     repo: "https://github.com/JACOBIAN01/LifeDrop",
     live: "https://life-drop-xi.vercel.app/",
   },
   {
-    name: "AEVM — Advanced Electronic Voting Machine",
+    name: "AEVM: Advanced Electronic Voting Machine",
     desc: "IoT-enabled secure e-voting with biometric auth, instant cloud-synced results, and React dashboards.",
     tech: ["React", "IoT", "Cloud", "Security"],
     publication:
-      "Published research — “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
+      "Published research: “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
   },
   {
-    name: "Jana Academy — Full-Stack Learning Platform",
+    name: "Jana Academy: Full-Stack Learning Platform",
     desc: "A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard monitored with Vercel Web Analytics and Core Web Vitals.",
     tech: ["React", "Firebase Auth", "Vercel Analytics"],
     repo: "https://github.com/JACOBIAN01/jana-academy-web",
@@ -132,14 +132,14 @@ export const PROJECTS = [
   },
 ];
 
-// Flagship case study — the most distinctive, personally-true story: an educator
+// Flagship case study: the most distinctive, personally-true story, an educator
 // who built the AI system that grades his own 300+ students at scale.
 export const FLAGSHIP_PROJECT = {
   name: "SESD-Agent",
   tagline:
-    "Three automated AI-agent grading pipelines that evaluate System Design submissions for 300+ engineers — so mentorship scales without manual grading hours.",
+    "Three automated AI-agent grading pipelines that evaluate System Design submissions for 300+ engineers, so mentorship scales without manual grading hours.",
   problem:
-    "Manually reviewing GitHub repos, case studies, and coding activity for 300+ students across multiple cohorts doesn't scale — grading alone would consume dozens of hours every week.",
+    "Manually reviewing GitHub repos, case studies, and coding activity for 300+ students across multiple cohorts doesn't scale: grading alone would consume dozens of hours every week.",
   pipelines: [
     {
       name: "Project Evaluator",
@@ -153,7 +153,7 @@ export const FLAGSHIP_PROJECT = {
     },
     {
       name: "Streak Evaluator",
-      desc: "Pulls contribution calendars directly from the GitHub, LeetCode, and Codeforces APIs — no LLM involved — and converts the longest coding streak of the year into a 0–10 score.",
+      desc: "Pulls contribution calendars directly from the GitHub, LeetCode, and Codeforces APIs (no LLM involved) and converts the longest coding streak of the year into a 0–10 score.",
       stat: "~500ms per student, zero API cost",
     },
   ],
