@@ -1,31 +1,37 @@
 // src/data/profileData.js
 import {
-  FaGithub,
-  FaLinkedin,
-  FaEnvelope,
-  FaPhoneAlt,
   FaReact,
   FaNodeJs,
   FaAws,
   FaDatabase,
+  FaJava,
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaPhoneAlt,
 } from "react-icons/fa";
 
 import {
-  SiMongodb,
   SiExpress,
+  SiMongodb,
+  SiTypescript,
   SiJavascript,
+  SiPython,
   SiTailwindcss,
   SiFramer,
   SiFirebase,
   SiVercel,
-  SiGit,
-  SiRedux,
-  SiSocketdotio,
-  SiPython,
-  SiTypescript,
   SiDocker,
   SiKubernetes,
   SiTerraform,
+  SiGit,
+  SiRedux,
+  SiSocketdotio,
+  SiMysql,
+  SiGithubactions,
+  SiLinux,
+  SiNginx,
+  SiJenkins,
 } from "react-icons/si";
 
 export const PROFILE = {
@@ -70,23 +76,31 @@ export const ABOUT = {
 export const STACK = [
   { name: "React", icon: <FaReact className="text-2xl" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
-  { name: "Express", icon: <SiExpress className="text-2xl" /> },
-  { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
+  { name: "Express.js", icon: <SiExpress className="text-2xl" /> },
   { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
   { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
   { name: "Python", icon: <SiPython className="text-2xl" /> },
-  { name: "Tailwind", icon: <SiTailwindcss className="text-2xl" /> },
-  { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
+  { name: "Java", icon: <FaJava className="text-2xl" /> },
+
+  { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
+  { name: "MySQL", icon: <SiMysql className="text-2xl" /> },
   { name: "Firebase", icon: <SiFirebase className="text-2xl" /> },
-  { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
+
+  { name: "Tailwind CSS", icon: <SiTailwindcss className="text-2xl" /> },
+  { name: "Redux", icon: <SiRedux className="text-2xl" /> },
+  { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
+  { name: "Socket.IO", icon: <SiSocketdotio className="text-2xl" /> },
+
   { name: "AWS", icon: <FaAws className="text-2xl" /> },
   { name: "Docker", icon: <SiDocker className="text-2xl" /> },
   { name: "Kubernetes", icon: <SiKubernetes className="text-2xl" /> },
   { name: "Terraform", icon: <SiTerraform className="text-2xl" /> },
+
   { name: "Git", icon: <SiGit className="text-2xl" /> },
-  { name: "Redux", icon: <SiRedux className="text-2xl" /> },
-  { name: "WebSockets", icon: <SiSocketdotio className="text-2xl" /> },
-  { name: "SQL/DB", icon: <FaDatabase className="text-2xl" /> },
+  { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
+  { name: "Linux", icon: <SiLinux className="text-2xl" /> },
+  { name: "Nginx", icon: <SiNginx className="text-2xl" /> },
+  { name: "Jenkins", icon: <SiJenkins className="text-2xl" /> },
 ];
 
 export const PROJECTS = [
