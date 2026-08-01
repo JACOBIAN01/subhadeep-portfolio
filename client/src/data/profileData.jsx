@@ -287,6 +287,15 @@ export const TESTIMONIAL_TICKER = [
   "Very good teacher, best teacher",
 ];
 
+// Verbatim excerpt from a manager appreciation email (24 March 2026), named
+// with permission. Trimmed to two contiguous sentences, no wording changed.
+export const MANAGER_APPRECIATION = {
+  quote:
+    "The feedback from students about your sessions has been consistently very positive. You connect with students well, understand them, and create a strong learning experience for them.",
+  name: "Aditya Kumar",
+  role: "SDE & Instructor, Newton School of Technology",
+};
+
 export const Leadership = [
   {
     role: "Vice President",

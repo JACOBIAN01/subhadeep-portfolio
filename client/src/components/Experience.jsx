@@ -1,12 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
-import { JOB_CERTIFICATES, EXPERIENCE } from "../data/profileData";
+import Modal from "./Modal";
+import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
 import { FaExternalLinkAlt, FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
 import newtonLogo from "../assets/newton.jpeg"
+import adityaManagerPhoto from "../assets/aditya_manager.jpg";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -16,6 +19,8 @@ const ORG_LOGOS = {
 };
 
 export default function Experience() {
+  const [showAppreciation, setShowAppreciation] = useState(false);
+
   return (
     <section id="experience" className="bg-canvas">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
@@ -65,6 +70,40 @@ export default function Experience() {
                   </li>
                 ))}
               </ul>
+
+              {e.org === "Newton School of Technology" && (
+                <div className="mt-6 pt-6 border-t border-hairline">
+                  <div className="text-xs font-medium tracking-wide uppercase text-accent mb-3">
+                    Manager Recognition
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={adityaManagerPhoto}
+                      alt={MANAGER_APPRECIATION.name}
+                      width={48}
+                      height={48}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-12 h-12 rounded-full object-cover shrink-0 border border-hairline"
+                    />
+                    <div>
+                      <p className="text-[15px] text-ink leading-relaxed">
+                        &ldquo;{MANAGER_APPRECIATION.quote}&rdquo;
+                      </p>
+                      <div className="mt-2 text-sm text-subtle">
+                        {MANAGER_APPRECIATION.name} &middot;{" "}
+                        {MANAGER_APPRECIATION.role}
+                      </div>
+                      <button
+                        onClick={() => setShowAppreciation(true)}
+                        className="mt-3 text-sm text-accent hover:text-ink transition-colors duration-300"
+                      >
+                        Read full appreciation &rarr;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </GlassCard>
           ))}
         </div>
@@ -86,6 +125,32 @@ export default function Experience() {
           </div>
         </Marquee>
       </div>
+
+      <Modal
+        open={showAppreciation}
+        onClose={() => setShowAppreciation(false)}
+        title="Manager Appreciation Email"
+      >
+        <object
+          data="/manager-appreciation.pdf"
+          type="application/pdf"
+          className="w-full h-full"
+          aria-label="Manager appreciation email PDF"
+        >
+          <div className="p-8 text-center text-sm text-subtle">
+            Your browser can't preview this PDF inline.{" "}
+            <a
+              href="/manager-appreciation.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="text-accent hover:text-ink transition-colors duration-300"
+            >
+              Open it in a new tab
+            </a>
+            .
+          </div>
+        </object>
+      </Modal>
     </section>
   );
 }
