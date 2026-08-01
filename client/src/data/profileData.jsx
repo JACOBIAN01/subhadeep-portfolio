@@ -21,13 +21,18 @@ import {
   SiGit,
   SiRedux,
   SiSocketdotio,
+  SiPython,
+  SiTypescript,
+  SiDocker,
+  SiKubernetes,
+  SiTerraform,
 } from "react-icons/si";
 
 export const PROFILE = {
   name: "Subhadeep Ghorai",
   title:
-    "MERN Stack Developer • System Design & IoT • Senior Coding Instructor (3000+ sessions, 4.7★)",
-  location: "Kolkata, India",
+    "Software Engineer @ Newton School of Technology · Building AI Agents in MERN · System Design Educator to 300+ Engineers (4.44/5 ★ & 91.55% CSAT) · Cloud & DevOps",
+  location: "Kolkata, West Bengal, India",
   email: "subhadeepghorai23@gmail.com",
   phone: "+91 7029043892",
   github: "https://github.com/JACOBIAN01",
@@ -36,17 +41,44 @@ export const PROFILE = {
     "I build reliable, scalable web products end-to-end with React, Node.js, and Cloud. I love shipping polished UX, clean APIs, and mentoring devs.",
 };
 
+export const ABOUT = {
+  lead: "Most engineers ship code. Fewer can explain why it works to someone learning from scratch — and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
+  paragraphs: [
+    "I found that out by accident. Three years ago I started teaching coding part-time. Somewhere in 2,500+ live sessions across 10+ countries, I realised explaining System Design to a beginner forces a level of clarity that writing code alone never does. You can't hide a shaky mental model behind clean syntax when a student asks \"but why?\"",
+    "Before this, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries, 2,500+ sessions, 80% renewal rate. That's not a separate chapter. It's where I learned to break down complex systems fast, under real-time pressure, in front of an audience that will tell you immediately if you're wrong.",
+    "If you're an EdTech company that needs an engineer who can also teach at scale, I've delivered 2,500+ K-12 sessions across 10+ countries and 100+ System Design lectures for B.Tech engineers, with the technical depth to build your platform and the clarity to train your learners on it.",
+    "If you're an HR or hiring manager evaluating System Design ability, I don't just talk through tradeoffs — I've built and shipped the systems that prove it: AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end. That's System Design applied to real engineering work, not a whiteboard exercise.",
+    "Either way, let's talk — I'm currently open to SDE and technical mentorship-adjacent roles. Drop a note or DM.",
+  ],
+  highlights: [
+    "Built and deployed AI-agent-powered evaluation systems (RepoScore-V2, WAP-Agent) on the MERN stack, automating workflows that used to cost 50+ hours a month",
+    "Delivered 100+ System Design and OOP lectures across 3 engineering cohorts — 300+ aspiring engineers, 91.55% CSAT, 4.44/5 rating",
+    "Reviewed 150+ GitHub PRs and resolved 99+ technical grievances at scale, without slowing delivery",
+    "Ran 30+ mock interviews, translating engineering standards into feedback engineers actually use",
+  ],
+  languages: [
+    "Bengali — Native or Bilingual",
+    "Hindi — Full Professional",
+    "English — Professional Working",
+  ],
+};
+
 export const STACK = [
   { name: "React", icon: <FaReact className="text-2xl" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
   { name: "Express", icon: <SiExpress className="text-2xl" /> },
   { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
+  { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
   { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
+  { name: "Python", icon: <SiPython className="text-2xl" /> },
   { name: "Tailwind", icon: <SiTailwindcss className="text-2xl" /> },
   { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
   { name: "Firebase", icon: <SiFirebase className="text-2xl" /> },
   { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
   { name: "AWS", icon: <FaAws className="text-2xl" /> },
+  { name: "Docker", icon: <SiDocker className="text-2xl" /> },
+  { name: "Kubernetes", icon: <SiKubernetes className="text-2xl" /> },
+  { name: "Terraform", icon: <SiTerraform className="text-2xl" /> },
   { name: "Git", icon: <SiGit className="text-2xl" /> },
   { name: "Redux", icon: <SiRedux className="text-2xl" /> },
   { name: "WebSockets", icon: <SiSocketdotio className="text-2xl" /> },
@@ -71,17 +103,54 @@ export const PROJECTS = [
     name: "AEVM — Advanced Electronic Voting Machine",
     desc: "IoT-enabled secure e-voting with biometric auth, instant cloud-synced results, and React dashboards.",
     tech: ["React", "IoT", "Cloud", "Security"],
+    publication:
+      "Published research — “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
+  },
+];
+
+// Lighter-weight cards for newer, in-progress or internal work without demo media
+export const MORE_PROJECTS = [
+  {
+    name: "RepoScore-V2",
+    desc: "AI-agent-powered code review and evaluation system built on the MERN stack — automates project assessment workflows that used to eat 50+ hours a month.",
+    tech: ["MERN", "AI Agents"],
+    repo: "https://github.com/JACOBIAN01/Repo-Score-V2",
+  },
+  {
+    name: "WAP-Agent",
+    desc: "AI-agent evaluation tool built alongside RepoScore-V2, part of an internal platform for automating engineering project review at scale.",
+    tech: ["MERN", "AI Agents"],
+    repo: "https://github.com/JACOBIAN01/WAP-Agent",
+  },
+  {
+    name: "jana-academy-web",
+    desc: "Full-stack learning platform, currently in active development.",
+    tech: ["Full-Stack"],
+    repo: "https://github.com/JACOBIAN01/jana-academy-web",
+    status: "In Progress",
   },
 ];
 
 export const EXPERIENCE = [
   {
-    role: "Senior Coding Instructor",
-    org: "Codingal Inc.",
-    period: "Dec 2023 – Present",
+    role: "Software Engineer",
+    org: "Newton School of Technology",
+    period: "Dec 2025 – Present",
     bullets: [
-      "Mentored 100+ students across 10+ countries; 3,000+ live sessions.",
-      "4.7/5 avg rating and 80% renewal through personalized learning.",
+      "Built and deployed AI Agent-powered evaluation systems, including RepoScore-V2 and WAP-Agent, automating assessment workflows.",
+      "Designed and developed internal tools and full-stack applications using the MERN stack, contributing to project evaluation pipelines, learning platforms, and operational efficiency initiatives.",
+      "Delivered 100+ lectures across 3 engineering cohorts, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.",
+      "Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for 300+ aspiring software engineers.",
+    ],
+  },
+  {
+    role: "Senior Coding Instructor",
+    org: "Codingal",
+    period: "Dec 2023 – Jan 2026",
+    bullets: [
+      "Mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development.",
+      "Achieved a 4.7/5 average rating and 80% student renewal rate through engaging, personalized learning.",
+      "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
   },
 ];
@@ -97,8 +166,11 @@ export const Leadership = [
 
 
 export const ACHIEVEMENTS = [
+  "TCS CodeVita Season 13 — Global Rank ~13,000 (Top 9%)",
   "Smart India Hackathon — University Finalist",
   "Represented VIT-AP at Mark24 Hackathon",
+  "Certificate of Excellence as PR Lead",
+  "Certificate of Appreciation",
   "Swami Vivekananda Merit-cum-Means Scholarship (2019)",
   "Published Author & Speaker",
 ];
@@ -113,7 +185,7 @@ export const CONTACTS = [
   },
   {
     label: PROFILE.phone,
-    href: `tel:${PROFILE.phone.replace(/\\s/g, "")}`,
+    href: `tel:${PROFILE.phone.replace(/\s/g, "")}`,
     icon: <FaPhoneAlt />,
   },
 ];
@@ -217,4 +289,10 @@ export const SKILL_CERTIFICATES = [
     desc: "Hands-on experience in React, Express, and MongoDB with REST API deployment.",
     link: "https://www.geeksforgeeks.org/certificate/XXXXXX",
   },
+];
+
+// Certifications confirmed on LinkedIn without an accompanying badge image yet
+export const ADDITIONAL_CERTIFICATIONS = [
+  "Introduction to Generative AI",
+  "Physical Design & Verification",
 ];

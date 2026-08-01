@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
-import { PROJECTS } from "../data/profileData";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { PROJECTS, MORE_PROJECTS } from "../data/profileData";
+import { FaGithub, FaExternalLinkAlt, FaFileAlt } from "react-icons/fa";
 
 import ReviewDemo from "../assets/ReviewDemo.mp4";
 import LifeDropDemo from "../assets/LifeDrop_Demo.mp4";
@@ -160,10 +160,67 @@ export default function Projects() {
                       </a>
                     )}
                   </div>
+
+                  {p.publication && (
+                    <div className="mt-6 flex items-start gap-3 text-sm text-subtle italic">
+                      <FaFileAlt className="mt-0.5 shrink-0" />
+                      <span>{p.publication}</span>
+                    </div>
+                  )}
                 </motion.div>
               </div>
             );
           })}
+        </div>
+
+        {/* --- More Projects (no demo media yet) --- */}
+        <div className="mt-28 md:mt-40">
+          <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mb-10">
+            More Projects
+          </h3>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {MORE_PROJECTS.map((p, i) => (
+              <motion.div
+                key={p.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.6, ease: EASE, delay: i * 0.08 }}
+                className="border border-hairline rounded-3xl bg-white p-7 flex flex-col transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h4 className="text-lg font-medium text-ink">{p.name}</h4>
+                  {p.status && (
+                    <span className="text-xs text-accent font-medium shrink-0">
+                      {p.status}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-3 text-sm text-subtle leading-relaxed flex-1">
+                  {p.desc}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {p.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="border border-hairline px-3 py-1 rounded-full text-xs text-subtle"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={p.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-6 flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
+                >
+                  <FaGithub /> View Code
+                </a>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

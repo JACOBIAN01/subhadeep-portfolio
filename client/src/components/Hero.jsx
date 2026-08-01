@@ -30,7 +30,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05]"
         >
-          MERN Stack Developer
+          Building AI Agents on the MERN Stack
         </motion.h1>
 
         <motion.p
@@ -39,7 +39,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
           className="mt-6 text-xl md:text-2xl text-white/55 max-w-2xl mx-auto font-normal leading-relaxed"
         >
-          Building modern, scalable & intuitive web experiences.
+          Software Engineer @ Newton School of Technology · System Design Educator to 300+ Engineers
         </motion.p>
       </div>
 

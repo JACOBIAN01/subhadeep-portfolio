@@ -4,10 +4,14 @@ import { useState } from "react";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
 import { JOB_CERTIFICATES, EXPERIENCE } from "../data/profileData";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import logo from "../assets/Codingal.png";
+import { FaExternalLinkAlt, FaGraduationCap } from "react-icons/fa";
+import codingalLogo from "../assets/Codingal.png";
 
 const EASE = [0.16, 1, 0.3, 1];
+
+const ORG_LOGOS = {
+  Codingal: codingalLogo,
+};
 
 export default function Experience() {
   const [isHovered, setIsHovered] = useState(false);
@@ -17,17 +21,23 @@ export default function Experience() {
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <SectionTitle kicker="Career" title="Experience & Recognitions" />
 
-        {/* --- Experience Card --- */}
+        {/* --- Experience Timeline --- */}
         <div className="grid grid-cols-1 gap-8">
-          {EXPERIENCE.filter((e) => e.org === "Codingal Inc.").map((e) => (
-            <GlassCard key={e.role}>
+          {EXPERIENCE.map((e) => (
+            <GlassCard key={`${e.org}-${e.role}`}>
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-4">
-                  <img
-                    src={logo}
-                    alt="Codingal Logo"
-                    className="w-11 h-11 rounded-xl object-cover border border-hairline"
-                  />
+                  {ORG_LOGOS[e.org] ? (
+                    <img
+                      src={ORG_LOGOS[e.org]}
+                      alt={`${e.org} Logo`}
+                      className="w-11 h-11 rounded-xl object-cover border border-hairline"
+                    />
+                  ) : (
+                    <div className="w-11 h-11 rounded-xl bg-canvas-alt border border-hairline flex items-center justify-center text-subtle">
+                      <FaGraduationCap className="text-lg" />
+                    </div>
+                  )}
                   <div>
                     <div className="font-medium text-lg text-ink">
                       {e.role}

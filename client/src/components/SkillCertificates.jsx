@@ -2,14 +2,14 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
-import { SKILL_CERTIFICATES } from "../data/profileData";
+import { SKILL_CERTIFICATES, ADDITIONAL_CERTIFICATIONS } from "../data/profileData";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function SkillCertificates() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section id="skill-certificates" className="bg-canvas-alt">
+    <section id="certs" className="bg-canvas-alt">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <SectionTitle kicker="Upskilling" title="Skill Certificates" />
 
@@ -79,6 +79,10 @@ export default function SkillCertificates() {
             ))}
           </motion.div>
         </div>
+
+        <p className="mt-10 text-sm text-faint text-center">
+          Also certified in {ADDITIONAL_CERTIFICATIONS.join(" and ")}.
+        </p>
       </div>
     </section>
   );

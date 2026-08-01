@@ -2,11 +2,13 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import StatsStrip from "../components/StatsStrip";
+import About from "../components/About";
 import Projects from "../components/Projects";
 import Experience from "../components/Experience";
+import SkillCertificates from "../components/SkillCertificates";
+import Achievements from "../components/Achievements";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
-import SkillCertificates from "../components/SkillCertificates";
 
 
 export default function Home() {
@@ -15,9 +17,11 @@ export default function Home() {
       <Navbar />
       <Hero />
       <StatsStrip />
+      <About />
       <Projects />
       <Experience />
       <SkillCertificates />
+      <Achievements />
       <Contact />
       <Footer />
     </main>
