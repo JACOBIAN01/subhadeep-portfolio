@@ -120,6 +120,7 @@ This site treats factual accuracy as a feature, not an afterthought:
 ## TODO
 
 - [ ] **Resume pipeline**: source the resume from a LaTeX (`.tex`) file instead of a hand-maintained PDF. Compile it to PDF at build/update time (not on every download click) so the "Download Resume" link stays instant and static. Needs the `.tex` source file first.
+- [ ] **Update the resume PDF**: replace `client/public/Subhadeep_Ghorai_SDE.pdf` with the latest version.
 
 <br />
 
