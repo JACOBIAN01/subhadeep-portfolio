@@ -4,16 +4,9 @@
 
 ### Software Engineer · System Design Educator · MERN + AI Agents
 
-![React](https://img.shields.io/badge/React-19-149ECA?style=for-the-badge&logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-EF008F?style=for-the-badge&logo=framer&logoColor=white)
-![Accessibility](https://img.shields.io/badge/Accessibility-axe--core_verified-2ECC71?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Actively_maintained-black?style=for-the-badge)
-
 <br />
 
-<img src="public/preview.jpg" alt="Portfolio preview" width="100%" />
+<img width="1440" height="811" alt="Screenshot 2026-08-02 at 10 55 56 PM" src="https://github.com/user-attachments/assets/f5ff0d59-10f9-42a8-a26f-83872d398c2a" />
 
 </div>
 
@@ -35,7 +28,7 @@
 
 ## Overview
 
-> A single-page, Apple-inspired portfolio built to do one job well: give a hiring manager or recruiter an honest, fast, and credible read on who I am as an engineer and educator, in under two minutes, on any device.
+> A single-page  portfolio built to do one job well: give a hiring manager or recruiter an honest, fast, and credible read on who I am as an engineer and educator, in under two minutes, on any device.
 
 This isn't a template. Every stat, testimonial, and certificate on the live site is sourced from something real: 569 actual lecture feedback submissions, verified skill certificates cross-checked against their source images, and a named manager appreciation email a visitor can read in full. Where the numbers are imperfect (an honest "Average" rating alongside the "Awesome" ones), they stay imperfect, because a portfolio that only shows five-star reviews reads as curated, not credible.
 
@@ -106,45 +99,11 @@ client/
 
 <br />
 
-## Getting Started
-
-```bash
-# Clone and enter the project
-git clone https://github.com/JACOBIAN01/portfolio.git
-cd portfolio/client
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-
-# Lint
-npm run lint
-
-# Production build
-npm run build
-
-# Preview the production build locally
-npm run preview
-```
-
-<br />
-
 ## Design Philosophy
 
 The visual language is deliberately restrained: an Apple-style palette (`ink`, `subtle`, `faint`, `hairline`, `canvas`, `accent`), Inter typography, hairline borders instead of glassmorphism, and a single shared easing curve (`[0.16, 1, 0.3, 1]`) across every motion primitive in the app.
 
 Content and presentation are kept strictly separate: almost everything a visitor reads lives in `src/data/profileData.jsx` as plain data, not scattered across JSX. That means updating a stat, a testimonial, or a certificate never means touching component logic.
-
-<br />
-
-## Accessibility & Performance
-
-- **Zero axe-core violations**, verified via automated Playwright audits, not eyeballed.
-- **Manual WCAG contrast checks** on every text/background pairing that automated tooling flags as borderline (e.g. translucent nav text over a variable hero background).
-- **Full keyboard and focus support** for both modals (manager appreciation PDF, mobile nav): focus moves in on open, `Escape` closes, background is marked `inert`.
-- **Image weight cut by ~89%** across hero, logo, and certificate assets through targeted resizing and recompression, with explicit `width`/`height` on every image to prevent layout shift.
 
 <br />
 
