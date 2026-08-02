@@ -117,6 +117,12 @@ This site treats factual accuracy as a feature, not an afterthought:
 
 <br />
 
+## TODO
+
+- [ ] **Resume pipeline**: source the resume from a LaTeX (`.tex`) file instead of a hand-maintained PDF. Compile it to PDF at build/update time (not on every download click) so the "Download Resume" link stays instant and static. Needs the `.tex` source file first.
+
+<br />
+
 ## Connect
 
 <div align="center">
