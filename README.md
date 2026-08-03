@@ -120,7 +120,8 @@ This site treats factual accuracy as a feature, not an afterthought:
 ## TODO
 
 - [ ] **Resume pipeline**: source the resume from a LaTeX (`.tex`) file instead of a hand-maintained PDF. Compile it to PDF at build/update time (not on every download click) so the "Download Resume" link stays instant and static. Needs the `.tex` source file first.
-- [ ] **Update the resume PDF**: replace `client/public/Subhadeep_Ghorai_SDE.pdf` with the latest version.
+- [x] **Update the resume PDF**: replaced with `client/public/Subhadeep_Ghorai_Instructor_Resume.pdf`, the Navbar download link now points to it. The older `Subhadeep_Ghorai_SDE.pdf` is still in `public/`, unused by any link, kept around in case it's useful for the role-based split below.
+- [ ] **Role-based resume download**: clicking "Download Resume" opens a modal (reuse the existing `Modal` component) asking which role the visitor is hiring for, then downloads the matching PDF. Likely a two-way split (Software Engineer vs. Educator/Mentor). Both candidate PDFs already exist (`Subhadeep_Ghorai_SDE.pdf` and `Subhadeep_Ghorai_Instructor_Resume.pdf`), just not wired up to a picker yet.
 
 <br />
 
