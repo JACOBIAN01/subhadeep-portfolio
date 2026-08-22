@@ -105,17 +105,30 @@ export const STACK = [
 
 export const PROJECTS = [
   {
+    name: "SESD-Agent: LLM Orchestration for Grading at Scale",
+    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes with zero manual review hours.",
+    tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
+    repo: "https://github.com/JACOBIAN01/SESD-Agent",
+  },
+  {
+    name: "AD Portal: Course Platform with Tamper-Proof Evaluation",
+    desc: "An internal platform for running an Application Development course: students submit a GitHub repo per project, teachers evaluate progress against an immutable commit history, and admins configure sync and manage the roster.",
+    tech: ["React", "Node.js", "Express", "MongoDB"],
+    repo: "https://github.com/JACOBIAN01/AD-Portal",
+    live: "https://nst-ad.vercel.app",
+  },
+  {
+    name: "Terminal Lab Arena: Browser Terminal for Teaching",
+    desc: "An in-browser Linux terminal playground teaching command-line basics through three story-driven missions, built for a live computer-lab session with about 200 students and no signup, no login, no accounts.",
+    tech: ["React", "TypeScript", "Express", "xterm.js"],
+    repo: "https://github.com/JACOBIAN01/terminal-lab-arena",
+    live: "https://terminal-lab-arena.nstsdc.org/",
+  },
+  {
     name: "SmartReviewX: Project Review Automation",
     desc: "Automated evaluation pipeline; 3 min → 6–7 sec per review; modular OOP + real-time WebSockets; −25–30% recurring bugs.",
     tech: ["React", "Node.js", "WebSocket", "OOP"],
     repo: "https://github.com/JACOBIAN01/SmartReviewX",
-  },
-  {
-    name: "LifeDrop: Blood Donation Platform",
-    desc: "Realtime donors ↔ hospitals with RBAC dashboards, Firestore listeners, Twilio alerts, and Firebase Auth.",
-    tech: ["React", "Tailwind", "Firebase", "Functions"],
-    repo: "https://github.com/JACOBIAN01/LifeDrop",
-    live: "https://life-drop-xi.vercel.app/",
   },
   {
     name: "AEVM: Advanced Electronic Voting Machine",
@@ -146,40 +159,35 @@ export const PROJECTS = [
   },
 ];
 
-// Flagship case study: the most distinctive, personally-true story, an educator
-// who built the AI system that grades his own 300+ students at scale.
+// Flagship case study: a published VS Code Marketplace extension, the most technically
+// distinctive, shipped-to-strangers project in the lineup, not just a personal internal tool.
 export const FLAGSHIP_PROJECT = {
-  name: "SESD-Agent",
+  name: "EventLoop Studio",
   tagline:
-    "Three automated AI-agent grading pipelines that evaluate System Design submissions for 300+ engineers, so mentorship scales without manual grading hours.",
+    "A VS Code extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step, published on the VS Code Marketplace.",
   problem:
-    "Manually reviewing GitHub repos, case studies, and coding activity for 300+ students across multiple cohorts doesn't scale: grading alone would consume dozens of hours every week.",
-  pipelines: [
+    "Most event loop visualizers replay a fixed animation of one canned example: they teach the concept in the abstract and leave you to map it onto your own, different code by hand.",
+  highlights: [
     {
-      name: "Project Evaluator",
-      desc: "Reads each student's GitHub repo, uses Claude to identify the required docs (idea.md + 4 UML diagrams) and evaluate backend/frontend quality, then writes a score out of 10 straight back to the sheet.",
-      stat: "441 students graded in ~110 minutes",
+      name: "Real Execution, Not Simulation",
+      desc: "The active file runs inside a Node vm sandbox with its own Promise intrinsics, so recursion, closures, and real async/await behave correctly instead of being reverse-engineered from an AST.",
+      stat: "Spec-correct microtask ordering, for free",
     },
     {
-      name: "Case Study Evaluator",
-      desc: "Reads each student's Drive report or blog post and uses Claude to score research depth, clarity, and real-world impact out of 5.",
-      stat: "154 case studies graded in ~40 minutes",
+      name: "Scrubbable Step-by-Step Replay",
+      desc: "Every call stack push/pop, console call, and timer/microtask/phase transition is recorded as an ExecutionStep; jump to any point in the trace and every panel reflects the exact state at that step.",
+      stat: "Full playback and scrubbing controls",
     },
     {
-      name: "Streak Evaluator",
-      desc: "Pulls contribution calendars directly from the GitHub, LeetCode, and Codeforces APIs (no LLM involved) and converts the longest coding streak of the year into a 0–10 score.",
-      stat: "~500ms per student, zero API cost",
+      name: "Browser and Node.js Modes",
+      desc: "Browser mode models the call stack, heap, web APIs, and a single macrotask queue; Node.js mode renders the six real libuv phases plus a central Microtask Hub for process.nextTick and Promises.",
+      stat: "6 real libuv phases modeled in Node.js mode",
     },
   ],
-  stack: [
-    "Node.js",
-    "Claude API",
-    "GitHub API",
-    "Google Sheets API",
-    "LeetCode API",
-    "Codeforces API",
-  ],
-  repo: "https://github.com/JACOBIAN01/SESD-Agent",
+  stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
+  repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
+  marketplace:
+    "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
 };
 
 export const EXPERIENCE = [

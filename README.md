@@ -38,7 +38,7 @@ This isn't a template. Every stat, testimonial, and certificate on the live site
 
 | | |
 |---|---|
-| **Flagship case study** | [SESD-Agent](https://github.com/JACOBIAN01/SESD-Agent): three automated AI-agent grading pipelines evaluating System Design submissions for 300+ engineers, broken down pipeline-by-pipeline with real throughput stats. |
+| **Flagship case study** | [EventLoop Studio](https://github.com/JACOBIAN01/EventLoop-Studio): a published VS Code Marketplace extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step. |
 | **Real social proof** | A "What Students Say" section built from 569 real lecture feedback responses (92.6% rated Awesome/Good), including a scrolling ticker of the raw one-liners too short to be full quotes. |
 | **Verified, not vibes** | Every certificate card is checked against its actual certificate image: platform, date, and description all match what's printed on the document, not what a template assumed. |
 | **Manager appreciation, in full** | A named recognition email from my manager, previewable inline via an in-browser PDF modal, not just a cropped quote you have to trust blindly. |

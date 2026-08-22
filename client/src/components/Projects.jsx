@@ -7,6 +7,51 @@ import { FaGithub, FaExternalLinkAlt, FaFileAlt } from "react-icons/fa";
 const EASE = [0.16, 1, 0.3, 1];
 
 const PROJECT_DETAILS = {
+  "SESD-Agent: LLM Orchestration for Grading at Scale": {
+    title: "SESD-Agent: LLM Orchestration for Grading at Scale",
+    desc: `SESD-Agent orchestrates three separate Claude API pipelines, a Project Evaluator, a Case Study Evaluator, and a non-LLM Streak Evaluator, that read GitHub repos, Drive reports, and contribution APIs, then write scores straight back to a shared Google Sheet.`,
+    features: [
+      "Project Evaluator: reads each student's GitHub repo, identifies required docs (idea.md and 4 UML diagrams), and scores backend/frontend quality out of 10; 441 students graded in about 110 minutes",
+      "Case Study Evaluator: scores research depth, clarity, and real-world impact out of 5 from a Drive report or blog post; 154 case studies graded in about 40 minutes",
+      "Streak Evaluator: pulls GitHub, LeetCode, and Codeforces contribution calendars directly (no LLM involved) and converts the longest coding streak into a 0-10 score in about 500ms per student",
+      "Every score writes straight back to the same Google Sheet the cohort already tracks",
+    ],
+    stack: [
+      "Node.js",
+      "Claude API",
+      "GitHub API",
+      "Google Sheets API",
+      "LeetCode API",
+      "Codeforces API",
+    ],
+    link: "https://github.com/JACOBIAN01/SESD-Agent",
+  },
+  "AD Portal: Course Platform with Tamper-Proof Evaluation": {
+    title: "AD Portal: Course Platform with Tamper-Proof Evaluation",
+    desc: `AD Portal pulls development activity and evaluation evidence, commits, viva marks, and problem statements, out of GitHub, Google Sheets, and manual review into one consistent, tamper-proof view per student, so progress is never just self-reported.`,
+    features: [
+      "Four tracked project slots per student, each moving through Not Started → Problem Selected → Repository Submitted → In Progress → Completed",
+      "A read-only, week-bucketed commit timeline built from real GitHub history, with per-commit diff detail",
+      "Commit sync runs on a scheduled GitHub Actions workflow rather than an in-process timer, since Render's free tier sleeps idle services",
+      "Captured commits are immutable evaluation evidence; the one documented exception (a repository change) clears that project's history inside a single database transaction",
+    ],
+    stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Mongoose", "JWT"],
+    link: "https://github.com/JACOBIAN01/AD-Portal",
+    live: "https://nst-ad.vercel.app",
+  },
+  "Terminal Lab Arena: Browser Terminal for Teaching": {
+    title: "Terminal Lab Arena: Browser Terminal for Teaching",
+    desc: `Students type a registration number and press START, no password or email needed. The server clones a pre-built folder structure per student and hands back a browser terminal (xterm.js) that understands a small, fixed set of commands, interpreted by a hand-written parser rather than a real shell, so nobody can run arbitrary code or escape their own workspace.`,
+    features: [
+      "Three story-driven missions: CSI: Find the Criminal, Treasure Hunt, and Become a Hacker",
+      "A sandboxed command parser (pwd, ls, cd, cat, echo, clear, whoami, help, history), no real shell or child_process involved",
+      "Every path resolves against the student's own workspace root only, blocking path traversal via '..' or absolute paths",
+      "An /admin view showing every connected student, current directory, last command, and mission progress, with per-student or full reset",
+    ],
+    stack: ["React", "Vite", "TypeScript", "Tailwind CSS", "xterm.js", "Node.js", "Express"],
+    link: "https://github.com/JACOBIAN01/terminal-lab-arena",
+    live: "https://terminal-lab-arena.nstsdc.org/",
+  },
   "SmartReviewX: Project Review Automation": {
     title: "SmartReviewX: Project Review Automation",
     desc: `SmartReviewX automates Codingal project reviews using Python, Flask, and Selenium WebDriver, cutting review time from 3 mins to 6–7 seconds.`,
@@ -18,21 +63,6 @@ const PROJECT_DETAILS = {
     ],
     stack: ["Python", "Flask", "Selenium", "WebSocket", "Tailwind"],
     link: "https://github.com/JACOBIAN01/SmartReviewX",
-  },
-  "LifeDrop: Blood Donation Platform": {
-    title: "LifeDrop: Blood Donation Platform",
-    desc: `LifeDrop connects blood donors and hospitals in real time. Four role-based dashboards (User, Donor, Hospital/Organization, and Admin) each get a tailored view, and urgent requests trigger automated WhatsApp alerts via Firebase Cloud Functions and Twilio.`,
-    image:
-      "https://github.com/user-attachments/assets/945ef41a-e043-44dd-82f4-f48a19205354",
-    features: [
-      "Real-time blood request feed",
-      "Role-based dashboards for User, Donor, Hospital/Org, and Admin",
-      "Event-driven WhatsApp alerts (Firebase Cloud Functions + Twilio)",
-      "Firebase authentication and session management",
-    ],
-    stack: ["React", "Firebase", "Tailwind", "Twilio API"],
-    link: "https://github.com/JACOBIAN01/LifeDrop",
-    live: "https://life-drop-xi.vercel.app/",
   },
   "AEVM: Advanced Electronic Voting Machine": {
     title: "AEVM: Advanced Electronic Voting Machine",
@@ -111,22 +141,22 @@ export default function Projects() {
           </p>
 
           <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {FLAGSHIP_PROJECT.pipelines.map((pipeline, i) => (
+            {FLAGSHIP_PROJECT.highlights.map((highlight, i) => (
               <div
-                key={pipeline.name}
+                key={highlight.name}
                 className="rounded-2xl bg-canvas-alt p-6 flex flex-col"
               >
                 <div className="text-sm text-subtle font-medium mb-2">
                   {String(i + 1).padStart(2, "0")}
                 </div>
                 <h4 className="text-base font-semibold text-ink">
-                  {pipeline.name}
+                  {highlight.name}
                 </h4>
                 <p className="mt-3 text-sm text-subtle leading-relaxed flex-1">
-                  {pipeline.desc}
+                  {highlight.desc}
                 </p>
                 <p className="mt-4 text-sm text-ink font-medium">
-                  {pipeline.stat}
+                  {highlight.stat}
                 </p>
               </div>
             ))}
@@ -143,14 +173,27 @@ export default function Projects() {
             ))}
           </div>
 
-          <a
-            href={FLAGSHIP_PROJECT.repo}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
-          >
-            <FaGithub aria-hidden="true" /> View Code
-          </a>
+          <div className="mt-8 flex items-center gap-6">
+            <a
+              href={FLAGSHIP_PROJECT.repo}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
+            >
+              <FaGithub aria-hidden="true" /> View Code
+            </a>
+
+            {FLAGSHIP_PROJECT.marketplace && (
+              <a
+                href={FLAGSHIP_PROJECT.marketplace}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
+              >
+                <FaExternalLinkAlt aria-hidden="true" /> View on Marketplace
+              </a>
+            )}
+          </div>
         </motion.div>
 
         {/* --- Standard project grid --- */}
