@@ -30,7 +30,7 @@ export default function StatsStrip() {
   );
 }
 
-function StatCard({ s }) {
+export function StatCard({ s }) {
   return (
     <div className="shrink-0 w-56 bg-white border border-hairline rounded-3xl p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
       <div className="h-1 w-8 rounded-full bg-accent/70" />
