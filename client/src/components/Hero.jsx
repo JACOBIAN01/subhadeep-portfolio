@@ -90,7 +90,7 @@ export default function Hero() {
             </div>
 
             <div className="mt-6 text-center">
-              <h2 className="text-lg font-medium text-white">{PROFILE.name}</h2>
+              <p className="text-lg font-medium text-white">{PROFILE.name}</p>
               <p className="text-sm text-white/50 mt-2 max-w-xl mx-auto leading-relaxed">
                 {PROFILE.title}
               </p>

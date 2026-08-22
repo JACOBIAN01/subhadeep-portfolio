@@ -96,10 +96,19 @@ const VITAL_LABELS = {
   poor: "text-rose-600 bg-rose-50",
 };
 
+function slugify(title) {
+  return title
+    .split(":")[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function Projects() {
   const allProjects = PROJECTS.map((p) => {
     const d = PROJECT_DETAILS[p.name];
     return {
+      id: slugify(d.title),
       title: d.title,
       desc: d.desc,
       image: d.image,
@@ -113,6 +122,8 @@ export default function Projects() {
     };
   });
 
+  const flagshipId = slugify(FLAGSHIP_PROJECT.name);
+
   return (
     <section id="projects" className="bg-canvas-alt">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
@@ -120,11 +131,12 @@ export default function Projects() {
 
         {/* --- Flagship case study --- */}
         <motion.div
+          id={flagshipId}
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8, ease: EASE }}
-          className="bg-white border border-hairline rounded-[28px] p-8 md:p-14 mb-8"
+          className="bg-white border border-hairline rounded-[28px] p-8 md:p-14 mb-8 scroll-mt-24"
         >
           <div className="text-sm text-accent font-medium mb-3">
             Flagship Project
@@ -194,6 +206,15 @@ export default function Projects() {
               </a>
             )}
           </div>
+
+          {allProjects[0] && (
+            <a
+              href={`#${allProjects[0].id}`}
+              className="mt-6 inline-flex items-center gap-2 text-sm text-subtle hover:text-accent transition-colors duration-300"
+            >
+              See more projects ↓
+            </a>
+          )}
         </motion.div>
 
         {/* --- Standard project grid --- */}
@@ -201,11 +222,12 @@ export default function Projects() {
           {allProjects.map((p, index) => (
             <motion.div
               key={p.title}
+              id={p.id}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: EASE, delay: (index % 2) * 0.1 }}
-              className="bg-white border border-hairline rounded-[28px] overflow-hidden flex flex-col transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+              className="bg-white border border-hairline rounded-[28px] overflow-hidden flex flex-col scroll-mt-24 transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
             >
               {p.image && (
                 <div className="w-full h-48 overflow-hidden border-b border-hairline">
