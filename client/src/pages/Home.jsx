@@ -5,7 +5,7 @@ import StatsStrip from "../components/StatsStrip";
 import About from "../components/About";
 import Projects from "../components/Projects";
 import Experience from "../components/Experience";
-import Testimonials from "../components/Testimonials";
+// import Testimonials from "../components/Testimonials"; // hidden until real names/photos/testimonials are ready
 import Journey from "../components/Journey";
 import SkillCertificates from "../components/SkillCertificates";
 import Contact from "../components/Contact";
@@ -21,7 +21,7 @@ export default function Home() {
       <About />
       <Projects />
       <Experience />
-      <Testimonials />
+      {/* Testimonials hidden until real names/photos/testimonials are ready */}
       <Journey />
       <SkillCertificates />
       <Contact />
