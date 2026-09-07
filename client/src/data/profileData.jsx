@@ -54,11 +54,9 @@ export const ABOUT = {
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
-    "I found that out by accident. Three years ago I started teaching coding part-time. Somewhere in 2,500+ live sessions across 10+ countries, I realised explaining System Design to a beginner forces a level of clarity that writing code alone never does. You can't hide a shaky mental model behind clean syntax when a student asks \"but why?\"",
-    "Before this, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries, 2,500+ sessions, 80% renewal rate. That's not a separate chapter. It's where I learned to break down complex systems fast, under real-time pressure, in front of an audience that will tell you immediately if you're wrong.",
-    "If you're an EdTech company that needs an engineer who can also teach at scale, I've delivered 2,500+ K-12 sessions across 10+ countries and 100+ System Design lectures for B.Tech engineers, with the technical depth to build your platform and the clarity to train your learners on it.",
-    "If you're an HR or hiring manager evaluating System Design ability, I don't just talk through tradeoffs: I've built and shipped the systems that prove it: AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end. That's System Design applied to real engineering work, not a whiteboard exercise.",
-    "Either way, let's talk. I'm currently open to SDE and technical mentorship-adjacent roles. Drop a note or DM.",
+    "I'm a final-year B.Tech (ECE) student and Software Engineer at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack.",
+    "Before this, as a Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals through 2,500+ live sessions. Explaining a system to a beginner forces a clarity that writing code alone doesn't, and that habit carries into how I approach engineering now.",
+    "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
   ],
   highlights: [
     "Built and deployed AI-agent-powered evaluation systems (RepoScore-V2, WAP-Agent) on the MERN stack, automating workflows that used to cost 50+ hours a month",
@@ -106,7 +104,7 @@ export const STACK = [
 export const PROJECTS = [
   {
     name: "SESD-Agent: LLM Orchestration for Grading at Scale",
-    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes with zero manual review hours.",
+    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes.",
     tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
     repo: "https://github.com/JACOBIAN01/SESD-Agent",
   },
@@ -131,13 +129,6 @@ export const PROJECTS = [
     repo: "https://github.com/JACOBIAN01/SmartReviewX",
   },
   {
-    name: "AEVM: Advanced Electronic Voting Machine",
-    desc: "IoT-enabled secure e-voting with biometric auth, instant cloud-synced results, and React dashboards.",
-    tech: ["React", "IoT", "Cloud", "Security"],
-    publication:
-      "Published research: “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
-  },
-  {
     name: "Jana Academy: Full-Stack Learning Platform",
     desc: "A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard monitored with Vercel Web Analytics and Core Web Vitals.",
     tech: ["React", "Firebase Auth", "Vercel Analytics"],
@@ -146,7 +137,7 @@ export const PROJECTS = [
     stats: [
       { k: "Page Views", v: "1,143" },
       { k: "Unique Visitors", v: "117" },
-      { k: "Total Users", v: "45" },
+      { k: "Total Users", v: "68" },
       { k: "Active Admins", v: "5" },
     ],
     webVitals: [
@@ -157,38 +148,129 @@ export const PROJECTS = [
       { k: "TTFB", v: "107ms", status: "good" },
     ],
   },
+  {
+    name: "Atlas: Internal Operations Platform for Teacher Training",
+    desc: "An internal operations platform built for Codingal's 700+ teacher training organisation, replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
+    tech: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
+    repo: "https://github.com/JACOBIAN01/Atlas",
+    stats: [
+      { k: "Teachers Submitting", v: "~105" },
+      { k: "Submissions Logged", v: "~183" },
+      { k: "Certificates Generated", v: "168" },
+      { k: "Flagged for Rework", v: "~12%" },
+    ],
+  },
 ];
 
-// Flagship case study: a published VS Code Marketplace extension, the most technically
-// distinctive, shipped-to-strangers project in the lineup, not just a personal internal tool.
-export const FLAGSHIP_PROJECT = {
-  name: "EventLoop Studio",
-  tagline:
-    "A VS Code extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step, published on the VS Code Marketplace.",
-  problem:
-    "Most event loop visualizers replay a fixed animation of one canned example: they teach the concept in the abstract and leave you to map it onto your own, different code by hand.",
-  highlights: [
-    {
-      name: "Real Execution, Not Simulation",
-      desc: "The active file runs inside a Node vm sandbox with its own Promise intrinsics, so recursion, closures, and real async/await behave correctly instead of being reverse-engineered from an AST.",
-      stat: "Spec-correct microtask ordering, for free",
-    },
-    {
-      name: "Scrubbable Step-by-Step Replay",
-      desc: "Every call stack push/pop, console call, and timer/microtask/phase transition is recorded as an ExecutionStep; jump to any point in the trace and every panel reflects the exact state at that step.",
-      stat: "Full playback and scrubbing controls",
-    },
-    {
-      name: "Browser and Node.js Modes",
-      desc: "Browser mode models the call stack, heap, web APIs, and a single macrotask queue; Node.js mode renders the six real libuv phases plus a central Microtask Hub for process.nextTick and Promises.",
-      stat: "6 real libuv phases modeled in Node.js mode",
-    },
-  ],
-  stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
-  repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
-  marketplace:
-    "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
-};
+// Flagship case studies: the most technically distinctive, shipped-to-strangers
+// projects in the lineup, each with a Design Decisions / Trade-offs subsection.
+export const FLAGSHIP_PROJECTS = [
+  {
+    name: "EventLoop Studio",
+    tagline:
+      "A VS Code extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step, published on the VS Code Marketplace.",
+    problem:
+      "Most event loop visualizers replay a fixed animation of one canned example: they teach the concept in the abstract and leave you to map it onto your own, different code by hand.",
+    highlights: [
+      {
+        name: "Real Execution, Not Simulation",
+        desc: "The active file runs inside a Node vm sandbox with its own Promise intrinsics, so recursion, closures, and real async/await behave correctly instead of being reverse-engineered from an AST.",
+        stat: "Spec-correct microtask ordering, for free",
+      },
+      {
+        name: "Scrubbable Step-by-Step Replay",
+        desc: "Every call stack push/pop, console call, and timer/microtask/phase transition is recorded as an ExecutionStep; jump to any point in the trace and every panel reflects the exact state at that step.",
+        stat: "Full playback and scrubbing controls",
+      },
+      {
+        name: "Browser and Node.js Modes",
+        desc: "Browser mode models the call stack, heap, web APIs, and a single macrotask queue; Node.js mode renders the six real libuv phases plus a central Microtask Hub for process.nextTick and Promises.",
+        stat: "6 real libuv phases modeled in Node.js mode",
+      },
+    ],
+    stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
+    repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
+    marketplace:
+      "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
+    // Real trade-off content (constraint/rejected-alternative/10x-breakage/hindsight)
+    // isn't available yet for this project — left empty rather than invented.
+    // Projects.jsx renders the trade-offs subsection conditionally, so this is safe.
+    tradeoffs: [],
+  },
+  {
+    name: "NSTEP: Concurrent Slot-Booking System",
+    tagline:
+      "A slot-booking system built for real concurrency, run by more than one administrator at once — no self-signup, no client-trusted state, no bookings lost to third-party API outages.",
+    problem:
+      "Admins pre-provision student credentials and control which one-hour slots are bookable; students book into slots capped at 5 students each. Capacity has to be enforced atomically even when multiple admins and students are writing at once, and losing a third-party sync (Google Sheets) can never mean losing a booking.",
+    highlights: [
+      {
+        name: "Atomic Capacity Enforcement",
+        desc: "bookingService.bookSlot runs a single MongoDB transaction that atomically gates capacity (bookedCount < 5) and rejects double-booking via a unique index on (batchId, studentUsername); a failed booking insert auto-rolls back the capacity increment.",
+        stat: "206 tests passing (11 unit + 7 integration suites)",
+      },
+      {
+        name: "Cross-Admin Race Closed With a Second Unique Constraint",
+        desc: "Once slots are owned by independent admins, a booking race spans multiple documents and snapshot isolation alone can't serialize it — closed with a second unique index (ScheduleLock, unique on studentUsername+date+tick), not a read-then-compare check.",
+        stat: "Zero cross-admin double-bookings by construction",
+      },
+      {
+        name: "Fire-and-Forget Sheets Sync",
+        desc: "Google Sheets sync never blocks booking correctness: a failed append is persisted to a sync_failures collection and drained by an hourly Vercel Cron job, so a third-party outage degrades reporting only.",
+        stat: "Booking correctness independent of Sheets uptime",
+      },
+    ],
+    stack: [
+      "React",
+      "Tailwind CSS",
+      "Vite",
+      "Node.js",
+      "Express (single Vercel function)",
+      "MongoDB",
+      "Mongoose",
+      "Google Sheets API",
+      "JWT (httpOnly cookie)",
+      "node --test",
+    ],
+    repo: "https://github.com/JACOBIAN01/NSTEP",
+    tradeoffs: [
+      {
+        constraint:
+          "session.withTransaction() in the MongoDB driver retries a write-conflicted transaction by default — silently, for up to two minutes.",
+        decision:
+          "Applied a bounded timeoutMS to every transactional call so a losing request in a concurrency race fails fast with a typed, retryable error instead of hanging.",
+        rejected:
+          "Discovered only by reading the MongoDB driver source after chasing intermittent test hangs under concurrent booking load — the default retry-until-success behavior looks correct in isolation and only breaks down when two admins race for the same slot.",
+        breaksAt10x:
+          "At 10x concurrent booking attempts on a single popular slot, un-timeboxed retries would queue requests for minutes instead of returning a fast, retryable rejection — turning a capacity conflict into a perceived hang.",
+        hindsight:
+          "Would have added the timeoutMS from day one and written a driver-level integration test for it, rather than discovering the default behavior via a flaky test investigation.",
+      },
+      {
+        constraint:
+          "Login throttling needs a key, and the entire student cohort shares one campus egress IP address.",
+        decision: "Keyed login throttling on the submitted username, never on IP.",
+        rejected:
+          "IP-based lockout — the standard default — was rejected because it would lock out the entire cohort simultaneously on exam day the moment one student mistyped a password enough times.",
+        breaksAt10x:
+          "Not a 10x-load problem so much as a correctness-under-shared-network problem; it would have failed on day one, not at scale.",
+        hindsight: "None noted — this was caught before shipping, not after.",
+      },
+      {
+        constraint:
+          "V1 scope had to ship without student-initiated cancellation, Sheets-quota backoff, a CI pipeline, or paginated session lists.",
+        decision:
+          "Documented each as a deliberate, scoped-out trade-off rather than an oversight — 6 accepted ADRs in the repo record the reasoning for hybrid datastore choice, stateless JWT auth, transactional booking, single-function deployment, async Sheets sync, and batch-scoped slot release.",
+        rejected:
+          "Building all of it up front, which would have delayed shipping the core atomic-booking guarantee that the whole system exists for.",
+        breaksAt10x:
+          "A burst of Sheets writes beyond quota fails rather than queues today — the first thing to break under significantly higher submission volume. A CI pipeline is the next thing to add if contributor count grows.",
+        hindsight:
+          "The session list's missing pagination has a documented volume trigger for when to revisit it — treating known debt as tracked, not forgotten, is the part worth repeating on the next project.",
+      },
+    ],
+  },
+];
 
 export const EXPERIENCE = [
   {
@@ -417,42 +499,45 @@ export const SKILL_CERTIFICATES = [
     img: "/certs/Oracle.jpg",
     desc: "Validated understanding of OCI architecture, compute, and networking.",
   },
-  {
-    title: "MATLAB Onramp",
-    platform: "MathWorks",
-    date: "November 2022",
-    img: "/certs/Matlab.jpg",
-    desc: "Completed the MATLAB Onramp self-paced training course with a 100% completion score.",
-  },
-  {
-    title: "V-INN Expo'24",
-    platform: "VIT-AP",
-    date: "February 2024",
-    img: "/certs/VINN (1).jpg",
-    desc: "Participated in the RGEMS Project category, recognized for contribution to innovation and research.",
-  },
-  {
-    title: "Great India HackFest 2K24",
-    platform: "CSI Chapter, VIT-AP",
-    date: "March 2024",
-    img: "/certs/CSI.jpg",
-    desc: "Certificate of participation in a national-level hackathon organized by the CSI Chapter at VIT-AP.",
-  },
-  {
-    title: "Introduction to Microsoft Excel",
-    platform: "Coursera Project Network",
-    date: "June 2024",
-    img: "/certs/Coursera.jpg",
-    desc: "Completed a hands-on project covering Microsoft Excel fundamentals.",
-  },
-  {
-    title: "Physical Design & Verification",
-    platform: "Entuple Technologies (Abhiyantha)",
-    date: "Aug-Sept 2023",
-    img: "/certs/Entuple.jpg",
-    desc: "Completed a 6-week internship program on physical design and verification, conducted with VIT-AP.",
-  },
 ];
 
 // Certifications confirmed on LinkedIn without an accompanying badge image yet
 export const ADDITIONAL_CERTIFICATIONS = ["Introduction to Generative AI"];
+
+// ------------------ Open Source Contributions ------------------
+// Real, merged PRs to repos not owned by the author — independently verifiable via url.
+export const OPEN_SOURCE_CONTRIBUTIONS = [
+  {
+    repo: "electron/electron",
+    title: "docs: clarify debugger.sendCommand timing and empty-result behavior",
+    type: "Documentation",
+    date: "Merged Sep 5, 2026",
+    desc: "Closed a documentation gap open since 2018 (#14822): documented that a pending navigation measurably delays debugger.sendCommand() resolution (~445ms vs ~19ms, verified with timestamped reproduction logs), and that a successful command with no protocol result field resolves with an empty object (verified against the Electron C++ source).",
+    url: "https://github.com/electron/electron/pull/53114",
+  },
+  {
+    repo: "adarshashokbaghel-code/mentr",
+    title: "Replace 'Loading…' text with skeletons in connection requests and pitches",
+    type: "Feature",
+    date: "Merged Sep 1, 2026",
+    desc: "Replaced plain loading text in two dashboard components with skeleton loaders, reusing an existing Skeleton component and matching an established pattern; explicitly declined to touch a third flagged file because it was a full-page loading gate, not list content, and didn't fit the existing pattern.",
+    url: "https://github.com/adarshashokbaghel-code/mentr/pull/21",
+  },
+];
+
+// ------------------ Competitive Programming ------------------
+export const LEETCODE = {
+  handle: "Subhadeep_Ghorai",
+  profileUrl: "https://leetcode.com/u/Subhadeep_Ghorai/",
+  totalSolved: 166,
+  totalProblems: 4046,
+  easy: { solved: 62, total: 963 },
+  medium: { solved: 75, total: 2111 },
+  hard: { solved: 29, total: 972 },
+  attempting: 5,
+  badges: 3,
+  latestBadge: "50 Days Badge 2026",
+  submissionsPastYear: 298,
+  activeDays: 90,
+  maxStreak: 80,
+};

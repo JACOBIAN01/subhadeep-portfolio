@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
-import { PROJECTS, FLAGSHIP_PROJECT } from "../data/profileData";
-import { FaGithub, FaExternalLinkAlt, FaFileAlt } from "react-icons/fa";
+import { PROJECTS, FLAGSHIP_PROJECTS } from "../data/profileData";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -64,18 +64,6 @@ const PROJECT_DETAILS = {
     stack: ["Python", "Flask", "Selenium", "WebSocket", "Tailwind"],
     link: "https://github.com/JACOBIAN01/SmartReviewX",
   },
-  "AEVM: Advanced Electronic Voting Machine": {
-    title: "AEVM: Advanced Electronic Voting Machine",
-    desc: `IoT-powered voting system integrating Raspberry Pi hardware, Firebase, and React dashboards for secure, transparent elections.`,
-    features: [
-      "Biometric voter auth",
-      "Realtime Firestore sync",
-      "Live analytics dashboard",
-      "Secure Raspberry Pi backend",
-    ],
-    stack: ["React", "Firebase", "IoT", "Python"],
-    link: "https://github.com/JACOBIAN01",
-  },
   "Jana Academy: Full-Stack Learning Platform": {
     title: "Jana Academy: Full-Stack Learning Platform",
     desc: `Jana Academy is a live academy platform: Google OAuth login, a real-time Quiz Arena for hosting sessions, and a role-based admin dashboard (Super Admin/Admin/User) for managing users, quiz results, and feedback.`,
@@ -88,6 +76,18 @@ const PROJECT_DETAILS = {
     stack: ["React", "Firebase Auth", "Vercel Analytics"],
     link: "https://github.com/JACOBIAN01/jana-academy-web",
     live: "https://jana-academy.vercel.app/",
+  },
+  "Atlas: Internal Operations Platform for Teacher Training": {
+    title: "Atlas: Internal Operations Platform for Teacher Training",
+    desc: "Atlas replaced a Google Form and a Canva workflow for Codingal's 700+ teacher training organisation: teachers submit training modules, admins track completions, and certificates are generated and issued automatically.",
+    features: [
+      "Module submission and completion tracking for a 700+ teacher organisation",
+      "Automated certificate generation across 37 distinct specializations",
+      "Rework-flagging pipeline surfaces low-quality submissions before certification",
+      "Runs at $0/month infrastructure cost on Vercel + Google Sheets/Apps Script",
+    ],
+    stack: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
+    link: "https://github.com/JACOBIAN01/Atlas",
   },
 };
 
@@ -116,106 +116,143 @@ export default function Projects() {
       tags: d.stack,
       codeLink: d.link,
       liveLink: d.live,
-      publication: p.publication,
       stats: p.stats,
       webVitals: p.webVitals,
     };
   });
-
-  const flagshipId = slugify(FLAGSHIP_PROJECT.name);
 
   return (
     <section id="projects" className="bg-canvas-alt">
       <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <SectionTitle kicker="Selected Work" title="Projects" />
 
-        {/* --- Flagship case study --- */}
-        <motion.div
-          id={flagshipId}
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="bg-white border border-hairline rounded-[28px] p-8 md:p-14 mb-8 scroll-mt-24"
-        >
-          <div className="text-sm text-accent font-medium mb-3">
-            Flagship Project
-          </div>
-          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-ink leading-tight">
-            {FLAGSHIP_PROJECT.name}
-          </h3>
-          <p className="mt-5 text-lg text-subtle leading-relaxed max-w-2xl">
-            {FLAGSHIP_PROJECT.tagline}
-          </p>
+        {/* --- Flagship case studies --- */}
+        {FLAGSHIP_PROJECTS.map((project, fi) => (
+          <motion.div
+            key={project.name}
+            id={slugify(project.name)}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: EASE }}
+            className="bg-white border border-hairline rounded-[28px] p-8 md:p-14 mb-8 scroll-mt-24"
+          >
+            <div className="text-sm text-accent font-medium mb-3">
+              Flagship Project
+            </div>
+            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-ink leading-tight">
+              {project.name}
+            </h3>
+            <p className="mt-5 text-lg text-subtle leading-relaxed max-w-2xl">
+              {project.tagline}
+            </p>
 
-          <p className="mt-8 text-[15px] text-ink leading-relaxed max-w-2xl border-l-2 border-hairline pl-5">
-            {FLAGSHIP_PROJECT.problem}
-          </p>
+            <p className="mt-8 text-[15px] text-ink leading-relaxed max-w-2xl border-l-2 border-hairline pl-5">
+              {project.problem}
+            </p>
 
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
-            {FLAGSHIP_PROJECT.highlights.map((highlight, i) => (
-              <div
-                key={highlight.name}
-                className="rounded-2xl bg-canvas-alt p-6 flex flex-col"
-              >
-                <div className="text-sm text-subtle font-medium mb-2">
-                  {String(i + 1).padStart(2, "0")}
+            <div className="mt-10 grid md:grid-cols-3 gap-6">
+              {project.highlights.map((highlight, i) => (
+                <div
+                  key={highlight.name}
+                  className="rounded-2xl bg-canvas-alt p-6 flex flex-col"
+                >
+                  <div className="text-sm text-subtle font-medium mb-2">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h4 className="text-base font-semibold text-ink">
+                    {highlight.name}
+                  </h4>
+                  <p className="mt-3 text-sm text-subtle leading-relaxed flex-1">
+                    {highlight.desc}
+                  </p>
+                  <p className="mt-4 text-sm text-ink font-medium">
+                    {highlight.stat}
+                  </p>
                 </div>
-                <h4 className="text-base font-semibold text-ink">
-                  {highlight.name}
-                </h4>
-                <p className="mt-3 text-sm text-subtle leading-relaxed flex-1">
-                  {highlight.desc}
-                </p>
-                <p className="mt-4 text-sm text-ink font-medium">
-                  {highlight.stat}
-                </p>
+              ))}
+            </div>
+
+            {project.tradeoffs?.length > 0 && (
+              <div className="mt-10 border-t border-hairline pt-8">
+                <div className="text-sm text-accent font-medium mb-6">
+                  Design Decisions &amp; Trade-offs
+                </div>
+                <div className="space-y-6">
+                  {project.tradeoffs.map((t, ti) => (
+                    <div key={ti} className="rounded-2xl bg-canvas-alt p-6">
+                      <div className="text-sm text-subtle font-medium mb-2">
+                        {String(ti + 1).padStart(2, "0")}
+                      </div>
+                      <p className="text-[15px] text-ink leading-relaxed">
+                        <span className="font-medium">Constraint: </span>
+                        {t.constraint}
+                      </p>
+                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
+                        <span className="font-medium text-ink">Decision: </span>
+                        {t.decision}
+                      </p>
+                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
+                        <span className="font-medium text-ink">Rejected alternative: </span>
+                        {t.rejected}
+                      </p>
+                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
+                        <span className="font-medium text-ink">Breaks first at 10x: </span>
+                        {t.breaksAt10x}
+                      </p>
+                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
+                        <span className="font-medium text-ink">In hindsight: </span>
+                        {t.hindsight}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            )}
 
-          <div className="mt-8 flex flex-wrap gap-2">
-            {FLAGSHIP_PROJECT.stack.map((t) => (
-              <span
-                key={t}
-                className="border border-hairline px-3 py-1 rounded-full text-xs text-subtle"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {project.stack.map((t) => (
+                <span
+                  key={t}
+                  className="border border-hairline px-3 py-1 rounded-full text-xs text-subtle"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
 
-          <div className="mt-8 flex items-center gap-6">
-            <a
-              href={FLAGSHIP_PROJECT.repo}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
-            >
-              <FaGithub aria-hidden="true" /> View Code
-            </a>
-
-            {FLAGSHIP_PROJECT.marketplace && (
+            <div className="mt-8 flex items-center gap-6">
               <a
-                href={FLAGSHIP_PROJECT.marketplace}
+                href={project.repo}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
               >
-                <FaExternalLinkAlt aria-hidden="true" /> View on Marketplace
+                <FaGithub aria-hidden="true" /> View Code
+              </a>
+
+              {project.marketplace && (
+                <a
+                  href={project.marketplace}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
+                >
+                  <FaExternalLinkAlt aria-hidden="true" /> View on Marketplace
+                </a>
+              )}
+            </div>
+
+            {fi === FLAGSHIP_PROJECTS.length - 1 && allProjects[0] && (
+              <a
+                href={`#${allProjects[0].id}`}
+                className="mt-6 inline-flex items-center gap-2 text-sm text-subtle hover:text-accent transition-colors duration-300"
+              >
+                See more projects ↓
               </a>
             )}
-          </div>
-
-          {allProjects[0] && (
-            <a
-              href={`#${allProjects[0].id}`}
-              className="mt-6 inline-flex items-center gap-2 text-sm text-subtle hover:text-accent transition-colors duration-300"
-            >
-              See more projects ↓
-            </a>
-          )}
-        </motion.div>
+          </motion.div>
+        ))}
 
         {/* --- Standard project grid --- */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -307,13 +344,6 @@ export default function Projects() {
                     </span>
                   ))}
                 </div>
-
-                {p.publication && (
-                  <div className="mt-6 flex items-start gap-3 text-sm text-subtle italic">
-                    <FaFileAlt aria-hidden="true" className="mt-0.5 shrink-0" />
-                    <span>{p.publication}</span>
-                  </div>
-                )}
 
                 <div className="mt-8 flex items-center gap-6">
                   <a
