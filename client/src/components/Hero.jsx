@@ -79,7 +79,7 @@ export default function Hero() {
               <img
                 src={Image}
                 alt={PROFILE.name}
-                width={742}
+                width={1280}
                 height={1280}
                 loading="eager"
                 fetchPriority="high"
