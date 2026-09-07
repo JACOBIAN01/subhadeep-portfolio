@@ -2,7 +2,6 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { PROFILE } from "../data/profileData";
-import TechMarquee from "./TechMarquee";
 import { IoArrowForward } from "react-icons/io5";
 import Image from "../assets/self.jpeg";
 const EASE = [0.16, 1, 0.3, 1];
@@ -97,10 +96,6 @@ export default function Hero() {
             </div>
           </motion.div>
         </div>
-      </div>
-
-      <div className="mt-16 md:mt-24">
-        <TechMarquee />
       </div>
     </section>
   );
