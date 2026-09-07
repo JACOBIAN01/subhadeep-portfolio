@@ -166,32 +166,28 @@ export const FLAGSHIP_PROJECTS = [
     marketplace:
       "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
     demo: [EventLoopDemo1, EventLoopDemo2],
-    // Real trade-off content (constraint/rejected-alternative/10x-breakage/hindsight)
-    // isn't available yet for this project; left empty rather than invented.
-    // Projects.jsx renders the trade-offs subsection conditionally, so this is safe.
-    tradeoffs: [],
   },
   {
-    name: "NSTEP: Concurrent Slot-Booking System",
+    name: "NSTEP: Internship Evaluation Portal",
     tagline:
-      "A slot-booking system built for real concurrency, run by more than one administrator at once: no self-signup, no client-trusted state, no bookings lost to third-party API outages.",
+      "A production-oriented internship evaluation and slot-booking platform built for 300+ Newton School of Technology 5th-semester students, replacing manual spreadsheet coordination with a centralized system for bookings, evaluation sessions, rosters, and marks.",
     problem:
-      "Admins pre-provision student credentials and control which one-hour slots are bookable; students book into slots capped at 5 students each. Capacity has to be enforced atomically even when multiple admins and students are writing at once, and losing a third-party sync (Google Sheets) can never mean losing a booking.",
+      "Multiple admins manage independent evaluation sessions at once, booking students five to a slot; capacity, scheduling, and cross-admin conflicts all had to be enforced automatically instead of resolved by hand over a shared spreadsheet.",
     highlights: [
       {
         name: "Atomic Capacity Enforcement",
-        desc: "bookingService.bookSlot runs a single MongoDB transaction that atomically gates capacity (bookedCount < 5) and rejects double-booking via a unique index on (batchId, studentUsername); a failed booking insert auto-rolls back the capacity increment.",
-        stat: "206 tests passing (11 unit + 7 integration suites)",
+        desc: "MongoDB transactions and atomic conditional updates eliminate the read-modify-write race during high-contention bookings, rather than treating booking as a simple CRUD operation.",
+        stat: "20 simultaneous booking requests tested against a single slot; exactly 5 succeed",
       },
       {
-        name: "Cross-Admin Race Closed With a Second Unique Constraint",
-        desc: "Once slots are owned by independent admins, a booking race spans multiple documents and snapshot isolation alone can't serialize it; closed with a second unique index (ScheduleLock, unique on studentUsername+date+tick), not a read-then-compare check.",
-        stat: "Zero cross-admin double-bookings by construction",
+        name: "Cross-Admin Isolation",
+        desc: "A unique ScheduleLock mechanism prevents overlapping bookings across independently managed admin sessions; JWT plus server-side authorization stops any admin from touching another admin's data.",
+        stat: "Zero cross-admin scheduling conflicts by design",
       },
       {
-        name: "Fire-and-Forget Sheets Sync",
-        desc: "Google Sheets sync never blocks booking correctness: a failed append is persisted to a sync_failures collection and drained by an hourly Vercel Cron job, so a third-party outage degrades reporting only.",
-        stat: "Booking correctness independent of Sheets uptime",
+        name: "Resilient Sync & Login",
+        desc: "Google Sheets stays off the critical booking path, so a failed sync is persisted and retried automatically instead of losing a booking; account-based login throttling stops shared campus IPs from causing mass lockouts.",
+        stat: "206 tests across unit, concurrency, and integration suites",
       },
     ],
     stack: [
@@ -207,41 +203,11 @@ export const FLAGSHIP_PROJECTS = [
       "node --test",
     ],
     repo: "https://github.com/JACOBIAN01/NSTEP",
-    tradeoffs: [
-      {
-        constraint:
-          "session.withTransaction() in the MongoDB driver retries a write-conflicted transaction by default, silently, for up to two minutes.",
-        decision:
-          "Applied a bounded timeoutMS to every transactional call so a losing request in a concurrency race fails fast with a typed, retryable error instead of hanging.",
-        rejected:
-          "Discovered only by reading the MongoDB driver source after chasing intermittent test hangs under concurrent booking load; the default retry-until-success behavior looks correct in isolation and only breaks down when two admins race for the same slot.",
-        breaksAt10x:
-          "At 10x concurrent booking attempts on a single popular slot, un-timeboxed retries would queue requests for minutes instead of returning a fast, retryable rejection, turning a capacity conflict into a perceived hang.",
-        hindsight:
-          "Would have added the timeoutMS from day one and written a driver-level integration test for it, rather than discovering the default behavior via a flaky test investigation.",
-      },
-      {
-        constraint:
-          "Login throttling needs a key, and the entire student cohort shares one campus egress IP address.",
-        decision: "Keyed login throttling on the submitted username, never on IP.",
-        rejected:
-          "IP-based lockout (the standard default) was rejected because it would lock out the entire cohort simultaneously on exam day the moment one student mistyped a password enough times.",
-        breaksAt10x:
-          "Not a 10x-load problem so much as a correctness-under-shared-network problem; it would have failed on day one, not at scale.",
-        hindsight: "None noted: this was caught before shipping, not after.",
-      },
-      {
-        constraint:
-          "V1 scope had to ship without student-initiated cancellation, Sheets-quota backoff, a CI pipeline, or paginated session lists.",
-        decision:
-          "Documented each as a deliberate, scoped-out trade-off rather than an oversight: 6 accepted ADRs in the repo record the reasoning for hybrid datastore choice, stateless JWT auth, transactional booking, single-function deployment, async Sheets sync, and batch-scoped slot release.",
-        rejected:
-          "Building all of it up front, which would have delayed shipping the core atomic-booking guarantee that the whole system exists for.",
-        breaksAt10x:
-          "A burst of Sheets writes beyond quota fails rather than queues today; the first thing to break under significantly higher submission volume. A CI pipeline is the next thing to add if contributor count grows.",
-        hindsight:
-          "The session list's missing pagination has a documented volume trigger for when to revisit it: treating known debt as tracked, not forgotten, is the part worth repeating on the next project.",
-      },
+    stats: [
+      { k: "Students Supported", v: "300+" },
+      { k: "Admin-Hours Saved / Batch", v: "~20 (est.)" },
+      { k: "Engineering Phases", v: "133" },
+      { k: "Commits", v: "190" },
     ],
   },
 ];

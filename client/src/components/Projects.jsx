@@ -153,40 +153,14 @@ export default function Projects() {
               ))}
             </div>
 
-            {project.tradeoffs?.length > 0 && (
-              <div className="mt-10 border-t border-hairline pt-8">
-                <div className="text-sm text-accent font-medium mb-6">
-                  Design Decisions &amp; Trade-offs
-                </div>
-                <div className="space-y-6">
-                  {project.tradeoffs.map((t, ti) => (
-                    <div key={ti} className="rounded-2xl bg-canvas-alt p-6">
-                      <div className="text-sm text-subtle font-medium mb-2">
-                        {String(ti + 1).padStart(2, "0")}
-                      </div>
-                      <p className="text-[15px] text-ink leading-relaxed">
-                        <span className="font-medium">Constraint: </span>
-                        {t.constraint}
-                      </p>
-                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
-                        <span className="font-medium text-ink">Decision: </span>
-                        {t.decision}
-                      </p>
-                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
-                        <span className="font-medium text-ink">Rejected alternative: </span>
-                        {t.rejected}
-                      </p>
-                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
-                        <span className="font-medium text-ink">Breaks first at 10x: </span>
-                        {t.breaksAt10x}
-                      </p>
-                      <p className="mt-2 text-[15px] text-subtle leading-relaxed">
-                        <span className="font-medium text-ink">In hindsight: </span>
-                        {t.hindsight}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+            {project.stats?.length > 0 && (
+              <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-hairline pt-8">
+                {project.stats.map((s) => (
+                  <div key={s.k}>
+                    <div className="text-xl font-semibold text-ink">{s.v}</div>
+                    <div className="text-xs text-subtle mt-1">{s.k}</div>
+                  </div>
+                ))}
               </div>
             )}
 
