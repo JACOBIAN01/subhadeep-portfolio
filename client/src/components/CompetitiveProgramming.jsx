@@ -2,15 +2,20 @@
 import SectionTitle from "./SectionTitle";
 import GlassCard from "./GlassCard";
 import Marquee from "./Marquee";
-import { StatCard } from "./StatsStrip";
-import { LEETCODE, LEETCODE_BADGES } from "../data/profileData";
+import { LEETCODE } from "../data/profileData";
 import { SiLeetcode } from "react-icons/si";
 
-function BadgeCard({ badge }) {
+// Smaller than StatsStrip's StatCard on purpose: this sits inside a single
+// platform card in a supporting section, not a full-width dedicated one.
+function CPStatCard({ s }) {
   return (
-    <div className="shrink-0 w-32 bg-white border border-hairline rounded-2xl p-4 flex flex-col items-center gap-2 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-      <img src={badge.img} alt={badge.name} className="w-16 h-16 object-contain" />
-      <span className="text-xs text-subtle text-center leading-snug">{badge.name}</span>
+    <div className="shrink-0 w-36 bg-white border border-hairline rounded-2xl p-4 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="h-1 w-6 rounded-full bg-accent/70" />
+      <div className="mt-3 text-2xl font-semibold tracking-tight text-ink">
+        {s.v}
+        {s.suffix}
+      </div>
+      <div className="text-xs text-subtle mt-1">{s.k}</div>
     </div>
   );
 }
@@ -62,22 +67,16 @@ export default function CompetitiveProgramming() {
               {LEETCODE.latestBadge}
             </p>
 
-            <Marquee duration={22} gap="gap-6" className="mt-6">
+            <Marquee duration={22} gap="gap-4" className="mt-5">
               {stats.map((s) => (
-                <StatCard key={s.k} s={s} />
+                <CPStatCard key={s.k} s={s} />
               ))}
-              <div className="flex gap-6" aria-hidden="true" inert={true}>
+              <div className="flex gap-4" aria-hidden="true" inert={true}>
                 {stats.map((s) => (
-                  <StatCard key={`dup-${s.k}`} s={s} />
+                  <CPStatCard key={`dup-${s.k}`} s={s} />
                 ))}
               </div>
             </Marquee>
-
-            <div className="flex flex-wrap gap-4 mt-6">
-              {LEETCODE_BADGES.map((badge) => (
-                <BadgeCard key={badge.name} badge={badge} />
-              ))}
-            </div>
           </PlatformCard>
         </div>
       </div>

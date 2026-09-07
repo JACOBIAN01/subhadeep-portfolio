@@ -15,11 +15,10 @@ export default function StatsStrip() {
 
   return (
     <section id="teaching" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 pt-28 md:pt-36">
+      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
         <SectionTitle kicker="Teaching & Mentorship" title="Scaled feedback, not just delivery." />
-      </div>
-      <div className="pb-20 md:pb-28">
-        <Marquee duration={24} gap="gap-6" className="px-6">
+
+        <Marquee duration={24} gap="gap-6" className="mt-14">
           {stats.map((s) => (
             <StatCard key={s.k} s={s} />
           ))}
@@ -36,7 +35,7 @@ export default function StatsStrip() {
 
 export function StatCard({ s }) {
   return (
-    <div className="shrink-0 w-56 bg-white border border-hairline rounded-3xl p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+    <div className="shrink-0 w-56 bg-white border border-hairline rounded-3xl p-7 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
       <div className="h-1 w-8 rounded-full bg-accent/70" />
       <div className="mt-6 text-4xl font-semibold tracking-tight text-ink">
         {s.isText ? s.v : <AnimatedCounter value={s.v} suffix={s.suffix} />}
@@ -53,20 +52,19 @@ function AnimatedCounter({ value, suffix = "" }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    let start = 0;
     const duration = 1600;
-    const increment = value / (duration / 16);
-    const interval = setInterval(() => {
-      start += increment;
-      if (start >= value) {
-        clearInterval(interval);
-        setCount(value);
-      } else {
-        setCount(start);
-      }
-    }, 16);
+    let frame;
+    let start;
 
-    return () => clearInterval(interval);
+    const tick = (timestamp) => {
+      if (start === undefined) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      setCount(value * progress);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, [value]);
 
   const formatted =

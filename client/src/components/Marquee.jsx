@@ -1,5 +1,5 @@
 // src/components/Marquee.jsx
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "framer-motion";
 
@@ -7,19 +7,33 @@ export default function Marquee({ children, duration = 26, gap = "gap-6", classN
   const x = useMotionValue(0);
   const trackRef = useRef(null);
   const isPaused = useRef(false);
+  const wrapWidth = useRef(0);
   const prefersReducedMotion = useReducedMotion();
 
-  useAnimationFrame((_, delta) => {
-    if (isPaused.current || prefersReducedMotion) return;
+  // Measuring scrollWidth is a forced layout read; do it once on mount/resize
+  // instead of on every animation frame across every mounted Marquee.
+  useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    const wrapWidth = track.scrollWidth / 2;
-    if (!wrapWidth) return;
+    const measure = () => {
+      wrapWidth.current = track.scrollWidth / 2;
+    };
+    measure();
 
-    const pxPerSecond = wrapWidth / duration;
+    const observer = new ResizeObserver(measure);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [children]);
+
+  useAnimationFrame((_, delta) => {
+    if (isPaused.current || prefersReducedMotion) return;
+    const width = wrapWidth.current;
+    if (!width) return;
+
+    const pxPerSecond = width / duration;
     let next = x.get() - (pxPerSecond * delta) / 1000;
-    if (next <= -wrapWidth) next += wrapWidth;
+    if (next <= -width) next += width;
     x.set(next);
   });
 

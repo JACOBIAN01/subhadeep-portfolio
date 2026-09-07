@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
@@ -5,6 +6,41 @@ import { PROJECTS, FLAGSHIP_PROJECTS } from "../data/profileData";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const EASE = [0.16, 1, 0.3, 1];
+
+// Plays only while actually in view: sidesteps browsers that don't reliably
+// honor the autoplay attribute, and skips decoding video that's off-screen.
+function DemoVideo({ clip, label }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      src={clip.src}
+      poster={clip.poster}
+      aria-label={label}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className="w-full h-auto"
+    />
+  );
+}
 
 const PROJECT_DETAILS = {
   "SESD-Agent: LLM Orchestration for Grading at Scale": {
@@ -115,17 +151,12 @@ export default function Projects() {
 
             {project.demo?.length > 0 && (
               <div className="mt-10 grid sm:grid-cols-2 gap-4">
-                {project.demo.map((src, i) => (
+                {project.demo.map((clip, i) => (
                   <div
                     key={i}
                     className="rounded-2xl border border-hairline overflow-hidden bg-canvas-alt"
                   >
-                    <img
-                      src={src}
-                      alt={`${project.name} demo ${i + 1}`}
-                      loading="lazy"
-                      className="w-full h-auto"
-                    />
+                    <DemoVideo clip={clip} label={`${project.name} demo ${i + 1}`} />
                   </div>
                 ))}
               </div>

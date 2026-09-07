@@ -2,8 +2,6 @@
 import {
   FaReact,
   FaNodeJs,
-  FaAws,
-  FaDatabase,
   FaJava,
   FaGithub,
   FaLinkedin,
@@ -11,33 +9,28 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
-import EventLoopDemo1 from "../assets/EventLoopDemo1.gif";
-import EventLoopDemo2 from "../assets/EventLoopDemo2.gif";
-import LeetCode50DaysBadge from "../assets/LeetCode50DaysBadge.png";
-import LeetCodeAugustBadge from "../assets/LeetCodeAugustBadge.png";
-import LeetCodeJulyBadge from "../assets/LeetCodeJulyBadge.png";
+import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
+import EventLoopDemo1Poster from "../assets/EventLoopDemo1-poster.jpg";
+import EventLoopDemo2 from "../assets/EventLoopDemo2.mp4";
+import EventLoopDemo2Poster from "../assets/EventLoopDemo2-poster.jpg";
 
 import {
   SiExpress,
   SiMongodb,
+  SiMongoose,
   SiTypescript,
   SiJavascript,
   SiPython,
   SiTailwindcss,
   SiFramer,
-  SiFirebase,
+  SiVite,
   SiVercel,
-  SiDocker,
-  SiKubernetes,
-  SiTerraform,
   SiGit,
-  SiRedux,
-  SiSocketdotio,
-  SiMysql,
   SiGithubactions,
-  SiLinux,
-  SiNginx,
-  SiJenkins,
+  SiGooglesheets,
+  SiGoogleappsscript,
+  SiClaude,
+  SiJsonwebtokens,
 } from "react-icons/si";
 
 export const PROFILE = {
@@ -77,34 +70,34 @@ export const ABOUT = {
   ],
 };
 
+// Every entry here is backed by a specific project, PR, or teaching credit
+// on this site, not a general self-reported skill list.
 export const STACK = [
   { name: "React", icon: <FaReact className="text-2xl" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
   { name: "Express.js", icon: <SiExpress className="text-2xl" /> },
   { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
   { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
-  { name: "Python", icon: <SiPython className="text-2xl" /> },
-  { name: "Java", icon: <FaJava className="text-2xl" /> },
 
   { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
-  { name: "MySQL", icon: <SiMysql className="text-2xl" /> },
-  { name: "Firebase", icon: <SiFirebase className="text-2xl" /> },
+  { name: "Mongoose", icon: <SiMongoose className="text-2xl" /> },
 
   { name: "Tailwind CSS", icon: <SiTailwindcss className="text-2xl" /> },
-  { name: "Redux", icon: <SiRedux className="text-2xl" /> },
   { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
-  { name: "Socket.IO", icon: <SiSocketdotio className="text-2xl" /> },
+  { name: "Vite", icon: <SiVite className="text-2xl" /> },
 
-  { name: "AWS", icon: <FaAws className="text-2xl" /> },
-  { name: "Docker", icon: <SiDocker className="text-2xl" /> },
-  { name: "Kubernetes", icon: <SiKubernetes className="text-2xl" /> },
-  { name: "Terraform", icon: <SiTerraform className="text-2xl" /> },
+  { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
+  { name: "GitHub API", icon: <FaGithub className="text-2xl" /> },
+  { name: "Google Sheets API", icon: <SiGooglesheets className="text-2xl" /> },
+  { name: "Google Apps Script", icon: <SiGoogleappsscript className="text-2xl" /> },
+  { name: "JWT", icon: <SiJsonwebtokens className="text-2xl" /> },
 
   { name: "Git", icon: <SiGit className="text-2xl" /> },
   { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
-  { name: "Linux", icon: <SiLinux className="text-2xl" /> },
-  { name: "Nginx", icon: <SiNginx className="text-2xl" /> },
-  { name: "Jenkins", icon: <SiJenkins className="text-2xl" /> },
+  { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
+
+  { name: "Python", icon: <SiPython className="text-2xl" /> },
+  { name: "Java", icon: <FaJava className="text-2xl" /> },
 ];
 
 export const PROJECTS = [
@@ -113,6 +106,12 @@ export const PROJECTS = [
     desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes.",
     tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
     repo: "https://github.com/JACOBIAN01/SESD-Agent",
+    stats: [
+      { k: "Students Graded", v: "441" },
+      { k: "Case Studies Graded", v: "154" },
+      { k: "Grading Time (441 Students)", v: "~110 min" },
+      { k: "Streak Score Latency", v: "~500ms" },
+    ],
   },
   {
     name: "AD Portal: Course Platform with Tamper-Proof Evaluation",
@@ -120,6 +119,12 @@ export const PROJECTS = [
     tech: ["React", "Node.js", "Express", "MongoDB"],
     repo: "https://github.com/JACOBIAN01/AD-Portal",
     live: "https://nst-ad.vercel.app",
+    stats: [
+      { k: "Students Tracked", v: "195" },
+      { k: "Projects Tracked", v: "804" },
+      { k: "Problem Statement Bank", v: "436" },
+      { k: "Campuses Live", v: "2" },
+    ],
   },
   {
     name: "Atlas: Internal Operations Platform for Teacher Training",
@@ -165,7 +170,10 @@ export const FLAGSHIP_PROJECTS = [
     repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
     marketplace:
       "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
-    demo: [EventLoopDemo1, EventLoopDemo2],
+    demo: [
+      { src: EventLoopDemo1, poster: EventLoopDemo1Poster },
+      { src: EventLoopDemo2, poster: EventLoopDemo2Poster },
+    ],
   },
   {
     name: "NSTEP: Internship Evaluation Portal",
@@ -481,9 +489,3 @@ export const LEETCODE = {
   activeDays: 90,
   maxStreak: 80,
 };
-
-export const LEETCODE_BADGES = [
-  { name: "50 Days Badge", img: LeetCode50DaysBadge },
-  { name: "August Badge", img: LeetCodeAugustBadge },
-  { name: "July Badge", img: LeetCodeJulyBadge },
-];
