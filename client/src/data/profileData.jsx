@@ -2,8 +2,6 @@
 import {
   FaReact,
   FaNodeJs,
-  FaAws,
-  FaDatabase,
   FaJava,
   FaGithub,
   FaLinkedin,
@@ -11,27 +9,28 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
+import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
+import EventLoopDemo1Poster from "../assets/EventLoopDemo1-poster.jpg";
+import EventLoopDemo2 from "../assets/EventLoopDemo2.mp4";
+import EventLoopDemo2Poster from "../assets/EventLoopDemo2-poster.jpg";
+
 import {
   SiExpress,
   SiMongodb,
+  SiMongoose,
   SiTypescript,
   SiJavascript,
   SiPython,
   SiTailwindcss,
   SiFramer,
-  SiFirebase,
+  SiVite,
   SiVercel,
-  SiDocker,
-  SiKubernetes,
-  SiTerraform,
   SiGit,
-  SiRedux,
-  SiSocketdotio,
-  SiMysql,
   SiGithubactions,
-  SiLinux,
-  SiNginx,
-  SiJenkins,
+  SiGooglesheets,
+  SiGoogleappsscript,
+  SiClaude,
+  SiJsonwebtokens,
 } from "react-icons/si";
 
 export const PROFILE = {
@@ -54,17 +53,15 @@ export const ABOUT = {
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
-    "I found that out by accident. Three years ago I started teaching coding part-time. Somewhere in 2,500+ live sessions across 10+ countries, I realised explaining System Design to a beginner forces a level of clarity that writing code alone never does. You can't hide a shaky mental model behind clean syntax when a student asks \"but why?\"",
-    "Before this, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries, 2,500+ sessions, 80% renewal rate. That's not a separate chapter. It's where I learned to break down complex systems fast, under real-time pressure, in front of an audience that will tell you immediately if you're wrong.",
-    "If you're an EdTech company that needs an engineer who can also teach at scale, I've delivered 2,500+ K-12 sessions across 10+ countries and 100+ System Design lectures for B.Tech engineers, with the technical depth to build your platform and the clarity to train your learners on it.",
-    "If you're an HR or hiring manager evaluating System Design ability, I don't just talk through tradeoffs: I've built and shipped the systems that prove it: AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end. That's System Design applied to real engineering work, not a whiteboard exercise.",
-    "Either way, let's talk. I'm currently open to SDE and technical mentorship-adjacent roles. Drop a note or DM.",
+    "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack and teaching System Design across 9 batches.",
+    "Before this, I spent two years at Codingal (Teacher Trainee to Teacher Mentor), mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
+    "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
   ],
   highlights: [
-    "Built and deployed AI-agent-powered evaluation systems (RepoScore-V2, WAP-Agent) on the MERN stack, automating workflows that used to cost 50+ hours a month",
-    "Delivered 100+ System Design and OOP lectures across 3 engineering cohorts: 300+ aspiring engineers, 91.55% CSAT, 4.44/5 rating",
-    "Reviewed 150+ GitHub PRs and resolved 99+ technical grievances at scale, without slowing delivery",
-    "Ran 30+ mock interviews, translating engineering standards into feedback engineers actually use",
+    "4.44/5 instructor rating across 569 student responses (91.55% CSAT), 9 batches, 97 lectures at Newton School of Technology",
+    "Built Repo-Score-V2 and WAP-Agent, AI evaluation pipelines automating 150+ GitHub PR reviews; resolved 99 student grievances individually",
+    "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
+    "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.44/5 rating",
   ],
   languages: [
     "Bengali: Native",
@@ -73,42 +70,48 @@ export const ABOUT = {
   ],
 };
 
+// Every entry here is backed by a specific project, PR, or teaching credit
+// on this site, not a general self-reported skill list.
 export const STACK = [
   { name: "React", icon: <FaReact className="text-2xl" /> },
   { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
   { name: "Express.js", icon: <SiExpress className="text-2xl" /> },
   { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
   { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
-  { name: "Python", icon: <SiPython className="text-2xl" /> },
-  { name: "Java", icon: <FaJava className="text-2xl" /> },
 
   { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
-  { name: "MySQL", icon: <SiMysql className="text-2xl" /> },
-  { name: "Firebase", icon: <SiFirebase className="text-2xl" /> },
+  { name: "Mongoose", icon: <SiMongoose className="text-2xl" /> },
 
   { name: "Tailwind CSS", icon: <SiTailwindcss className="text-2xl" /> },
-  { name: "Redux", icon: <SiRedux className="text-2xl" /> },
   { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
-  { name: "Socket.IO", icon: <SiSocketdotio className="text-2xl" /> },
+  { name: "Vite", icon: <SiVite className="text-2xl" /> },
 
-  { name: "AWS", icon: <FaAws className="text-2xl" /> },
-  { name: "Docker", icon: <SiDocker className="text-2xl" /> },
-  { name: "Kubernetes", icon: <SiKubernetes className="text-2xl" /> },
-  { name: "Terraform", icon: <SiTerraform className="text-2xl" /> },
+  { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
+  { name: "GitHub API", icon: <FaGithub className="text-2xl" /> },
+  { name: "Google Sheets API", icon: <SiGooglesheets className="text-2xl" /> },
+  { name: "Google Apps Script", icon: <SiGoogleappsscript className="text-2xl" /> },
+  { name: "JWT", icon: <SiJsonwebtokens className="text-2xl" /> },
 
   { name: "Git", icon: <SiGit className="text-2xl" /> },
   { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
-  { name: "Linux", icon: <SiLinux className="text-2xl" /> },
-  { name: "Nginx", icon: <SiNginx className="text-2xl" /> },
-  { name: "Jenkins", icon: <SiJenkins className="text-2xl" /> },
+  { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
+
+  { name: "Python", icon: <SiPython className="text-2xl" /> },
+  { name: "Java", icon: <FaJava className="text-2xl" /> },
 ];
 
 export const PROJECTS = [
   {
     name: "SESD-Agent: LLM Orchestration for Grading at Scale",
-    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes with zero manual review hours.",
+    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes.",
     tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
     repo: "https://github.com/JACOBIAN01/SESD-Agent",
+    stats: [
+      { k: "Students Graded", v: "441" },
+      { k: "Case Studies Graded", v: "154" },
+      { k: "Grading Time (441 Students)", v: "~110 min" },
+      { k: "Streak Score Latency", v: "~500ms" },
+    ],
   },
   {
     name: "AD Portal: Course Platform with Tamper-Proof Evaluation",
@@ -116,79 +119,106 @@ export const PROJECTS = [
     tech: ["React", "Node.js", "Express", "MongoDB"],
     repo: "https://github.com/JACOBIAN01/AD-Portal",
     live: "https://nst-ad.vercel.app",
-  },
-  {
-    name: "Terminal Lab Arena: Browser Terminal for Teaching",
-    desc: "An in-browser Linux terminal playground teaching command-line basics through three story-driven missions, built for a live computer-lab session with about 200 students and no signup, no login, no accounts.",
-    tech: ["React", "TypeScript", "Express", "xterm.js"],
-    repo: "https://github.com/JACOBIAN01/terminal-lab-arena",
-    live: "https://terminal-lab-arena.nstsdc.org/",
-  },
-  {
-    name: "SmartReviewX: Project Review Automation",
-    desc: "Automated evaluation pipeline; 3 min → 6–7 sec per review; modular OOP + real-time WebSockets; −25–30% recurring bugs.",
-    tech: ["React", "Node.js", "WebSocket", "OOP"],
-    repo: "https://github.com/JACOBIAN01/SmartReviewX",
-  },
-  {
-    name: "AEVM: Advanced Electronic Voting Machine",
-    desc: "IoT-enabled secure e-voting with biometric auth, instant cloud-synced results, and React dashboards.",
-    tech: ["React", "IoT", "Cloud", "Security"],
-    publication:
-      "Published research: “AEVM: Enhancing Electoral Integrity with Biometric Verification.”",
-  },
-  {
-    name: "Jana Academy: Full-Stack Learning Platform",
-    desc: "A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard monitored with Vercel Web Analytics and Core Web Vitals.",
-    tech: ["React", "Firebase Auth", "Vercel Analytics"],
-    repo: "https://github.com/JACOBIAN01/jana-academy-web",
-    live: "https://jana-academy.vercel.app/",
     stats: [
-      { k: "Page Views", v: "1,143" },
-      { k: "Unique Visitors", v: "117" },
-      { k: "Total Users", v: "45" },
-      { k: "Active Admins", v: "5" },
+      { k: "Students Tracked", v: "195" },
+      { k: "Projects Tracked", v: "804" },
+      { k: "Problem Statement Bank", v: "436" },
+      { k: "Campuses Live", v: "2" },
     ],
-    webVitals: [
-      { k: "LCP", v: "1.2s", status: "good" },
-      { k: "FID", v: "18ms", status: "good" },
-      { k: "CLS", v: "0.02", status: "good" },
-      { k: "FCP", v: "4.9s", status: "poor" },
-      { k: "TTFB", v: "107ms", status: "good" },
+  },
+  {
+    name: "Atlas: Internal Operations Platform for Teacher Training",
+    desc: "An internal operations platform built for Codingal's 700+ teacher training organisation, replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
+    tech: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
+    repo: "https://github.com/JACOBIAN01/Atlas",
+    stats: [
+      { k: "Teachers Submitting", v: "~105" },
+      { k: "Submissions Logged", v: "~183" },
+      { k: "Certificates Generated", v: "168" },
+      { k: "Flagged for Rework", v: "~12%" },
     ],
   },
 ];
 
-// Flagship case study: a published VS Code Marketplace extension, the most technically
-// distinctive, shipped-to-strangers project in the lineup, not just a personal internal tool.
-export const FLAGSHIP_PROJECT = {
-  name: "EventLoop Studio",
-  tagline:
-    "A VS Code extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step, published on the VS Code Marketplace.",
-  problem:
-    "Most event loop visualizers replay a fixed animation of one canned example: they teach the concept in the abstract and leave you to map it onto your own, different code by hand.",
-  highlights: [
-    {
-      name: "Real Execution, Not Simulation",
-      desc: "The active file runs inside a Node vm sandbox with its own Promise intrinsics, so recursion, closures, and real async/await behave correctly instead of being reverse-engineered from an AST.",
-      stat: "Spec-correct microtask ordering, for free",
-    },
-    {
-      name: "Scrubbable Step-by-Step Replay",
-      desc: "Every call stack push/pop, console call, and timer/microtask/phase transition is recorded as an ExecutionStep; jump to any point in the trace and every panel reflects the exact state at that step.",
-      stat: "Full playback and scrubbing controls",
-    },
-    {
-      name: "Browser and Node.js Modes",
-      desc: "Browser mode models the call stack, heap, web APIs, and a single macrotask queue; Node.js mode renders the six real libuv phases plus a central Microtask Hub for process.nextTick and Promises.",
-      stat: "6 real libuv phases modeled in Node.js mode",
-    },
-  ],
-  stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
-  repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
-  marketplace:
-    "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
-};
+// Flagship case studies: the most technically distinctive, shipped-to-strangers
+// projects in the lineup, each with a Design Decisions / Trade-offs subsection.
+export const FLAGSHIP_PROJECTS = [
+  {
+    name: "EventLoop Studio",
+    tagline:
+      "A VS Code extension that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step, published on the VS Code Marketplace.",
+    problem:
+      "Most event loop visualizers replay a fixed animation of one canned example: they teach the concept in the abstract and leave you to map it onto your own, different code by hand.",
+    highlights: [
+      {
+        name: "Real Execution, Not Simulation",
+        desc: "The active file runs inside a Node vm sandbox with its own Promise intrinsics, so recursion, closures, and real async/await behave correctly instead of being reverse-engineered from an AST.",
+        stat: "Spec-correct microtask ordering, for free",
+      },
+      {
+        name: "Scrubbable Step-by-Step Replay",
+        desc: "Every call stack push/pop, console call, and timer/microtask/phase transition is recorded as an ExecutionStep; jump to any point in the trace and every panel reflects the exact state at that step.",
+        stat: "Full playback and scrubbing controls",
+      },
+      {
+        name: "Browser and Node.js Modes",
+        desc: "Browser mode models the call stack, heap, web APIs, and a single macrotask queue; Node.js mode renders the six real libuv phases plus a central Microtask Hub for process.nextTick and Promises.",
+        stat: "6 real libuv phases modeled in Node.js mode",
+      },
+    ],
+    stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
+    repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
+    marketplace:
+      "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
+    demo: [
+      { src: EventLoopDemo1, poster: EventLoopDemo1Poster },
+      { src: EventLoopDemo2, poster: EventLoopDemo2Poster },
+    ],
+  },
+  {
+    name: "NSTEP: Internship Evaluation Portal",
+    tagline:
+      "A production-oriented internship evaluation and slot-booking platform built for 300+ Newton School of Technology 5th-semester students, replacing manual spreadsheet coordination with a centralized system for bookings, evaluation sessions, rosters, and marks.",
+    problem:
+      "Multiple admins manage independent evaluation sessions at once, booking students five to a slot; capacity, scheduling, and cross-admin conflicts all had to be enforced automatically instead of resolved by hand over a shared spreadsheet.",
+    highlights: [
+      {
+        name: "Atomic Capacity Enforcement",
+        desc: "MongoDB transactions and atomic conditional updates eliminate the read-modify-write race during high-contention bookings, rather than treating booking as a simple CRUD operation.",
+        stat: "20 simultaneous booking requests tested against a single slot; exactly 5 succeed",
+      },
+      {
+        name: "Cross-Admin Isolation",
+        desc: "A unique ScheduleLock mechanism prevents overlapping bookings across independently managed admin sessions; JWT plus server-side authorization stops any admin from touching another admin's data.",
+        stat: "Zero cross-admin scheduling conflicts by design",
+      },
+      {
+        name: "Resilient Sync & Login",
+        desc: "Google Sheets stays off the critical booking path, so a failed sync is persisted and retried automatically instead of losing a booking; account-based login throttling stops shared campus IPs from causing mass lockouts.",
+        stat: "206 tests across unit, concurrency, and integration suites",
+      },
+    ],
+    stack: [
+      "React",
+      "Tailwind CSS",
+      "Vite",
+      "Node.js",
+      "Express (single Vercel function)",
+      "MongoDB",
+      "Mongoose",
+      "Google Sheets API",
+      "JWT (httpOnly cookie)",
+      "node --test",
+    ],
+    repo: "https://github.com/JACOBIAN01/NSTEP",
+    stats: [
+      { k: "Students Supported", v: "300+" },
+      { k: "Admin-Hours Saved / Batch", v: "~20 (est.)" },
+      { k: "Engineering Phases", v: "133" },
+      { k: "Commits", v: "190" },
+    ],
+  },
+];
 
 export const EXPERIENCE = [
   {
@@ -417,42 +447,45 @@ export const SKILL_CERTIFICATES = [
     img: "/certs/Oracle.jpg",
     desc: "Validated understanding of OCI architecture, compute, and networking.",
   },
-  {
-    title: "MATLAB Onramp",
-    platform: "MathWorks",
-    date: "November 2022",
-    img: "/certs/Matlab.jpg",
-    desc: "Completed the MATLAB Onramp self-paced training course with a 100% completion score.",
-  },
-  {
-    title: "V-INN Expo'24",
-    platform: "VIT-AP",
-    date: "February 2024",
-    img: "/certs/VINN (1).jpg",
-    desc: "Participated in the RGEMS Project category, recognized for contribution to innovation and research.",
-  },
-  {
-    title: "Great India HackFest 2K24",
-    platform: "CSI Chapter, VIT-AP",
-    date: "March 2024",
-    img: "/certs/CSI.jpg",
-    desc: "Certificate of participation in a national-level hackathon organized by the CSI Chapter at VIT-AP.",
-  },
-  {
-    title: "Introduction to Microsoft Excel",
-    platform: "Coursera Project Network",
-    date: "June 2024",
-    img: "/certs/Coursera.jpg",
-    desc: "Completed a hands-on project covering Microsoft Excel fundamentals.",
-  },
-  {
-    title: "Physical Design & Verification",
-    platform: "Entuple Technologies (Abhiyantha)",
-    date: "Aug-Sept 2023",
-    img: "/certs/Entuple.jpg",
-    desc: "Completed a 6-week internship program on physical design and verification, conducted with VIT-AP.",
-  },
 ];
 
 // Certifications confirmed on LinkedIn without an accompanying badge image yet
 export const ADDITIONAL_CERTIFICATIONS = ["Introduction to Generative AI"];
+
+// ------------------ Open Source Contributions ------------------
+// Real, merged PRs to repos not owned by the author, independently verifiable via url.
+export const OPEN_SOURCE_CONTRIBUTIONS = [
+  {
+    repo: "electron/electron",
+    title: "docs: clarify debugger.sendCommand timing and empty-result behavior",
+    type: "Documentation",
+    date: "Merged Sep 5, 2026",
+    desc: "Closed a documentation gap open since 2018 (#14822): documented that a pending navigation measurably delays debugger.sendCommand() resolution (~445ms vs ~19ms, verified with timestamped reproduction logs), and that a successful command with no protocol result field resolves with an empty object (verified against the Electron C++ source).",
+    url: "https://github.com/electron/electron/pull/53114",
+  },
+  {
+    repo: "adarshashokbaghel-code/mentr",
+    title: "Replace 'Loading…' text with skeletons in connection requests and pitches",
+    type: "Feature",
+    date: "Merged Sep 1, 2026",
+    desc: "Replaced plain loading text in two dashboard components with skeleton loaders, reusing an existing Skeleton component and matching an established pattern; explicitly declined to touch a third flagged file because it was a full-page loading gate, not list content, and didn't fit the existing pattern.",
+    url: "https://github.com/adarshashokbaghel-code/mentr/pull/21",
+  },
+];
+
+// ------------------ Competitive Programming ------------------
+export const LEETCODE = {
+  handle: "Subhadeep_Ghorai",
+  profileUrl: "https://leetcode.com/u/Subhadeep_Ghorai/",
+  totalSolved: 166,
+  totalProblems: 4046,
+  easy: { solved: 62, total: 963 },
+  medium: { solved: 75, total: 2111 },
+  hard: { solved: 29, total: 972 },
+  attempting: 5,
+  badges: 3,
+  latestBadge: "50 Days Badge 2026",
+  submissionsPastYear: 298,
+  activeDays: 90,
+  maxStreak: 80,
+};

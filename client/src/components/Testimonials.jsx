@@ -39,7 +39,7 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: EASE, delay: (i % 3) * 0.08 }}
-              className="bg-white border border-hairline rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
+              className="bg-white border border-hairline rounded-3xl p-8 flex flex-col transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"
             >
               <div
                 className="text-5xl text-faint leading-none font-serif"

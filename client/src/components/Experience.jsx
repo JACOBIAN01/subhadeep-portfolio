@@ -157,7 +157,7 @@ export default function Experience() {
 
 function CertCard({ cert }) {
   return (
-    <div className="shrink-0 w-80 md:w-95 bg-white border border-hairline rounded-3xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+    <div className="shrink-0 w-80 md:w-95 bg-white border border-hairline rounded-3xl overflow-hidden transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
       <div className="w-full h-72 md:h-80 bg-canvas-alt flex items-center justify-center p-4">
         <img
           src={cert.img}
