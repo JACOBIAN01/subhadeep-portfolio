@@ -1,5 +1,6 @@
 // src/components/StatsStrip.jsx
 import { useEffect, useState } from "react";
+import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 
 export default function StatsStrip() {
@@ -13,8 +14,11 @@ export default function StatsStrip() {
   ];
 
   return (
-    <div className="bg-canvas">
-      <div className="py-20 md:py-28">
+    <section id="teaching" className="bg-canvas">
+      <div className="mx-auto max-w-6xl px-6 pt-28 md:pt-36">
+        <SectionTitle kicker="Teaching & Mentorship" title="Scaled feedback, not just delivery." />
+      </div>
+      <div className="pb-20 md:pb-28">
         <Marquee duration={24} gap="gap-6" className="px-6">
           {stats.map((s) => (
             <StatCard key={s.k} s={s} />
@@ -26,7 +30,7 @@ export default function StatsStrip() {
           </div>
         </Marquee>
       </div>
-    </div>
+    </section>
   );
 }
 
