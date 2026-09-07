@@ -55,13 +55,13 @@ export const ABOUT = {
   ],
   paragraphs: [
     "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack and teaching System Design across 9 batches.",
-    "Before this, I spent two years at Codingal — Teacher Trainee to Teacher Mentor — mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
+    "Before this, I spent two years at Codingal (Teacher Trainee to Teacher Mentor), mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
     "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
   ],
   highlights: [
-    "4.44/5 instructor rating across 569 student responses (91.55% CSAT) — 9 batches, 97 lectures at Newton School of Technology",
+    "4.44/5 instructor rating across 569 student responses (91.55% CSAT), 9 batches, 97 lectures at Newton School of Technology",
     "Built Repo-Score-V2 and WAP-Agent, AI evaluation pipelines automating 150+ GitHub PR reviews; resolved 99 student grievances individually",
-    "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation — 100+ teachers onboarded in the first 10 days, 168 certificates automated",
+    "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
     "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.44/5 rating",
   ],
   languages: [
@@ -193,14 +193,14 @@ export const FLAGSHIP_PROJECTS = [
     marketplace:
       "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
     // Real trade-off content (constraint/rejected-alternative/10x-breakage/hindsight)
-    // isn't available yet for this project — left empty rather than invented.
+    // isn't available yet for this project; left empty rather than invented.
     // Projects.jsx renders the trade-offs subsection conditionally, so this is safe.
     tradeoffs: [],
   },
   {
     name: "NSTEP: Concurrent Slot-Booking System",
     tagline:
-      "A slot-booking system built for real concurrency, run by more than one administrator at once — no self-signup, no client-trusted state, no bookings lost to third-party API outages.",
+      "A slot-booking system built for real concurrency, run by more than one administrator at once: no self-signup, no client-trusted state, no bookings lost to third-party API outages.",
     problem:
       "Admins pre-provision student credentials and control which one-hour slots are bookable; students book into slots capped at 5 students each. Capacity has to be enforced atomically even when multiple admins and students are writing at once, and losing a third-party sync (Google Sheets) can never mean losing a booking.",
     highlights: [
@@ -211,7 +211,7 @@ export const FLAGSHIP_PROJECTS = [
       },
       {
         name: "Cross-Admin Race Closed With a Second Unique Constraint",
-        desc: "Once slots are owned by independent admins, a booking race spans multiple documents and snapshot isolation alone can't serialize it — closed with a second unique index (ScheduleLock, unique on studentUsername+date+tick), not a read-then-compare check.",
+        desc: "Once slots are owned by independent admins, a booking race spans multiple documents and snapshot isolation alone can't serialize it; closed with a second unique index (ScheduleLock, unique on studentUsername+date+tick), not a read-then-compare check.",
         stat: "Zero cross-admin double-bookings by construction",
       },
       {
@@ -236,13 +236,13 @@ export const FLAGSHIP_PROJECTS = [
     tradeoffs: [
       {
         constraint:
-          "session.withTransaction() in the MongoDB driver retries a write-conflicted transaction by default — silently, for up to two minutes.",
+          "session.withTransaction() in the MongoDB driver retries a write-conflicted transaction by default, silently, for up to two minutes.",
         decision:
           "Applied a bounded timeoutMS to every transactional call so a losing request in a concurrency race fails fast with a typed, retryable error instead of hanging.",
         rejected:
-          "Discovered only by reading the MongoDB driver source after chasing intermittent test hangs under concurrent booking load — the default retry-until-success behavior looks correct in isolation and only breaks down when two admins race for the same slot.",
+          "Discovered only by reading the MongoDB driver source after chasing intermittent test hangs under concurrent booking load; the default retry-until-success behavior looks correct in isolation and only breaks down when two admins race for the same slot.",
         breaksAt10x:
-          "At 10x concurrent booking attempts on a single popular slot, un-timeboxed retries would queue requests for minutes instead of returning a fast, retryable rejection — turning a capacity conflict into a perceived hang.",
+          "At 10x concurrent booking attempts on a single popular slot, un-timeboxed retries would queue requests for minutes instead of returning a fast, retryable rejection, turning a capacity conflict into a perceived hang.",
         hindsight:
           "Would have added the timeoutMS from day one and written a driver-level integration test for it, rather than discovering the default behavior via a flaky test investigation.",
       },
@@ -251,22 +251,22 @@ export const FLAGSHIP_PROJECTS = [
           "Login throttling needs a key, and the entire student cohort shares one campus egress IP address.",
         decision: "Keyed login throttling on the submitted username, never on IP.",
         rejected:
-          "IP-based lockout — the standard default — was rejected because it would lock out the entire cohort simultaneously on exam day the moment one student mistyped a password enough times.",
+          "IP-based lockout (the standard default) was rejected because it would lock out the entire cohort simultaneously on exam day the moment one student mistyped a password enough times.",
         breaksAt10x:
           "Not a 10x-load problem so much as a correctness-under-shared-network problem; it would have failed on day one, not at scale.",
-        hindsight: "None noted — this was caught before shipping, not after.",
+        hindsight: "None noted: this was caught before shipping, not after.",
       },
       {
         constraint:
           "V1 scope had to ship without student-initiated cancellation, Sheets-quota backoff, a CI pipeline, or paginated session lists.",
         decision:
-          "Documented each as a deliberate, scoped-out trade-off rather than an oversight — 6 accepted ADRs in the repo record the reasoning for hybrid datastore choice, stateless JWT auth, transactional booking, single-function deployment, async Sheets sync, and batch-scoped slot release.",
+          "Documented each as a deliberate, scoped-out trade-off rather than an oversight: 6 accepted ADRs in the repo record the reasoning for hybrid datastore choice, stateless JWT auth, transactional booking, single-function deployment, async Sheets sync, and batch-scoped slot release.",
         rejected:
           "Building all of it up front, which would have delayed shipping the core atomic-booking guarantee that the whole system exists for.",
         breaksAt10x:
-          "A burst of Sheets writes beyond quota fails rather than queues today — the first thing to break under significantly higher submission volume. A CI pipeline is the next thing to add if contributor count grows.",
+          "A burst of Sheets writes beyond quota fails rather than queues today; the first thing to break under significantly higher submission volume. A CI pipeline is the next thing to add if contributor count grows.",
         hindsight:
-          "The session list's missing pagination has a documented volume trigger for when to revisit it — treating known debt as tracked, not forgotten, is the part worth repeating on the next project.",
+          "The session list's missing pagination has a documented volume trigger for when to revisit it: treating known debt as tracked, not forgotten, is the part worth repeating on the next project.",
       },
     ],
   },
@@ -505,7 +505,7 @@ export const SKILL_CERTIFICATES = [
 export const ADDITIONAL_CERTIFICATIONS = ["Introduction to Generative AI"];
 
 // ------------------ Open Source Contributions ------------------
-// Real, merged PRs to repos not owned by the author — independently verifiable via url.
+// Real, merged PRs to repos not owned by the author, independently verifiable via url.
 export const OPEN_SOURCE_CONTRIBUTIONS = [
   {
     repo: "electron/electron",
