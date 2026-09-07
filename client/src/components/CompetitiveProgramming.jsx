@@ -2,8 +2,17 @@
 import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import { StatCard } from "./StatsStrip";
-import { LEETCODE } from "../data/profileData";
+import { LEETCODE, LEETCODE_BADGES } from "../data/profileData";
 import { SiLeetcode } from "react-icons/si";
+
+function BadgeCard({ badge }) {
+  return (
+    <div className="shrink-0 w-32 bg-white border border-hairline rounded-2xl p-4 flex flex-col items-center gap-2 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <img src={badge.img} alt={badge.name} className="w-16 h-16 object-contain" />
+      <span className="text-xs text-subtle text-center leading-snug">{badge.name}</span>
+    </div>
+  );
+}
 
 export default function CompetitiveProgramming() {
   const stats = [
@@ -44,6 +53,17 @@ export default function CompetitiveProgramming() {
           <div className="flex gap-6" aria-hidden="true" inert={true}>
             {stats.map((s) => (
               <StatCard key={`dup-${s.k}`} s={s} />
+            ))}
+          </div>
+        </Marquee>
+
+        <Marquee duration={18} gap="gap-4" className="mt-6">
+          {LEETCODE_BADGES.map((badge) => (
+            <BadgeCard key={badge.name} badge={badge} />
+          ))}
+          <div className="flex gap-4" aria-hidden="true" inert={true}>
+            {LEETCODE_BADGES.map((badge) => (
+              <BadgeCard key={`dup-${badge.name}`} badge={badge} />
             ))}
           </div>
         </Marquee>

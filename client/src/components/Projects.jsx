@@ -39,44 +39,6 @@ const PROJECT_DETAILS = {
     link: "https://github.com/JACOBIAN01/AD-Portal",
     live: "https://nst-ad.vercel.app",
   },
-  "Terminal Lab Arena: Browser Terminal for Teaching": {
-    title: "Terminal Lab Arena: Browser Terminal for Teaching",
-    desc: `Students type a registration number and press START, no password or email needed. The server clones a pre-built folder structure per student and hands back a browser terminal (xterm.js) that understands a small, fixed set of commands, interpreted by a hand-written parser rather than a real shell, so nobody can run arbitrary code or escape their own workspace.`,
-    features: [
-      "Three story-driven missions: CSI: Find the Criminal, Treasure Hunt, and Become a Hacker",
-      "A sandboxed command parser (pwd, ls, cd, cat, echo, clear, whoami, help, history), no real shell or child_process involved",
-      "Every path resolves against the student's own workspace root only, blocking path traversal via '..' or absolute paths",
-      "An /admin view showing every connected student, current directory, last command, and mission progress, with per-student or full reset",
-    ],
-    stack: ["React", "Vite", "TypeScript", "Tailwind CSS", "xterm.js", "Node.js", "Express"],
-    link: "https://github.com/JACOBIAN01/terminal-lab-arena",
-    live: "https://terminal-lab-arena.nstsdc.org/",
-  },
-  "SmartReviewX: Project Review Automation": {
-    title: "SmartReviewX: Project Review Automation",
-    desc: `SmartReviewX automates Codingal project reviews using Python, Flask, and Selenium WebDriver, cutting review time from 3 mins to 6–7 seconds.`,
-    features: [
-      "AI-assisted review pipeline",
-      "Secure educator login",
-      "Socket.IO live progress tracking",
-      "Auto feedback generation",
-    ],
-    stack: ["Python", "Flask", "Selenium", "WebSocket", "Tailwind"],
-    link: "https://github.com/JACOBIAN01/SmartReviewX",
-  },
-  "Jana Academy: Full-Stack Learning Platform": {
-    title: "Jana Academy: Full-Stack Learning Platform",
-    desc: `Jana Academy is a live academy platform: Google OAuth login, a real-time Quiz Arena for hosting sessions, and a role-based admin dashboard (Super Admin/Admin/User) for managing users, quiz results, and feedback.`,
-    features: [
-      "Google OAuth sign-in",
-      "Real-time Quiz Arena with live sessions and a questions archive",
-      "Role-based admin dashboard: Users, Quiz & Answers, Results, Feedback Log",
-      "Production monitoring via Vercel Web Analytics and Core Web Vitals",
-    ],
-    stack: ["React", "Firebase Auth", "Vercel Analytics"],
-    link: "https://github.com/JACOBIAN01/jana-academy-web",
-    live: "https://jana-academy.vercel.app/",
-  },
   "Atlas: Internal Operations Platform for Teacher Training": {
     title: "Atlas: Internal Operations Platform for Teacher Training",
     desc: "Atlas replaced a Google Form and a Canva workflow for Codingal's 700+ teacher training organisation: teachers submit training modules, admins track completions, and certificates are generated and issued automatically.",
@@ -150,6 +112,24 @@ export default function Projects() {
             <p className="mt-8 text-[15px] text-ink leading-relaxed max-w-2xl border-l-2 border-hairline pl-5">
               {project.problem}
             </p>
+
+            {project.demo?.length > 0 && (
+              <div className="mt-10 grid sm:grid-cols-2 gap-4">
+                {project.demo.map((src, i) => (
+                  <div
+                    key={i}
+                    className="rounded-2xl border border-hairline overflow-hidden bg-canvas-alt"
+                  >
+                    <img
+                      src={src}
+                      alt={`${project.name} demo ${i + 1}`}
+                      loading="lazy"
+                      className="w-full h-auto"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="mt-10 grid md:grid-cols-3 gap-6">
               {project.highlights.map((highlight, i) => (

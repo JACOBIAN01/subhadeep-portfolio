@@ -11,6 +11,12 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 
+import EventLoopDemo1 from "../assets/EventLoopDemo1.gif";
+import EventLoopDemo2 from "../assets/EventLoopDemo2.gif";
+import LeetCode50DaysBadge from "../assets/LeetCode50DaysBadge.png";
+import LeetCodeAugustBadge from "../assets/LeetCodeAugustBadge.png";
+import LeetCodeJulyBadge from "../assets/LeetCodeJulyBadge.png";
+
 import {
   SiExpress,
   SiMongodb,
@@ -116,39 +122,6 @@ export const PROJECTS = [
     live: "https://nst-ad.vercel.app",
   },
   {
-    name: "Terminal Lab Arena: Browser Terminal for Teaching",
-    desc: "An in-browser Linux terminal playground teaching command-line basics through three story-driven missions, built for a live computer-lab session with about 200 students and no signup, no login, no accounts.",
-    tech: ["React", "TypeScript", "Express", "xterm.js"],
-    repo: "https://github.com/JACOBIAN01/terminal-lab-arena",
-    live: "https://terminal-lab-arena.nstsdc.org/",
-  },
-  {
-    name: "SmartReviewX: Project Review Automation",
-    desc: "Automated evaluation pipeline; 3 min → 6–7 sec per review; modular OOP + real-time WebSockets; −25–30% recurring bugs.",
-    tech: ["React", "Node.js", "WebSocket", "OOP"],
-    repo: "https://github.com/JACOBIAN01/SmartReviewX",
-  },
-  {
-    name: "Jana Academy: Full-Stack Learning Platform",
-    desc: "A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard monitored with Vercel Web Analytics and Core Web Vitals.",
-    tech: ["React", "Firebase Auth", "Vercel Analytics"],
-    repo: "https://github.com/JACOBIAN01/jana-academy-web",
-    live: "https://jana-academy.vercel.app/",
-    stats: [
-      { k: "Page Views", v: "1,143" },
-      { k: "Unique Visitors", v: "117" },
-      { k: "Total Users", v: "68" },
-      { k: "Active Admins", v: "5" },
-    ],
-    webVitals: [
-      { k: "LCP", v: "1.2s", status: "good" },
-      { k: "FID", v: "18ms", status: "good" },
-      { k: "CLS", v: "0.02", status: "good" },
-      { k: "FCP", v: "4.9s", status: "poor" },
-      { k: "TTFB", v: "107ms", status: "good" },
-    ],
-  },
-  {
     name: "Atlas: Internal Operations Platform for Teacher Training",
     desc: "An internal operations platform built for Codingal's 700+ teacher training organisation, replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
     tech: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
@@ -192,6 +165,7 @@ export const FLAGSHIP_PROJECTS = [
     repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
     marketplace:
       "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
+    demo: [EventLoopDemo1, EventLoopDemo2],
     // Real trade-off content (constraint/rejected-alternative/10x-breakage/hindsight)
     // isn't available yet for this project; left empty rather than invented.
     // Projects.jsx renders the trade-offs subsection conditionally, so this is safe.
@@ -541,3 +515,9 @@ export const LEETCODE = {
   activeDays: 90,
   maxStreak: 80,
 };
+
+export const LEETCODE_BADGES = [
+  { name: "50 Days Badge", img: LeetCode50DaysBadge },
+  { name: "August Badge", img: LeetCodeAugustBadge },
+  { name: "July Badge", img: LeetCodeJulyBadge },
+];
