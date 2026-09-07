@@ -57,16 +57,11 @@ export default function CompetitiveProgramming() {
           </div>
         </Marquee>
 
-        <Marquee duration={18} gap="gap-4" className="mt-6">
+        <div className="flex flex-wrap gap-4 mt-6">
           {LEETCODE_BADGES.map((badge) => (
             <BadgeCard key={badge.name} badge={badge} />
           ))}
-          <div className="flex gap-4" aria-hidden="true" inert={true}>
-            {LEETCODE_BADGES.map((badge) => (
-              <BadgeCard key={`dup-${badge.name}`} badge={badge} />
-            ))}
-          </div>
-        </Marquee>
+        </div>
       </div>
     </section>
   );
