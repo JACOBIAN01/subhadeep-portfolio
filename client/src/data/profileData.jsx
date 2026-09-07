@@ -54,15 +54,15 @@ export const ABOUT = {
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
-    "I'm a final-year B.Tech (ECE) student and Software Engineer at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack.",
-    "Before this, as a Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals through 2,500+ live sessions. Explaining a system to a beginner forces a clarity that writing code alone doesn't, and that habit carries into how I approach engineering now.",
+    "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack and teaching System Design across 9 batches.",
+    "Before this, I spent two years at Codingal — Teacher Trainee to Teacher Mentor — mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
     "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
   ],
   highlights: [
-    "Built and deployed AI-agent-powered evaluation systems (RepoScore-V2, WAP-Agent) on the MERN stack, automating workflows that used to cost 50+ hours a month",
-    "Delivered 100+ System Design and OOP lectures across 3 engineering cohorts: 300+ aspiring engineers, 91.55% CSAT, 4.44/5 rating",
-    "Reviewed 150+ GitHub PRs and resolved 99+ technical grievances at scale, without slowing delivery",
-    "Ran 30+ mock interviews, translating engineering standards into feedback engineers actually use",
+    "4.44/5 instructor rating across 569 student responses (91.55% CSAT) — 9 batches, 97 lectures at Newton School of Technology",
+    "Built Repo-Score-V2 and WAP-Agent, AI evaluation pipelines automating 150+ GitHub PR reviews; resolved 99 student grievances individually",
+    "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation — 100+ teachers onboarded in the first 10 days, 168 certificates automated",
+    "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.44/5 rating",
   ],
   languages: [
     "Bengali: Native",
