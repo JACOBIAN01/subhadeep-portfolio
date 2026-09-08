@@ -2,7 +2,8 @@
 import {
   FaReact,
   FaNodeJs,
-  FaJava,
+  FaCode,
+  FaSitemap,
   FaGithub,
   FaLinkedin,
   FaEnvelope,
@@ -20,7 +21,6 @@ import {
   SiMongoose,
   SiTypescript,
   SiJavascript,
-  SiPython,
   SiTailwindcss,
   SiFramer,
   SiVite,
@@ -71,33 +71,61 @@ export const ABOUT = {
 };
 
 // Every entry here is backed by a specific project, PR, or teaching credit
-// on this site, not a general self-reported skill list.
-export const STACK = [
-  { name: "React", icon: <FaReact className="text-2xl" /> },
-  { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
-  { name: "Express.js", icon: <SiExpress className="text-2xl" /> },
-  { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
-  { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
-
-  { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
-  { name: "Mongoose", icon: <SiMongoose className="text-2xl" /> },
-
-  { name: "Tailwind CSS", icon: <SiTailwindcss className="text-2xl" /> },
-  { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
-  { name: "Vite", icon: <SiVite className="text-2xl" /> },
-
-  { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
-  { name: "GitHub API", icon: <FaGithub className="text-2xl" /> },
-  { name: "Google Sheets API", icon: <SiGooglesheets className="text-2xl" /> },
-  { name: "Google Apps Script", icon: <SiGoogleappsscript className="text-2xl" /> },
-  { name: "JWT", icon: <SiJsonwebtokens className="text-2xl" /> },
-
-  { name: "Git", icon: <SiGit className="text-2xl" /> },
-  { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
-  { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
-
-  { name: "Python", icon: <SiPython className="text-2xl" /> },
-  { name: "Java", icon: <FaJava className="text-2xl" /> },
+// on this site, not a general self-reported skill list. Java and Python were
+// deliberately left out: both are taught (see the Codingal bullet in
+// EXPERIENCE) but neither appears in any shipped project's stack, so listing
+// them here would claim more than the evidence supports.
+export const STACK_GROUPS = [
+  {
+    label: "Languages",
+    items: [
+      { name: "JavaScript", icon: <SiJavascript className="text-2xl" /> },
+      { name: "TypeScript", icon: <SiTypescript className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "Frontend",
+    items: [
+      { name: "React", icon: <FaReact className="text-2xl" /> },
+      { name: "Tailwind CSS", icon: <SiTailwindcss className="text-2xl" /> },
+      { name: "Framer Motion", icon: <SiFramer className="text-2xl" /> },
+      { name: "Vite", icon: <SiVite className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "Backend & Data",
+    items: [
+      { name: "Node.js", icon: <FaNodeJs className="text-2xl" /> },
+      { name: "Express.js", icon: <SiExpress className="text-2xl" /> },
+      { name: "MongoDB", icon: <SiMongodb className="text-2xl" /> },
+      { name: "Mongoose", icon: <SiMongoose className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "APIs & Integrations",
+    items: [
+      { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
+      { name: "GitHub API", icon: <FaGithub className="text-2xl" /> },
+      { name: "Google Sheets API", icon: <SiGooglesheets className="text-2xl" /> },
+      { name: "Google Apps Script", icon: <SiGoogleappsscript className="text-2xl" /> },
+      { name: "JWT", icon: <SiJsonwebtokens className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "Tooling",
+    items: [
+      { name: "Git", icon: <SiGit className="text-2xl" /> },
+      { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
+      { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "Foundations",
+    items: [
+      { name: "Data Structures & Algorithms", icon: <FaCode className="text-2xl" /> },
+      { name: "System Design", icon: <FaSitemap className="text-2xl" /> },
+    ],
+  },
 ];
 
 export const PROJECTS = [
@@ -178,7 +206,7 @@ export const FLAGSHIP_PROJECTS = [
   {
     name: "NSTEP: Internship Evaluation Portal",
     tagline:
-      "A production-oriented internship evaluation and slot-booking platform built for 300+ Newton School of Technology 5th-semester students, replacing manual spreadsheet coordination with a centralized system for bookings, evaluation sessions, rosters, and marks.",
+      "A slot-booking and evaluation platform engineered for real concurrency, designed to handle 300+ Newton School of Technology 5th-semester students per release batch ahead of its first live cohort.",
     problem:
       "Multiple admins manage independent evaluation sessions at once, booking students five to a slot; capacity, scheduling, and cross-admin conflicts all had to be enforced automatically instead of resolved by hand over a shared spreadsheet.",
     highlights: [
@@ -195,9 +223,17 @@ export const FLAGSHIP_PROJECTS = [
       {
         name: "Resilient Sync & Login",
         desc: "Google Sheets stays off the critical booking path, so a failed sync is persisted and retried automatically instead of losing a booking; account-based login throttling stops shared campus IPs from causing mass lockouts.",
-        stat: "206 tests across unit, concurrency, and integration suites",
+        stat: "210 tests across unit, concurrency, and integration suites",
       },
     ],
+    design: {
+      problem:
+        "By default, MongoDB's session.withTransaction() silently retries a write-conflicted transaction for up to two minutes, a behavior confirmed by inspecting the driver source after chasing intermittent test hangs.",
+      decision:
+        "Applied a bounded timeoutMS on every booking transaction, so a losing request now fails fast with a typed, retryable error instead of hanging indefinitely.",
+      reasoning:
+        "Cross-admin double-booking couldn't be closed with a read-then-compare: once slots are owned by independent admins, two overlapping bookings are a race across multiple slot documents, which snapshot isolation alone doesn't serialize. A second unique index, ScheduleLock, claims one row per quarter-hour tick inside the same transaction as the booking, so a duplicate key aborts the whole write.",
+    },
     stack: [
       "React",
       "Tailwind CSS",
@@ -212,10 +248,10 @@ export const FLAGSHIP_PROJECTS = [
     ],
     repo: "https://github.com/JACOBIAN01/NSTEP",
     stats: [
-      { k: "Students Supported", v: "300+" },
+      { k: "Students / Release Batch", v: "300+" },
       { k: "Admin-Hours Saved / Batch", v: "~20 (est.)" },
-      { k: "Engineering Phases", v: "133" },
-      { k: "Commits", v: "190" },
+      { k: "Engineering Phases", v: "135" },
+      { k: "Commits", v: "217" },
     ],
   },
 ];
@@ -417,40 +453,6 @@ export const JOB_CERTIFICATES = [
     img: "/certs/Python_SME.jpg",
   },
 ];
-
-export const SKILL_CERTIFICATES = [
-  {
-    title: "Full Stack Developer Bootcamp",
-    platform: "GeeksforGeeks",
-    date: "March 2025",
-    img: "/certs/GFG.jpg",
-    desc: "Completed a 6-week bootcamp covering full-stack development from frontend to backend.",
-  },
-  {
-    title: "System Design Masterclass",
-    platform: "Udemy",
-    date: "July 2025",
-    img: "/certs/System_Design.jpg",
-    desc: "Learned scalable backend design and distributed architecture principles.",
-  },
-  {
-    title: "Data Visualization Bootcamp Using Python",
-    platform: "CSI Chapter, VIT-AP",
-    date: "November 2023",
-    img: "/certs/DS.jpg",
-    desc: "Completed a hands-on bootcamp on data visualization techniques using Python.",
-  },
-  {
-    title: "Oracle Cloud Infrastructure Foundations Associate",
-    platform: "Oracle",
-    date: "July 2025",
-    img: "/certs/Oracle.jpg",
-    desc: "Validated understanding of OCI architecture, compute, and networking.",
-  },
-];
-
-// Certifications confirmed on LinkedIn without an accompanying badge image yet
-export const ADDITIONAL_CERTIFICATIONS = ["Introduction to Generative AI"];
 
 // ------------------ Open Source Contributions ------------------
 // Real, merged PRs to repos not owned by the author, independently verifiable via url.

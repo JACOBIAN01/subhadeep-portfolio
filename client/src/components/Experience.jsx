@@ -6,6 +6,7 @@ import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import Modal from "./Modal";
 import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
+import { TeachingStatsMarquee } from "./StatsStrip";
 import { FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
 import newtonLogo from "../assets/newton.jpeg"
@@ -107,6 +108,13 @@ export default function Experience() {
             </GlassCard>
           ))}
         </div>
+
+        {/* Divider */}
+        <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mt-24 mb-10 text-center">
+          Teaching Impact
+        </h3>
+
+        <TeachingStatsMarquee />
 
         {/* Divider */}
         <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mt-24 mb-10 text-center">

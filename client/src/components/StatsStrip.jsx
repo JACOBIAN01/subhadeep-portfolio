@@ -1,9 +1,11 @@
 // src/components/StatsStrip.jsx
 import { useEffect, useState } from "react";
-import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 
-export default function StatsStrip() {
+// Rendered inside Experience.jsx as a subsection, not its own top-level
+// section, since it restates facts already covered by the EXPERIENCE
+// timeline just above it.
+export function TeachingStatsMarquee() {
   const stats = [
     { k: "Live Sessions", v: 2500, suffix: "+" },
     { k: "Student Rating", v: 4.44, suffix: "/5" },
@@ -14,22 +16,16 @@ export default function StatsStrip() {
   ];
 
   return (
-    <section id="teaching" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
-        <SectionTitle kicker="Teaching & Mentorship" title="Scaled feedback, not just delivery." />
-
-        <Marquee duration={24} gap="gap-6" className="mt-14">
-          {stats.map((s) => (
-            <StatCard key={s.k} s={s} />
-          ))}
-          <div className="flex gap-6" aria-hidden="true" inert={true}>
-            {stats.map((s) => (
-              <StatCard key={`dup-${s.k}`} s={s} />
-            ))}
-          </div>
-        </Marquee>
+    <Marquee duration={24} gap="gap-6">
+      {stats.map((s) => (
+        <StatCard key={s.k} s={s} />
+      ))}
+      <div className="flex gap-6" aria-hidden="true" inert={true}>
+        {stats.map((s) => (
+          <StatCard key={`dup-${s.k}`} s={s} />
+        ))}
       </div>
-    </section>
+    </Marquee>
   );
 }
 

@@ -1,6 +1,5 @@
 // src/components/TechMarquee.jsx
-import Marquee from "./Marquee";
-import { STACK } from "../data/profileData";
+import { STACK_GROUPS, LEETCODE } from "../data/profileData";
 
 function StackItem({ t }) {
   return (
@@ -16,17 +15,28 @@ function StackItem({ t }) {
 export default function TechMarquee() {
   return (
     <div id="stack" className="border-t border-white/10 mt-20 md:mt-28">
-      <div className="mx-auto max-w-6xl px-6 py-10">
-        <Marquee duration={32} gap="gap-12">
-          {STACK.map((t) => (
-            <StackItem key={t.name} t={t} />
-          ))}
-          <div className="flex gap-12" aria-hidden="true" inert={true}>
-            {STACK.map((t) => (
-              <StackItem key={`dup-${t.name}`} t={t} />
-            ))}
+      <div className="mx-auto max-w-6xl px-6 py-10 space-y-6">
+        {STACK_GROUPS.map((group) => (
+          <div key={group.label} className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
+            <span className="w-full sm:w-32 shrink-0 text-[11px] font-medium tracking-wide uppercase text-white/30">
+              {group.label}
+            </span>
+            <div className="flex flex-wrap gap-x-8 gap-y-3">
+              {group.items.map((t) => (
+                <StackItem key={t.name} t={t} />
+              ))}
+            </div>
           </div>
-        </Marquee>
+        ))}
+
+        <a
+          href={LEETCODE.profileUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 text-xs text-white/40 hover:text-white/80 transition-colors duration-500"
+        >
+          {LEETCODE.totalSolved} LeetCode problems solved · {LEETCODE.maxStreak}-day streak ↗
+        </a>
       </div>
     </div>
   );
