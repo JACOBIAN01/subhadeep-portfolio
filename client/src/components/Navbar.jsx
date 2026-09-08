@@ -16,9 +16,7 @@ export default function Navbar() {
   const links = [
     { href: "#projects", label: "Projects" },
     { href: "#experience", label: "Experience" },
-    { href: "#teaching", label: "Teaching" },
     { href: "#stack", label: "Skills" },
-    { href: "#certs", label: "Certificates" },
     { href: "#education", label: "Education" },
     { href: "#contact", label: "Contact" },
   ];
@@ -78,7 +76,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="/Subhadeep_Ghorai_Instructor_Resume.pdf"
+              href="/Subhadeep_Ghorai_SDE_Resume.pdf"
               download
               className="flex items-center gap-1.5 text-[13px] text-ink/70 hover:text-ink transition-colors duration-300"
             >
