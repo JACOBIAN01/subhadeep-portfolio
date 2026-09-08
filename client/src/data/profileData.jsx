@@ -273,6 +273,7 @@ export const EXPERIENCE = [
     org: "Codingal",
     period: "Dec 2023 – Jan 2026",
     bullets: [
+      "Designed and shipped Atlas, an operations platform (React, Node.js, Google Sheets API) replacing manual spreadsheet/Canva workflows for 700+ teachers; onboarded 100+ in first 10 days and automated 168+ certificates.",
       "Mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development.",
       "Achieved a 4.44/5 average rating and 80% student renewal rate through engaging, personalized learning.",
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
