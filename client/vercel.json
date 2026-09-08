@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/resume.pdf",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Subhadeep_Ghorai_SDE_Resume.pdf\""
+        }
+      ]
+    }
+  ]
+}
