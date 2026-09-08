@@ -1,0 +1,226 @@
+\documentclass[letterpaper,10.5pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%----------PAGE MARGINS----------
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1.2in}
+\addtolength{\topmargin}{-.65in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+%----------SECTION FORMATTING----------
+\titleformat{\section}
+{\vspace{-3pt}\scshape\raggedright\large}
+{}{0em}{}
+[\color{black}\titlerule \vspace{-5pt}]
+
+%----------CUSTOM COMMANDS----------
+\newcommand{\resumeItem}[1]{
+\item\small{#1 \vspace{-1pt}}
+}
+
+\newcommand{\resumeSubheading}[4]{
+\vspace{-2pt}\item
+\begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+\textbf{#1} & #2 \\
+\textit{\small#3} & \textit{\small #4} \\
+\end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+\item
+\begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+\small#1 & #2 \\
+\end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[1]{
+\resumeItem{#1}\vspace{-4pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{
+\begin{itemize}[leftmargin=0.15in, label={}]
+}
+
+\newcommand{\resumeSubHeadingListEnd}{
+\end{itemize}
+}
+
+\newcommand{\resumeItemListStart}{
+\begin{itemize}[leftmargin=0.18in, itemsep=-1pt]
+}
+
+\newcommand{\resumeItemListEnd}{
+\end{itemize}\vspace{-4pt}
+}
+
+%-------------------------------------------
+%%%%%% RESUME STARTS HERE %%%%%%
+%-------------------------------------------
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+\textbf{\Huge \scshape Subhadeep Ghorai} \\ \vspace{2pt}
+\small
++91 7029043892 $|$
+\href{mailto:subhadeepghorai23@gmail.com}{subhadeepghorai23@gmail.com} $|$
+\href{https://www.linkedin.com/in/subhadeep-ghorai/}{linkedin.com/in/subhadeep-ghorai} $|$
+\href{https://github.com/JACOBIAN01}{github.com/JACOBIAN01} $|$
+\href{https://www.subhadeepghorai.in/}{subhadeepghorai.in}
+\end{center}
+
+%-----------SUMMARY-----------
+\section{Summary}
+\resumeSubHeadingListStart
+\resumeItem{
+Software Engineer building AI-agent evaluation systems and full-stack platforms on the MERN stack. Shipped a VS Code extension to the Marketplace using Node.js runtime internals, and a merged documentation fix to \texttt{electron/electron}. Experienced in concurrency-safe systems and async execution. Open to SDE / New Grad roles.
+}
+\resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+{Newton School of Technology}{Dec 2025 -- Present}
+{Software Engineer and SME}{}
+\resumeItemListStart
+\resumeItem{
+Built AI-agent evaluation pipelines using Node.js and Claude API to autograde GitHub repos for 441 students in $\sim$110 minutes.
+}
+\resumeItem{
+Designed internal full-stack tools (React, Node.js, Express, MongoDB) for evaluation pipelines and operational workflows across the engineering program.
+}
+\resumeItem{
+Delivered 100+ technical lectures on Electron, React Native , System Design, OOP, and Software Engineering to 500+ engineers; 4.46/5 rating (91.55\% CSAT).
+}
+\resumeItemListEnd
+
+\resumeSubheading
+{Codingal}{Dec 2023 -- Jan 2026}
+{Software Engineer \& Senior Coding Instructor}{Remote}
+\resumeItemListStart
+\resumeItem{
+Designed and shipped \textbf{Atlas}, an operations platform (React, Node.js, Google Sheets API) replacing manual spreadsheet/Canva workflows for 700+ teachers; onboarded 100+ in first 10 days and automated 168+ certificates.
+}
+\resumeItem{
+Mentored 100+ students across 10+ countries through 2,500+ live sessions; promoted to Senior Coding Instructor (4.44/5 rating, 80\% renewal rate).
+}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{
+\href{https://github.com/JACOBIAN01/EventLoop-Studio}{\textbf{EventLoop Studio}}
+$|$ \emph{TypeScript, Node.js vm, Acorn, React, VS Code Extension}
+\href{https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio}{[Marketplace]}
+}{}
+\resumeItemListStart
+\resumeItem{
+Published VS Code extension executing JavaScript in a real Node \texttt{vm} sandbox with native Promise intrinsics for spec-correct async behavior.
+}
+\resumeItem{
+Built scrubbable step-by-step execution replay engine capturing push/pop, console calls, timer/microtask/phase transitions as reconstructable execution steps.
+}
+\resumeItem{
+Modeled browser and Node.js (libuv phases) execution semantics for accurate cross-runtime visualization.
+}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{
+\href{https://github.com/JACOBIAN01/NSTEP}{\textbf{NSTEP -- Internship Evaluation \& Slot-Booking Platform}}
+$|$ \emph{React, Node.js, Express, MongoDB, JWT}
+\href{https://nstep-three.vercel.app/}{[Live]}
+}{}
+\resumeItemListStart
+\resumeItem{
+Engineered concurrency-safe booking system for 300+ students using MongoDB transactions and atomic updates; validated under load (20 simultaneous requests $\rightarrow$ 5 succeed).
+}
+\resumeItem{
+Implemented cross-admin isolation with JWT-based authorization and ScheduleLock mechanism, eliminating scheduling conflicts by design.
+}
+\resumeItem{
+Kept Google Sheets off critical path with async sync and account-based throttling; covered by 206 unit, concurrency, and integration tests.
+}
+\resumeItemListEnd
+
+\resumeProjectHeading
+{
+\href{https://github.com/JACOBIAN01/Application-Development-Course-Management-System}{\textbf{Application Development Course Management System}}
+$|$ \emph{React, Node.js, Express, MongoDB, Authentication}
+}{}
+\resumeItemListStart
+\resumeItem{
+Built full-stack analytics dashboard tracking 832 projects across 200+ students, 5 admins spanning 2 campuses; live metrics on submissions, engagement, and project health.
+}
+\resumeItem{
+Designed concurrency-safe student enrollment and project assignment system; role-based dashboards (student, instructor, admin) with isolated data views.
+}
+\resumeItem{
+Implemented real-time project status tracking with AI chat history, repository submission monitoring, and problem statement bank management serving two institutions.
+}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------OPEN SOURCE-----------
+\section{Open Source}
+\resumeSubHeadingListStart
+\resumeItem{
+\textbf{electron/electron} -- Merged documentation fix (\href{https://github.com/electron/electron/pull/53114}{PR \#53114}) documenting that pending navigation delays \texttt{debugger.sendCommand()} resolution ($\sim$445ms) with timestamped logs .
+}
+\resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\small{\item{
+\textbf{Languages}{: JavaScript, TypeScript, Python, Java} \\[0.3em]
+\textbf{Frontend Architecture}{: React, React Native, Electron; state management, component design patterns} \\[0.3em]
+\textbf{Backend \& Databases}{: Node.js, Express.js, MongoDB, PostgreSQL} \\[0.3em]
+\textbf{Cloud \& Infrastructure}{: AWS, Docker, Kubernetes, GitHub Actions, CI/CD pipelines}
+}}
+\end{itemize}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+\resumeSubheading
+{VIT-AP University}{September, 2026}
+{B.Tech in Electronics and Communication Engineering}{CGPA: 8.52/10}
+\resumeSubHeadingListEnd
+
+\end{document}
