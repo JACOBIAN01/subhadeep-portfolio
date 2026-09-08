@@ -76,7 +76,7 @@ export default function AcademicTimeline() {
           transition={glide}
         />
         <motion.div
-          className="absolute top-[2px] h-4 w-4 rounded-full bg-accent ring-4 ring-canvas shadow-[0_2px_10px_rgba(0,113,227,0.45)]"
+          className="absolute top-0.5 h-4 w-4 rounded-full bg-accent ring-4 ring-canvas shadow-[0_2px_10px_rgba(0,113,227,0.45)]"
           style={{ left: -8 }}
           animate={{ x: ballX }}
           transition={glide}
