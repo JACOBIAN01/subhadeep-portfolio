@@ -76,8 +76,8 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="/Subhadeep_Ghorai_SDE_Resume.pdf"
-              download
+              href="/resume.pdf"
+              download="Subhadeep_Ghorai_Resume.pdf"
               className="flex items-center gap-1.5 text-[13px] text-ink/70 hover:text-ink transition-colors duration-300"
             >
               <IoCloudDownloadOutline className="text-[14px]" aria-hidden="true" />
