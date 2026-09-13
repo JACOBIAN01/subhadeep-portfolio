@@ -134,12 +134,17 @@ export default function Admin() {
       const res = await fetch("/api/stats", {
         headers: { "x-admin-password": password },
       });
-      if (!res.ok) throw new Error("unauthorized");
+      if (res.status === 401) throw new Error("wrong-password");
+      if (!res.ok) throw new Error("server-error");
       const data = await res.json();
       setStats(data);
       sessionStorage.setItem("pf_admin_pw", password);
-    } catch {
-      setError("That password didn't work.");
+    } catch (e) {
+      setError(
+        e.message === "wrong-password"
+          ? "That password didn't work."
+          : "The stats couldn't load — the Redis database probably isn't connected yet (check Vercel Storage settings)."
+      );
       sessionStorage.removeItem("pf_admin_pw");
     } finally {
       setLoading(false);
