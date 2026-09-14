@@ -26,6 +26,8 @@ export default async function handler(req, res) {
       newVisitors,
       returningVisitors,
       uniqueVisitors,
+      clicks,
+      rawSessions,
     ] = await Promise.all([
       redis.get("analytics:total"),
       redis.hgetall("analytics:days"),
@@ -39,7 +41,19 @@ export default async function handler(req, res) {
       redis.get("analytics:new"),
       redis.get("analytics:returning"),
       redis.scard("analytics:visitors"),
+      redis.hgetall("analytics:clicks"),
+      redis.lrange("analytics:sessions", 0, 49),
     ]);
+
+    const recentSessions = (rawSessions || [])
+      .map((entry) => {
+        try {
+          return JSON.parse(entry);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
 
     res.status(200).json({
       total: total || 0,
@@ -54,6 +68,8 @@ export default async function handler(req, res) {
       newVisitors: newVisitors || 0,
       returningVisitors: returningVisitors || 0,
       uniqueVisitors: uniqueVisitors || 0,
+      clicks: clicks || {},
+      recentSessions,
     });
   } catch {
     res.status(500).json({ error: "failed to load stats" });

@@ -5,6 +5,7 @@ import { PROFILE } from "../data/profileData";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { IoCloudDownloadOutline, IoClose, IoMenu } from "react-icons/io5";
+import { trackClick } from "../hooks/useTrackVisit";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -78,6 +79,7 @@ export default function Navbar() {
             <a
               href="/resume.pdf"
               download="Subhadeep_Ghorai_SDE_Resume.pdf"
+              onClick={() => trackClick("resume")}
               className="flex items-center gap-1.5 text-[13px] text-ink/70 hover:text-ink transition-colors duration-300"
             >
               <IoCloudDownloadOutline className="text-[14px]" aria-hidden="true" />
@@ -87,6 +89,7 @@ export default function Navbar() {
               href={PROFILE.github}
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackClick("github")}
               className="text-ink/70 hover:text-ink transition-colors duration-300"
               aria-label="GitHub"
             >
@@ -96,6 +99,7 @@ export default function Navbar() {
               href={PROFILE.linkedin}
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackClick("linkedin")}
               className="rounded-full bg-ink text-white px-4 py-1.5 text-[13px] font-medium hover:bg-black transition-colors duration-300"
             >
               Connect
@@ -152,10 +156,22 @@ export default function Navbar() {
               ))}
 
               <div className="flex items-center gap-6 mt-6 text-subtle">
-                <a href={PROFILE.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+                <a
+                  href={PROFILE.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackClick("github")}
+                  aria-label="GitHub"
+                >
                   <FaGithub className="text-2xl" aria-hidden="true" />
                 </a>
-                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <a
+                  href={PROFILE.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackClick("linkedin")}
+                  aria-label="LinkedIn"
+                >
                   <FaLinkedin className="text-2xl" aria-hidden="true" />
                 </a>
               </div>

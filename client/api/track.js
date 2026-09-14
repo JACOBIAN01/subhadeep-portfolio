@@ -53,6 +53,77 @@ function parseBrowser(ua) {
   return "Other";
 }
 
+const MAX_SESSIONS = 200;
+const CLICK_KINDS = new Set(["resume", "github", "linkedin"]);
+
+async function handlePageview(body, req) {
+  const { path = "/", referrer = "", visitorId } = body;
+  const ua = req.headers["user-agent"] || "";
+  const country = req.headers["x-vercel-ip-country"] || "Unknown";
+  const today = new Date().toISOString().slice(0, 10);
+
+  await Promise.all([
+    redis.incr("analytics:total"),
+    redis.hincrby("analytics:days", today, 1),
+    redis.hincrby("analytics:paths", path, 1),
+    redis.hincrby("analytics:referrers", bucketReferrer(referrer), 1),
+    redis.hincrby("analytics:countries", country, 1),
+    redis.hincrby("analytics:devices", parseDevice(ua), 1),
+    redis.hincrby("analytics:browsers", parseBrowser(ua), 1),
+    redis.hincrby("analytics:os", parseOS(ua), 1),
+  ]);
+
+  if (visitorId) {
+    const added = await redis.sadd("analytics:visitors", visitorId);
+    await redis.incr(added ? "analytics:new" : "analytics:returning");
+  }
+}
+
+async function handleClick(body) {
+  const { kind } = body;
+  if (!CLICK_KINDS.has(kind)) return;
+  await redis.hincrby("analytics:clicks", kind, 1);
+}
+
+async function handleSession(body, req) {
+  const {
+    visitorId,
+    referrer = "",
+    duration = 0,
+    sections = [],
+    resumeDownloaded = false,
+    githubClicked = false,
+    linkedinClicked = false,
+  } = body;
+
+  const ua = req.headers["user-agent"] || "";
+  const country = req.headers["x-vercel-ip-country"] || "Unknown";
+  const seconds = Number.isFinite(duration) ? Math.max(0, Math.round(duration)) : 0;
+  const durationBucket = bucketDuration(seconds);
+
+  const record = {
+    ts: Date.now(),
+    visitorId: visitorId || null,
+    country,
+    device: parseDevice(ua),
+    browser: parseBrowser(ua),
+    os: parseOS(ua),
+    referrerSource: bucketReferrer(referrer),
+    sections: Array.isArray(sections) ? sections.slice(0, 20) : [],
+    durationSeconds: seconds,
+    durationBucket,
+    resumeDownloaded: !!resumeDownloaded,
+    githubClicked: !!githubClicked,
+    linkedinClicked: !!linkedinClicked,
+  };
+
+  await Promise.all([
+    redis.hincrby("analytics:durations", durationBucket, 1),
+    redis.lpush("analytics:sessions", JSON.stringify(record)),
+  ]);
+  await redis.ltrim("analytics:sessions", 0, MAX_SESSIONS - 1);
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).end();
@@ -67,33 +138,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (typeof body.duration === "number" && Number.isFinite(body.duration)) {
-      await redis.hincrby("analytics:durations", bucketDuration(body.duration), 1);
-      res.status(204).end();
-      return;
+    switch (body.type) {
+      case "click":
+        await handleClick(body);
+        break;
+      case "session":
+        await handleSession(body, req);
+        break;
+      default:
+        await handlePageview(body, req);
     }
-
-    const { path = "/", referrer = "", visitorId } = body;
-    const ua = req.headers["user-agent"] || "";
-    const country = req.headers["x-vercel-ip-country"] || "Unknown";
-    const today = new Date().toISOString().slice(0, 10);
-
-    await Promise.all([
-      redis.incr("analytics:total"),
-      redis.hincrby("analytics:days", today, 1),
-      redis.hincrby("analytics:paths", path, 1),
-      redis.hincrby("analytics:referrers", bucketReferrer(referrer), 1),
-      redis.hincrby("analytics:countries", country, 1),
-      redis.hincrby("analytics:devices", parseDevice(ua), 1),
-      redis.hincrby("analytics:browsers", parseBrowser(ua), 1),
-      redis.hincrby("analytics:os", parseOS(ua), 1),
-    ]);
-
-    if (visitorId) {
-      const added = await redis.sadd("analytics:visitors", visitorId);
-      await redis.incr(added ? "analytics:new" : "analytics:returning");
-    }
-
     res.status(204).end();
   } catch {
     res.status(500).json({ error: "tracking failed" });
