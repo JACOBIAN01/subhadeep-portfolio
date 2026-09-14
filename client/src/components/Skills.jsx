@@ -3,7 +3,7 @@ import TechMarquee from "./TechMarquee";
 
 export default function Skills() {
   return (
-    <section className="bg-black text-white py-20 md:py-28">
+    <section id="stack" className="bg-black text-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-sm font-medium tracking-wide text-accent mb-3">
           Skills

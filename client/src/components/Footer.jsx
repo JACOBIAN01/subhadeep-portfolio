@@ -1,6 +1,7 @@
 // src/components/Footer.jsx
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { PROFILE } from "../data/profileData";
+import { trackClick } from "../hooks/useTrackVisit";
 
 export default function Footer() {
   return (
@@ -14,6 +15,7 @@ export default function Footer() {
             href={PROFILE.github}
             target="_blank"
             rel="noreferrer"
+            onClick={() => trackClick("github")}
             className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
             <FaGithub aria-hidden="true" /> GitHub
@@ -22,6 +24,7 @@ export default function Footer() {
             href={PROFILE.linkedin}
             target="_blank"
             rel="noreferrer"
+            onClick={() => trackClick("linkedin")}
             className="hover:text-ink transition-colors duration-300 inline-flex items-center gap-2"
           >
             <FaLinkedin aria-hidden="true" /> LinkedIn
