@@ -1,46 +1,11 @@
-import { useEffect, useRef } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
+import AutoplayVideo from "./AutoplayVideo";
 import { PROJECTS, FLAGSHIP_PROJECTS } from "../data/profileData";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const EASE = [0.16, 1, 0.3, 1];
-
-// Plays only while actually in view: sidesteps browsers that don't reliably
-// honor the autoplay attribute, and skips decoding video that's off-screen.
-function DemoVideo({ clip, label }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const video = ref.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
-        else video.pause();
-      },
-      { threshold: 0.25 }
-    );
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <video
-      ref={ref}
-      src={clip.src}
-      poster={clip.poster}
-      aria-label={label}
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      className="w-full h-auto"
-    />
-  );
-}
 
 const PROJECT_DETAILS = {
   "SESD-Agent: LLM Orchestration for Grading at Scale": {
@@ -156,7 +121,7 @@ export default function Projects() {
                     key={i}
                     className="rounded-2xl border border-hairline overflow-hidden bg-canvas-alt"
                   >
-                    <DemoVideo clip={clip} label={`${project.name} demo ${i + 1}`} />
+                    <AutoplayVideo clip={clip} label={`${project.name} demo ${i + 1}`} />
                   </div>
                 ))}
               </div>

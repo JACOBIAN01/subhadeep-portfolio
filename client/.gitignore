@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw source recordings (1GB+); the web-ready cuts live in src/assets
+src/video/

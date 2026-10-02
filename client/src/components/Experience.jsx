@@ -5,7 +5,8 @@ import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import Modal from "./Modal";
-import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
+import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION, TEACHING_CLIPS } from "../data/profileData";
+import AutoplayVideo from "./AutoplayVideo";
 import { TeachingStatsMarquee } from "./StatsStrip";
 import { FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
@@ -113,6 +114,37 @@ export default function Experience() {
         <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mt-24 mb-10 text-center">
           Teaching Impact
         </h3>
+
+        <p className="text-center mb-8">
+          <span className="text-base font-medium text-ink">
+            Moments from 100+ lectures and workshops
+          </span>
+          <span className="block sm:inline text-sm text-subtle sm:ml-2 mt-1 sm:mt-0">
+            <span className="hidden sm:inline">· </span>
+            System Design, Electron, Node.js, CLI tooling
+          </span>
+        </p>
+
+        <div className="grid sm:grid-cols-2 gap-6 mb-16">
+          {TEACHING_CLIPS.map((clip, i) => (
+            <motion.figure
+              key={clip.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: EASE, delay: (i % 2) * 0.08 }}
+              className="rounded-3xl border border-hairline bg-white overflow-hidden"
+            >
+              <div className="bg-canvas-alt">
+                <AutoplayVideo clip={clip} label={clip.title} />
+              </div>
+              <figcaption className="p-5">
+                <div className="text-base font-medium text-ink">{clip.title}</div>
+                <div className="text-sm text-subtle mt-1">{clip.context}</div>
+              </figcaption>
+            </motion.figure>
+          ))}
+        </div>
 
         <TeachingStatsMarquee />
 

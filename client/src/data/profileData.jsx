@@ -14,6 +14,18 @@ import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
 import EventLoopDemo1Poster from "../assets/EventLoopDemo1-poster.jpg";
 import EventLoopDemo2 from "../assets/EventLoopDemo2.mp4";
 import EventLoopDemo2Poster from "../assets/EventLoopDemo2-poster.jpg";
+import TeachingWhiteboard from "../assets/Teaching-Whiteboard.mp4";
+import TeachingWhiteboardAV1 from "../assets/Teaching-Whiteboard-av1.mp4";
+import TeachingWhiteboardPoster from "../assets/Teaching-Whiteboard-poster.webp";
+import TeachingIPC from "../assets/Teaching-IPC.mp4";
+import TeachingIPCAV1 from "../assets/Teaching-IPC-av1.mp4";
+import TeachingIPCPoster from "../assets/Teaching-IPC-poster.webp";
+import TeachingLiveCoding from "../assets/Teaching-LiveCoding.mp4";
+import TeachingLiveCodingAV1 from "../assets/Teaching-LiveCoding-av1.mp4";
+import TeachingLiveCodingPoster from "../assets/Teaching-LiveCoding-poster.webp";
+import TeachingCodeWalkthrough from "../assets/Teaching-CodeWalkthrough.mp4";
+import TeachingCodeWalkthroughAV1 from "../assets/Teaching-CodeWalkthrough-av1.mp4";
+import TeachingCodeWalkthroughPoster from "../assets/Teaching-CodeWalkthrough-poster.webp";
 
 import {
   SiExpress,
@@ -278,6 +290,40 @@ export const EXPERIENCE = [
       "Achieved a 4.44/5 average rating and 80% student renewal rate through engaging, personalized learning.",
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
+  },
+];
+
+// Silent 8-10s seamless loops cut from classroom recordings (the source
+// captures have no audio track), so each clip carries its own caption instead.
+// Each ships as AV1 (smaller) with an H.264 fallback, both 1280x720.
+export const TEACHING_CLIPS = [
+  {
+    title: "Electron IPC from first principles",
+    context: "Sketching main vs. renderer processes before writing any code",
+    src: TeachingWhiteboard,
+    av1: TeachingWhiteboardAV1,
+    poster: TeachingWhiteboardPoster,
+  },
+  {
+    title: "Fire-and-forget vs. request/response",
+    context: "Building up send/on and invoke/handle on the board",
+    src: TeachingIPC,
+    av1: TeachingIPCAV1,
+    poster: TeachingIPCPoster,
+  },
+  {
+    title: "Live-coding a CLI with Commander.js",
+    context: "Subcommands, flags, and options, typed in front of the room",
+    src: TeachingLiveCoding,
+    av1: TeachingLiveCodingAV1,
+    poster: TeachingLiveCodingPoster,
+  },
+  {
+    title: "Reading real code together",
+    context: "Walking a cohort through a project backend line by line",
+    src: TeachingCodeWalkthrough,
+    av1: TeachingCodeWalkthroughAV1,
+    poster: TeachingCodeWalkthroughPoster,
   },
 ];
 
