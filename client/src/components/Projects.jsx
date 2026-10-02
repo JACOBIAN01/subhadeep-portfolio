@@ -7,58 +7,6 @@ import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 const EASE = [0.16, 1, 0.3, 1];
 
-const PROJECT_DETAILS = {
-  "SESD-Agent: LLM Orchestration for Grading at Scale": {
-    title: "SESD-Agent: LLM Orchestration for Grading at Scale",
-    desc: `SESD-Agent orchestrates three separate Claude API pipelines, a Project Evaluator, a Case Study Evaluator, and a non-LLM Streak Evaluator, that read GitHub repos, Drive reports, and contribution APIs, then write scores straight back to a shared Google Sheet.`,
-    features: [
-      "Project Evaluator: reads each student's GitHub repo, identifies required docs (idea.md and 4 UML diagrams), and scores backend/frontend quality out of 10; 441 students graded in about 110 minutes",
-      "Case Study Evaluator: scores research depth, clarity, and real-world impact out of 5 from a Drive report or blog post; 154 case studies graded in about 40 minutes",
-      "Streak Evaluator: pulls GitHub, LeetCode, and Codeforces contribution calendars directly (no LLM involved) and converts the longest coding streak into a 0-10 score in about 500ms per student",
-      "Every score writes straight back to the same Google Sheet the cohort already tracks",
-    ],
-    stack: [
-      "Node.js",
-      "Claude API",
-      "GitHub API",
-      "Google Sheets API",
-      "LeetCode API",
-      "Codeforces API",
-    ],
-    link: "https://github.com/JACOBIAN01/SESD-Agent",
-  },
-  "AD Portal: Course Platform with Tamper-Proof Evaluation": {
-    title: "AD Portal: Course Platform with Tamper-Proof Evaluation",
-    desc: `AD Portal pulls development activity and evaluation evidence, commits, viva marks, and problem statements, out of GitHub, Google Sheets, and manual review into one consistent, tamper-proof view per student, so progress is never just self-reported.`,
-    features: [
-      "Four tracked project slots per student, each moving through Not Started → Problem Selected → Repository Submitted → In Progress → Completed",
-      "A read-only, week-bucketed commit timeline built from real GitHub history, with per-commit diff detail",
-      "Commit sync runs on a scheduled GitHub Actions workflow rather than an in-process timer, since Render's free tier sleeps idle services",
-      "Captured commits are immutable evaluation evidence; the one documented exception (a repository change) clears that project's history inside a single database transaction",
-    ],
-    stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Mongoose", "JWT"],
-    link: "https://github.com/JACOBIAN01/AD-Portal",
-    live: "https://nst-ad.vercel.app",
-  },
-  "Atlas: Internal Operations Platform for Teacher Training": {
-    title: "Atlas: Internal Operations Platform for Teacher Training",
-    desc: "Atlas replaced a Google Form and a Canva workflow for Codingal's 700+ teacher training organisation: teachers submit training modules, admins track completions, and certificates are generated and issued automatically.",
-    features: [
-      "Module submission and completion tracking for a 700+ teacher organisation",
-      "Automated certificate generation across 37 distinct specializations",
-      "Rework-flagging pipeline surfaces low-quality submissions before certification",
-      "Runs at $0/month infrastructure cost on Vercel + Google Sheets/Apps Script",
-    ],
-    stack: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
-    link: "https://github.com/JACOBIAN01/Atlas",
-  },
-};
-
-const VITAL_LABELS = {
-  good: "text-emerald-600 bg-emerald-50",
-  poor: "text-rose-600 bg-rose-50",
-};
-
 function slugify(title) {
   return title
     .split(":")[0]
@@ -68,25 +16,20 @@ function slugify(title) {
 }
 
 export default function Projects() {
-  const allProjects = PROJECTS.map((p) => {
-    const d = PROJECT_DETAILS[p.name];
-    return {
-      id: slugify(d.title),
-      title: d.title,
-      desc: d.desc,
-      image: d.image,
-      features: d.features,
-      tags: d.stack,
-      codeLink: d.link,
-      liveLink: d.live,
-      stats: p.stats,
-      webVitals: p.webVitals,
-    };
-  });
+  const allProjects = PROJECTS.map((p) => ({
+    id: p.slug,
+    title: p.name,
+    desc: p.desc,
+    image: p.image,
+    tags: p.stack.slice(0, 6),
+    codeLink: p.repo,
+    liveLink: p.live,
+    stats: p.stats,
+  }));
 
   return (
     <section id="projects" className="bg-canvas-alt">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Selected Work" title="Projects" />
 
         {/* --- Flagship case studies --- */}
@@ -194,6 +137,13 @@ export default function Projects() {
                 <FaGithub aria-hidden="true" /> View Code
               </a>
 
+              <a
+                href={`/work/${slugify(project.name)}`}
+                className="inline-flex items-center gap-2 text-sm text-accent hover:text-ink transition-colors duration-300"
+              >
+                Read case study &rarr;
+              </a>
+
               {project.marketplace && (
                 <a
                   href={project.marketplace}
@@ -252,19 +202,6 @@ export default function Projects() {
                   {p.desc}
                 </p>
 
-                {p.features && (
-                  <ul className="mt-6 space-y-2">
-                    {p.features.map((f) => (
-                      <li
-                        key={f}
-                        className="flex items-start gap-3 text-sm text-subtle leading-relaxed"
-                      >
-                        <span className="mt-2 h-1 w-1 rounded-full bg-faint shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                )}
 
                 {p.stats && (
                   <div className="mt-6 grid grid-cols-2 gap-4 border-t border-hairline pt-6">
@@ -279,23 +216,6 @@ export default function Projects() {
                   </div>
                 )}
 
-                {p.webVitals && (
-                  <div className="mt-6 border-t border-hairline pt-6">
-                    <div className="text-xs font-medium text-subtle mb-3 uppercase tracking-wide">
-                      Core Web Vitals
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {p.webVitals.map((v) => (
-                        <span
-                          key={v.k}
-                          className={`px-2.5 py-1 rounded-full text-xs font-medium ${VITAL_LABELS[v.status]}`}
-                        >
-                          {v.k} {v.v}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 <div className="mt-6 flex flex-wrap gap-2">
                   {p.tags.map((t) => (
@@ -316,6 +236,13 @@ export default function Projects() {
                     className="flex items-center gap-2 text-sm text-ink hover:text-accent transition-colors duration-300"
                   >
                     <FaGithub aria-hidden="true" /> View Code
+                  </a>
+
+                  <a
+                    href={`/work/${p.id}`}
+                    className="flex items-center gap-2 text-sm text-accent hover:text-ink transition-colors duration-300"
+                  >
+                    Case study &rarr;
                   </a>
 
                   {p.liveLink && (

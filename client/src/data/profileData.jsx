@@ -7,7 +7,7 @@ import {
   FaGithub,
   FaLinkedin,
   FaEnvelope,
-  FaPhoneAlt,
+  FaCalendarAlt,
 } from "react-icons/fa";
 
 import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
@@ -48,10 +48,10 @@ import {
 export const PROFILE = {
   name: "Subhadeep Ghorai",
   title:
-    "Software Engineer @ Newton School of Technology · Building AI Agents in MERN · System Design Educator to 300+ Engineers (4.44/5 ★ & 91.55% CSAT) · Cloud & DevOps",
+    "Software Engineer @ Newton School of Technology · System Design Educator to 500+ Engineers (4.44/5 ★ & 91.55% CSAT)",
   location: "Kolkata, West Bengal, India",
   email: "subhadeepghorai23@gmail.com",
-  phone: "+91 7029043892",
+  booking: "https://calendly.com/subhadeepghorai23/30min",
   github: "https://github.com/JACOBIAN01",
   linkedin: "https://www.linkedin.com/in/subhadeep-ghorai/",
   summary:
@@ -65,15 +65,15 @@ export const ABOUT = {
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
-    "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building AI-agent evaluation pipelines on the MERN stack and teaching System Design across 9 batches.",
+    "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building LLM evaluation pipelines on the MERN stack and teaching System Design across 10+ batches.",
     "Before this, I spent two years at Codingal (Teacher Trainee to Teacher Mentor), mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
     "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
   ],
   highlights: [
-    "4.44/5 instructor rating across 569 student responses (91.55% CSAT), 9 batches, 97 lectures at Newton School of Technology",
+    "4.44/5 instructor rating across 569 student responses (91.55% CSAT), 10+ batches, 100+ lectures at Newton School of Technology",
     "Built Repo-Score-V2 and WAP-Agent, AI evaluation pipelines automating 150+ GitHub PR reviews; resolved 99 student grievances individually",
     "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
-    "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.44/5 rating",
+    "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.46/5 rating",
   ],
   languages: [
     "Bengali: Native",
@@ -145,6 +145,14 @@ export const PROJECTS = [
     name: "SESD-Agent: LLM Orchestration for Grading at Scale",
     desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes.",
     tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
+    slug: "sesd-agent",
+    features: [
+      "Project Evaluator: reads each student's GitHub repo, identifies required docs (idea.md and 4 UML diagrams), and scores backend/frontend quality out of 10; 441 students graded in about 110 minutes",
+      "Case Study Evaluator: scores research depth, clarity, and real-world impact out of 5 from a Drive report or blog post; 154 case studies graded in about 40 minutes",
+      "Streak Evaluator: pulls GitHub, LeetCode, and Codeforces contribution calendars directly (no LLM involved) and converts the longest coding streak into a 0-10 score in about 500ms per student",
+      "Every score writes straight back to the same Google Sheet the cohort already tracks",
+    ],
+    stack: ["Node.js", "Claude API", "GitHub API", "Google Sheets API", "LeetCode API", "Codeforces API", ],
     repo: "https://github.com/JACOBIAN01/SESD-Agent",
     stats: [
       { k: "Students Graded", v: "441" },
@@ -154,15 +162,23 @@ export const PROJECTS = [
     ],
   },
   {
-    name: "AD Portal: Course Platform with Tamper-Proof Evaluation",
+    name: "ADCMS: Course Platform with Tamper-Proof Evaluation",
     desc: "An internal platform for running an Application Development course: students submit a GitHub repo per project, teachers evaluate progress against an immutable commit history, and admins configure sync and manage the roster.",
     tech: ["React", "Node.js", "Express", "MongoDB"],
-    repo: "https://github.com/JACOBIAN01/AD-Portal",
+    slug: "adcms",
+    features: [
+      "Four tracked project slots per student, each moving through Not Started → Problem Selected → Repository Submitted → In Progress → Completed",
+      "A read-only, week-bucketed commit timeline built from real GitHub history, with per-commit diff detail",
+      "Commit sync runs on a scheduled GitHub Actions workflow rather than an in-process timer, since Render's free tier sleeps idle services",
+      "Captured commits are immutable evaluation evidence; the one documented exception (a repository change) clears that project's history inside a single database transaction",
+    ],
+    stack: ["React", "Vite", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Mongoose", "JWT"],
+    repo: "https://github.com/JACOBIAN01/Application-Development-Course-Management-System",
     live: "https://nst-ad.vercel.app",
     stats: [
-      { k: "Students Tracked", v: "195" },
-      { k: "Projects Tracked", v: "804" },
-      { k: "Problem Statement Bank", v: "436" },
+      { k: "Students Tracked", v: "501" },
+      { k: "Projects Tracked", v: "2,028" },
+      { k: "Problem Statement Bank", v: "485" },
       { k: "Campuses Live", v: "2" },
     ],
   },
@@ -170,6 +186,14 @@ export const PROJECTS = [
     name: "Atlas: Internal Operations Platform for Teacher Training",
     desc: "An internal operations platform built for Codingal's 700+ teacher training organisation, replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
     tech: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
+    slug: "atlas",
+    features: [
+      "Module submission and completion tracking for a 700+ teacher organisation",
+      "Automated certificate generation across 37 distinct specializations",
+      "Rework-flagging pipeline surfaces low-quality submissions before certification",
+      "Runs at $0/month infrastructure cost on Vercel + Google Sheets/Apps Script",
+    ],
+    stack: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
     repo: "https://github.com/JACOBIAN01/Atlas",
     stats: [
       { k: "Teachers Submitting", v: "~105" },
@@ -215,57 +239,6 @@ export const FLAGSHIP_PROJECTS = [
       { src: EventLoopDemo2, poster: EventLoopDemo2Poster },
     ],
   },
-  {
-    name: "NSTEP: Internship Evaluation Portal",
-    tagline:
-      "A slot-booking and evaluation platform engineered for real concurrency, designed to handle 300+ Newton School of Technology 5th-semester students per release batch ahead of its first live cohort.",
-    problem:
-      "Multiple admins manage independent evaluation sessions at once, booking students five to a slot; capacity, scheduling, and cross-admin conflicts all had to be enforced automatically instead of resolved by hand over a shared spreadsheet.",
-    highlights: [
-      {
-        name: "Atomic Capacity Enforcement",
-        desc: "MongoDB transactions and atomic conditional updates eliminate the read-modify-write race during high-contention bookings, rather than treating booking as a simple CRUD operation.",
-        stat: "20 simultaneous booking requests tested against a single slot; exactly 5 succeed",
-      },
-      {
-        name: "Cross-Admin Isolation",
-        desc: "A unique ScheduleLock mechanism prevents overlapping bookings across independently managed admin sessions; JWT plus server-side authorization stops any admin from touching another admin's data.",
-        stat: "Zero cross-admin scheduling conflicts by design",
-      },
-      {
-        name: "Resilient Sync & Login",
-        desc: "Google Sheets stays off the critical booking path, so a failed sync is persisted and retried automatically instead of losing a booking; account-based login throttling stops shared campus IPs from causing mass lockouts.",
-        stat: "210 tests across unit, concurrency, and integration suites",
-      },
-    ],
-    design: {
-      problem:
-        "By default, MongoDB's session.withTransaction() silently retries a write-conflicted transaction for up to two minutes, a behavior confirmed by inspecting the driver source after chasing intermittent test hangs.",
-      decision:
-        "Applied a bounded timeoutMS on every booking transaction, so a losing request now fails fast with a typed, retryable error instead of hanging indefinitely.",
-      reasoning:
-        "Cross-admin double-booking couldn't be closed with a read-then-compare: once slots are owned by independent admins, two overlapping bookings are a race across multiple slot documents, which snapshot isolation alone doesn't serialize. A second unique index, ScheduleLock, claims one row per quarter-hour tick inside the same transaction as the booking, so a duplicate key aborts the whole write.",
-    },
-    stack: [
-      "React",
-      "Tailwind CSS",
-      "Vite",
-      "Node.js",
-      "Express (single Vercel function)",
-      "MongoDB",
-      "Mongoose",
-      "Google Sheets API",
-      "JWT (httpOnly cookie)",
-      "node --test",
-    ],
-    repo: "https://github.com/JACOBIAN01/NSTEP",
-    stats: [
-      { k: "Students / Release Batch", v: "300+" },
-      { k: "Admin-Hours Saved / Batch", v: "~20 (est.)" },
-      { k: "Engineering Phases", v: "135" },
-      { k: "Commits", v: "217" },
-    ],
-  },
 ];
 
 export const EXPERIENCE = [
@@ -274,10 +247,10 @@ export const EXPERIENCE = [
     org: "Newton School of Technology",
     period: "Dec 2025 – Present",
     bullets: [
-      "Built and deployed AI Agent-powered evaluation systems, including RepoScore-V2 and WAP-Agent, automating assessment workflows.",
+      "Built and deployed LLM-powered evaluation pipelines, including RepoScore-V2 and WAP-Agent, automating assessment workflows.",
       "Designed and developed internal tools and full-stack applications using the MERN stack, contributing to project evaluation pipelines, learning platforms, and operational efficiency initiatives.",
-      "Delivered 100+ lectures across 3 engineering cohorts, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.",
-      "Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for 300+ aspiring software engineers.",
+      "Delivered 100+ lectures across 10+ batches, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.",
+      "Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for 500+ aspiring software engineers.",
     ],
   },
   {
@@ -287,7 +260,7 @@ export const EXPERIENCE = [
     bullets: [
       "Designed and shipped Atlas, an operations platform (React, Node.js, Google Sheets API) replacing manual spreadsheet/Canva workflows for 700+ teachers; onboarded 100+ in first 10 days and automated 168+ certificates.",
       "Mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development.",
-      "Achieved a 4.44/5 average rating and 80% student renewal rate through engaging, personalized learning.",
+      "Achieved a 4.46/5 average rating and 80% student renewal rate through engaging, personalized learning.",
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
   },
@@ -450,9 +423,9 @@ export const CONTACTS = [
     icon: <FaEnvelope />,
   },
   {
-    label: PROFILE.phone,
-    href: `tel:${PROFILE.phone.replace(/\s/g, "")}`,
-    icon: <FaPhoneAlt />,
+    label: "Book a 30-min call",
+    href: PROFILE.booking,
+    icon: <FaCalendarAlt />,
   },
 ];
 
@@ -463,7 +436,7 @@ export const JOB_CERTIFICATES = [
     title: "Certificate of Excellence – Codingal Inc.",
     org: "Codingal Inc.",
     date: "July 2024",
-    metric: "2,500+ live sessions • 4.44★ rating",
+    metric: "2,500+ live sessions • 4.46★ rating",
     desc: "Recognized for outstanding mentorship, innovation, and global educational impact.",
     img: "/certs/Coding_Instructor.jpg",
   },

@@ -41,7 +41,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Let's Build" title="Contact" />
 
         <div className="grid md:grid-cols-3 gap-12 md:gap-8">
@@ -50,18 +50,21 @@ export default function Contact() {
             onSubmit={handleSubmit}
             className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            <input name="name" placeholder="Your Name" required className={fieldClass} />
+            <input name="name" aria-label="Your name" autoComplete="name" placeholder="Your Name" required className={fieldClass} />
             <input
               name="email"
+              aria-label="Your email"
+              autoComplete="email"
               type="email"
               placeholder="Your Email"
               required
               className={fieldClass}
             />
-            <input name="company" placeholder="Company" className={fieldClass} />
-            <input name="role" placeholder="Role" className={fieldClass} />
+            <input name="company" aria-label="Company" autoComplete="organization" placeholder="Company" className={fieldClass} />
+            <input name="role" aria-label="Role" placeholder="Role" className={fieldClass} />
             <textarea
               name="message"
+              aria-label="Message"
               rows={5}
               placeholder="Tell me about the project..."
               required
@@ -74,16 +77,16 @@ export default function Contact() {
               {status === "pending" ? "Sending..." : "Send Email"}
             </button>
 
-            {status === "success" && (
-              <div className="md:col-span-2 text-sm text-emerald-600">
-                Message sent successfully!
-              </div>
-            )}
-            {status === "error" && (
-              <div className="md:col-span-2 text-sm text-rose-500">
-                Oops, something went wrong. Try again later.
-              </div>
-            )}
+            <div role="status" aria-live="polite" className="md:col-span-2 text-sm">
+              {status === "success" && (
+                <span className="text-emerald-600">Message sent successfully!</span>
+              )}
+              {status === "error" && (
+                <span className="text-rose-500">
+                  Oops, something went wrong. Try again later.
+                </span>
+              )}
+            </div>
           </form>
 
           {/* Contact Links */}
@@ -93,8 +96,9 @@ export default function Contact() {
                 key={c.label}
                 className="group flex items-center justify-between py-4 first:pt-0 text-ink hover:text-accent transition-colors duration-300"
                 href={c.href}
-                target="_blank"
-                rel="noreferrer"
+                {...(c.href.startsWith("http")
+                  ? { target: "_blank", rel: "noreferrer" }
+                  : {})}
               >
                 <div className="flex items-center gap-3">
                   <span

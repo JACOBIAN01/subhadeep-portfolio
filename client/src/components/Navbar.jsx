@@ -5,7 +5,6 @@ import { PROFILE } from "../data/profileData";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { IoCloudDownloadOutline, IoClose, IoMenu } from "react-icons/io5";
-import { trackClick } from "../hooks/useTrackVisit";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -13,6 +12,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const closeButtonRef = useRef(null);
+  const menuRef = useRef(null);
 
   const links = [
     { href: "#projects", label: "Projects" },
@@ -35,6 +35,18 @@ export default function Navbar() {
 
     const onKeyDown = (e) => {
       if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Tab") return;
+      const items = menuRef.current?.querySelectorAll("a[href], button");
+      if (!items?.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -43,7 +55,7 @@ export default function Navbar() {
   return (
     <>
       <a
-        href="#home"
+        href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-60 focus:rounded-full focus:bg-ink focus:text-white focus:px-4 focus:py-2 focus:text-sm"
       >
         Skip to main content
@@ -77,19 +89,9 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-5">
             <a
-              href="/resume.pdf"
-              download="Subhadeep_Ghorai_SDE_Resume.pdf"
-              onClick={() => trackClick("resume")}
-              className="flex items-center gap-1.5 text-[13px] text-ink/70 hover:text-ink transition-colors duration-300"
-            >
-              <IoCloudDownloadOutline className="text-[14px]" aria-hidden="true" />
-              Resume
-            </a>
-            <a
               href={PROFILE.github}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackClick("github")}
               className="text-ink/70 hover:text-ink transition-colors duration-300"
               aria-label="GitHub"
             >
@@ -99,10 +101,19 @@ export default function Navbar() {
               href={PROFILE.linkedin}
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackClick("linkedin")}
-              className="rounded-full bg-ink text-white px-4 py-1.5 text-[13px] font-medium hover:bg-black transition-colors duration-300"
+              className="text-ink/70 hover:text-ink transition-colors duration-300"
+              aria-label="LinkedIn"
             >
-              Connect
+              <FaLinkedin className="text-[16px]" aria-hidden="true" />
+            </a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 rounded-full bg-ink text-white px-4 py-1.5 text-[13px] font-medium hover:bg-black transition-colors duration-300"
+            >
+              <IoCloudDownloadOutline className="text-[14px]" aria-hidden="true" />
+              Resume
             </a>
           </div>
 
@@ -119,6 +130,7 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
@@ -160,7 +172,6 @@ export default function Navbar() {
                   href={PROFILE.github}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => trackClick("github")}
                   aria-label="GitHub"
                 >
                   <FaGithub className="text-2xl" aria-hidden="true" />
@@ -169,7 +180,6 @@ export default function Navbar() {
                   href={PROFILE.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => trackClick("linkedin")}
                   aria-label="LinkedIn"
                 >
                   <FaLinkedin className="text-2xl" aria-hidden="true" />

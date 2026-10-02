@@ -1,5 +1,5 @@
 // src/components/Marquee.jsx
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "framer-motion";
 
@@ -7,6 +7,7 @@ export default function Marquee({ children, duration = 26, gap = "gap-6", classN
   const x = useMotionValue(0);
   const trackRef = useRef(null);
   const isPaused = useRef(false);
+  const [userPaused, setUserPaused] = useState(false);
   const wrapWidth = useRef(0);
   const prefersReducedMotion = useReducedMotion();
 
@@ -27,7 +28,7 @@ export default function Marquee({ children, duration = 26, gap = "gap-6", classN
   }, [children]);
 
   useAnimationFrame((_, delta) => {
-    if (isPaused.current || prefersReducedMotion) return;
+    if (isPaused.current || userPaused || prefersReducedMotion) return;
     const width = wrapWidth.current;
     if (!width) return;
 
@@ -42,7 +43,17 @@ export default function Marquee({ children, duration = 26, gap = "gap-6", classN
       className={`relative overflow-hidden ${className}`}
       onMouseEnter={() => (isPaused.current = true)}
       onMouseLeave={() => (isPaused.current = false)}
+      onFocus={() => (isPaused.current = true)}
+      onBlur={() => (isPaused.current = false)}
     >
+      <button
+        type="button"
+        onClick={() => setUserPaused((v) => !v)}
+        aria-pressed={userPaused}
+        className="absolute top-2 right-2 z-10 rounded-full bg-white/90 border border-hairline px-3 py-1 text-xs text-ink opacity-0 focus:opacity-100 hover:opacity-100 transition-opacity duration-300"
+      >
+        {userPaused ? "Play" : "Pause"} animation
+      </button>
       <motion.div ref={trackRef} style={{ x }} className={`flex ${gap} w-max`}>
         {children}
       </motion.div>

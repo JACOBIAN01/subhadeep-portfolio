@@ -19,7 +19,7 @@ const RATING_STYLES = {
 export default function Testimonials() {
   return (
     <section id="testimonials" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Student Voices" title="What Students Say" />
         <p className="text-[15px] text-subtle -mt-8 mb-4 max-w-xl">
           Real feedback from live System Design and engineering sessions at
@@ -32,7 +32,7 @@ export default function Testimonials() {
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
+          {[TESTIMONIALS[0], TESTIMONIALS[5], TESTIMONIALS[4]].map((t, i) => (
             <motion.div
               key={t.quote}
               initial={{ opacity: 0, y: 24 }}

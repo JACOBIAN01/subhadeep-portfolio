@@ -8,7 +8,7 @@ const EASE = [0.16, 1, 0.3, 1];
 export default function About() {
   return (
     <section id="about" className="bg-canvas">
-      <div className="mx-auto max-w-3xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <div className="space-y-3 md:space-y-4">
           {ABOUT.lead.map((line, i) => (
             <motion.p

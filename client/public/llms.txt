@@ -1,31 +1,26 @@
 # Subhadeep Ghorai
 
-> Software Engineer at Newton School of Technology building AI Agents on the MERN stack, and a System Design Educator who has taught 300+ engineers (4.44/5 rating, 91.55% CSAT). Based in Kolkata, West Bengal, India.
-
-I build reliable, scalable web products end-to-end with React, Node.js, and Cloud. I love shipping polished UX, clean APIs, and mentoring devs. Currently open to Software Engineer and technical-mentorship-adjacent roles.
-
-## Background
-
-Three years ago I started teaching coding part-time; across 2,500+ live sessions in 10+ countries, explaining System Design to beginners forced a level of clarity that writing code alone never does. Before that, as Senior Coding Instructor at Codingal, I taught AI/ML, Python, and Web Dev fundamentals to 100+ students across 10+ countries with an 80% renewal rate. I've built and shipped AI-agent evaluation pipelines (RepoScore, WAP-Agent) on the MERN stack, architected and deployed end-to-end: System Design applied to real engineering work, not a whiteboard exercise.
+> Software Engineer at Newton School of Technology building LLM evaluation pipelines on the MERN stack, and a System Design instructor who has taught 500+ engineers (4.44/5 instructor rating across 569 student responses, 91.55% CSAT). Based in Kolkata, West Bengal, India. Seeking SDE and new-grad roles.
 
 ## Experience
 
-- Instructor & Software Engineer, Newton School of Technology (Dec 2025 – Present): built and deployed AI Agent-powered evaluation systems (RepoScore-V2, WAP-Agent); delivered 100+ lectures across 3 engineering cohorts in System Design, OOP, and scalable architecture for 300+ aspiring software engineers.
-- Teacher Mentor & Senior Coding Instructor, Codingal (Dec 2023 – Jan 2026): mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development; 4.44/5 average rating, 80% renewal rate.
+- Instructor & Software Engineer, Newton School of Technology (Dec 2025 – Present): built and deployed LLM-powered evaluation pipelines (RepoScore-V2, WAP-Agent); delivered 100+ lectures across 10+ batches in System Design, OOP, Software Engineering and Design Patterns.
+- Teacher Mentor & Senior Coding Instructor, Codingal (Dec 2023 – Jan 2026): mentored 100+ students across 10+ countries through 2,500+ live coding sessions; built Atlas, an internal operations platform for a 700+ teacher organisation; 4.46/5 rating, 80% renewal rate.
 
 ## Projects
 
-- [EventLoop Studio](https://github.com/JACOBIAN01/EventLoop-Studio): Flagship project. A VS Code extension, published on the VS Code Marketplace, that runs your own JavaScript inside a real Node vm sandbox and replays the Call Stack, Heap, microtasks, timers, and libuv phases step by step. See the case study at https://www.subhadeepghorai.in/#eventloop-studio.
-- [SESD-Agent](https://github.com/JACOBIAN01/SESD-Agent): Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes with zero manual review hours. See https://www.subhadeepghorai.in/#sesd-agent.
-- [AD Portal](https://github.com/JACOBIAN01/AD-Portal) (live: https://nst-ad.vercel.app): An internal course platform where students submit a GitHub repo per project and evaluation runs against an immutable commit history. See https://www.subhadeepghorai.in/#ad-portal.
-- [Terminal Lab Arena](https://github.com/JACOBIAN01/terminal-lab-arena) (live: https://terminal-lab-arena.nstsdc.org/): An in-browser Linux terminal playground teaching command-line basics through story-driven missions, built for a live computer-lab session with about 200 students. See https://www.subhadeepghorai.in/#terminal-lab-arena.
-- [SmartReviewX](https://github.com/JACOBIAN01/SmartReviewX): Automated project review pipeline cutting review time from 3 minutes to 6–7 seconds using Python, Flask, and Selenium WebDriver. See https://www.subhadeepghorai.in/#smartreviewx.
-- [AEVM](https://github.com/JACOBIAN01): IoT-enabled secure e-voting system with biometric auth, instant cloud-synced results, and React dashboards; published research on electoral integrity via biometric verification. See https://www.subhadeepghorai.in/#aevm.
-- [Jana Academy](https://github.com/JACOBIAN01/jana-academy-web) (live: https://jana-academy.vercel.app/): A live academy platform with Google OAuth login, a real-time Quiz Arena, and a role-based admin dashboard. See https://www.subhadeepghorai.in/#jana-academy.
+- [EventLoop Studio](https://www.subhadeepghorai.in/work/eventloop-studio): VS Code extension, published on the Marketplace, that runs your own JavaScript in a real Node vm sandbox and replays the call stack, microtasks, timers and libuv phases step by step. Code: https://github.com/JACOBIAN01/EventLoop-Studio
+- [SESD-Agent](https://www.subhadeepghorai.in/work/sesd-agent): three orchestrated Claude API pipelines that grade GitHub repos, case studies and coding streaks; 441 students graded in about 110 minutes. Code: https://github.com/JACOBIAN01/SESD-Agent
+- [ADCMS](https://www.subhadeepghorai.in/work/adcms) (live: https://nst-ad.vercel.app): course platform where teachers evaluate students against an immutable GitHub commit history. Code: https://github.com/JACOBIAN01/Application-Development-Course-Management-System
+- [Atlas](https://www.subhadeepghorai.in/work/atlas): internal operations platform that replaced a Google Form and Canva workflow; 168 certificates automated. Code: https://github.com/JACOBIAN01/Atlas
+
+## Open source
+
+- Merged documentation PR to electron/electron clarifying debugger.sendCommand timing and empty-result behavior: https://github.com/electron/electron/pull/53114
 
 ## Skills
 
-React, Node.js, Express.js, TypeScript, JavaScript, Python, Java, MongoDB, MySQL, Firebase, Tailwind CSS, Redux, Framer Motion, Socket.IO, AWS, Docker, Kubernetes, Terraform, Git, GitHub Actions, Linux, Nginx, Jenkins.
+JavaScript, TypeScript, React, Tailwind CSS, Framer Motion, Vite, Node.js, Express.js, MongoDB, Mongoose, Claude API, GitHub API, Google Sheets API, JWT, Git, GitHub Actions, Vercel, Data Structures & Algorithms, System Design.
 
 ## Contact
 
