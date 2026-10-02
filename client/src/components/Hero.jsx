@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { PROFILE } from "../data/profileData";
 import { IoArrowForward } from "react-icons/io5";
 import Image from "../assets/self.webp";
-import { trackClick } from "../hooks/useTrackVisit";
 const EASE = [0.16, 1, 0.3, 1];
 
 const PROOF = [
@@ -69,7 +68,6 @@ export default function Hero() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => trackClick("resume")}
                 className="text-sm text-white/70 hover:text-white transition-colors duration-300"
               >
                 Resume

@@ -22,7 +22,7 @@ A single-page portfolio plus four case-study pages, built to give a recruiter or
 | Styling | Tailwind CSS v4 (CSS-first `@theme`) |
 | Motion | Framer Motion, `prefers-reduced-motion` respected via one `MotionConfig` |
 | Font | Inter Variable, self-hosted (`@fontsource-variable/inter`) |
-| Hosting | Vercel (static build + a few serverless functions in `client/api`) |
+| Hosting | Vercel (static build), with Vercel Analytics |
 | CI | GitHub Actions: lint + build |
 
 ## Run it
@@ -36,13 +36,11 @@ npm run lint
 npm run resume:build   # compile resume/resume.tex with tectonic and copy to public/resume.pdf
 ```
 
-Copy `client/.env.example` to `client/.env.local` and set `ADMIN_PASSWORD` and `KV_REDIS_URL` only if you want the `/admin` analytics dashboard locally.
 
 ## Structure
 
 ```text
 client/
-├── api/                    # Vercel functions: track (visit analytics), stats (admin, password-gated)
 ├── public/                 # certs, resume.pdf, og/ share images, robots, sitemap, llms.txt
 ├── scripts/prerender.mjs   # post-build: per-case-study HTML with its own title/OG tags + sitemap
 └── src/
