@@ -1,13 +1,12 @@
 // src/components/Journey.jsx
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
-import AcademicTimeline from "./AcademicTimeline";
 import { EDUCATION } from "../data/journeyData";
 
 export default function Journey() {
   return (
     <section id="education" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Education" title="Academic background." />
         <GlassCard>
           <div className="flex items-start justify-between flex-wrap gap-2">
@@ -34,10 +33,6 @@ export default function Journey() {
             <div className="text-xs text-faint text-right">
               {EDUCATION.totalCredits} credits &middot; {EDUCATION.totalCourses} courses
             </div>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-hairline">
-            <AcademicTimeline />
           </div>
         </GlassCard>
       </div>

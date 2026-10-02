@@ -1,4 +1,25 @@
+import { timingSafeEqual } from "node:crypto";
 import { redis } from "./_redis.js";
+
+function safeEqual(a, b) {
+  const x = Buffer.from(String(a));
+  const y = Buffer.from(String(b));
+  return x.length === y.length && timingSafeEqual(x, y);
+}
+
+// Best-effort per-instance throttle; serverless instances don't share memory,
+// so this slows brute force but is not a hard limit.
+const attempts = new Map();
+const WINDOW_MS = 60_000;
+const MAX_ATTEMPTS = 5;
+
+function tooManyAttempts(ip) {
+  const now = Date.now();
+  const recent = (attempts.get(ip) || []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  attempts.set(ip, recent);
+  return recent.length > MAX_ATTEMPTS;
+}
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -6,8 +27,14 @@ export default async function handler(req, res) {
     return;
   }
 
+  const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
   const password = req.headers["x-admin-password"];
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!password || !expected || !safeEqual(password, expected)) {
+    if (tooManyAttempts(ip)) {
+      res.status(429).json({ error: "too many attempts" });
+      return;
+    }
     res.status(401).json({ error: "unauthorized" });
     return;
   }

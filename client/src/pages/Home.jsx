@@ -6,20 +6,22 @@ import About from "../components/About";
 import Projects from "../components/Projects";
 import OpenSource from "../components/OpenSource";
 import Experience from "../components/Experience";
+import Testimonials from "../components/Testimonials";
 import Journey from "../components/Journey";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main id="main">
       <Navbar />
       <Hero />
-      <Skills />
-      <About />
       <Projects />
       <OpenSource />
       <Experience />
+      <Testimonials />
+      <About />
+      <Skills />
       <Journey />
       <Contact />
       <Footer />

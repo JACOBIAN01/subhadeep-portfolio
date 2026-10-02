@@ -50,13 +50,26 @@ function ContributionCard({ c }) {
 export default function OpenSource() {
   return (
     <section id="open-source" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Open Source" title="Open Source Contribution" />
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          {OPEN_SOURCE_CONTRIBUTIONS.map((c) => (
-            <ContributionCard key={c.url} c={c} />
+        <ContributionCard c={OPEN_SOURCE_CONTRIBUTIONS[0]} />
+        <ul className="mt-6 divide-y divide-hairline">
+          {OPEN_SOURCE_CONTRIBUTIONS.slice(1).map((c) => (
+            <li key={c.url}>
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between gap-4 py-4 text-sm text-ink hover:text-accent transition-colors duration-300"
+              >
+                <span>
+                  <span className="text-subtle">{c.repo}</span> &middot; {c.title}
+                </span>
+                <FaExternalLinkAlt aria-hidden="true" className="text-xs shrink-0" />
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

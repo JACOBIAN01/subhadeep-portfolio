@@ -25,7 +25,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="bg-canvas">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:py-36">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <SectionTitle kicker="Career" title="Experience & Recognitions" />
 
         {/* --- Experience Timeline --- */}

@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display",
+  --font-sans: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "Segoe UI", Helvetica, Arial, sans-serif;
 
   --color-ink: #1d1d1f;
   --color-subtle: #6e6e73;
-  --color-faint: #86868b;
+  --color-faint: #75757b;
   --color-hairline: #d2d2d7;
   --color-canvas: #fbfbfd;
   --color-canvas-alt: #f5f5f7;
-  --color-accent: #0071e3;
+  --color-accent: #0066cc;
 }
 
 html,

@@ -3,8 +3,18 @@
 import { motion } from "framer-motion";
 import { PROFILE } from "../data/profileData";
 import { IoArrowForward } from "react-icons/io5";
-import Image from "../assets/self.jpeg";
+import Image from "../assets/self.webp";
+import { trackClick } from "../hooks/useTrackVisit";
 const EASE = [0.16, 1, 0.3, 1];
+
+const PROOF = [
+  {
+    label: "VS Code Marketplace extension",
+    href: "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
+  },
+  { label: "Merged PR in electron/electron", href: "https://github.com/electron/electron/pull/53114" },
+  { label: "441 repos graded in ~110 min", href: "https://github.com/JACOBIAN01/SESD-Agent" },
+];
 
 export default function Hero() {
   return (
@@ -26,14 +36,12 @@ export default function Hero() {
               Open to work
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
+            {/* No fade-in on the h1: it is the LCP element and must paint with the first render. */}
+            <h1
               className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05]"
             >
-              Building AI Agents on the MERN Stack
-            </motion.h1>
+              I build tools that grade, schedule and teach at scale.
+            </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
@@ -41,7 +49,8 @@ export default function Hero() {
               transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
               className="mt-6 text-xl md:text-2xl text-white/55 max-w-lg mx-auto md:mx-0 font-normal leading-relaxed"
             >
-              Software Engineer @ Newton School of Technology · System Design Educator to 300+ Engineers
+              Software Engineer & System Design instructor at Newton School of Technology.
+              Seeking SDE and new-grad roles.
             </motion.p>
 
             <motion.div
@@ -57,6 +66,15 @@ export default function Hero() {
                 View My Work
               </a>
               <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackClick("resume")}
+                className="text-sm text-white/70 hover:text-white transition-colors duration-300"
+              >
+                Resume
+              </a>
+              <a
                 href="#contact"
                 className="group flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-300"
               >
@@ -67,6 +85,26 @@ export default function Hero() {
                 />
               </a>
             </motion.div>
+
+            <motion.ul
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: EASE, delay: 0.4 }}
+              className="mt-10 flex flex-wrap items-center md:justify-start justify-center gap-2"
+            >
+              {PROOF.map((p) => (
+                <li key={p.label}>
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/70 hover:text-white hover:border-white/40 transition-colors duration-300"
+                  >
+                    {p.label} ↗
+                  </a>
+                </li>
+              ))}
+            </motion.ul>
           </div>
 
           {/* -------- RIGHT: full, uncropped portrait -------- */}
@@ -79,8 +117,8 @@ export default function Hero() {
               <img
                 src={Image}
                 alt={PROFILE.name}
-                width={1280}
-                height={1280}
+                width={1040}
+                height={1040}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -90,9 +128,7 @@ export default function Hero() {
 
             <div className="mt-6 text-center">
               <p className="text-lg font-medium text-white">{PROFILE.name}</p>
-              <p className="text-sm text-white/50 mt-2 max-w-xl mx-auto leading-relaxed">
-                {PROFILE.title}
-              </p>
+              <p className="text-sm text-white/50 mt-1">{PROFILE.location}</p>
             </div>
           </motion.div>
         </div>

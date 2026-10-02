@@ -25,3 +25,7 @@ dist-ssr
 
 # Raw source recordings (1GB+); the web-ready cuts live in src/assets
 src/video/
+
+# Raw screen recordings live outside the repo
+src/video
+*.mov
