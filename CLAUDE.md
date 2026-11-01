@@ -9,11 +9,17 @@ the only shared state**. Pull before you start and push when you finish.
 
 | Area | Owner | Rule |
 |---|---|---|
-| `client/src/content/blog/**` | Decoded agent | Posts. VS Code Claude should not edit these. |
-| `client/src/components/blog/**` | Decoded agent | Blog layout, diagrams and demos. |
+| `client/src/content/**` | Decoded agent | Posts and their data helpers. VS Code Claude should not edit these. |
+| `client/src/components/blog/**` | Decoded agent | Blog layout, figures, `article.css`. |
+| `client/scripts/{prerender-blog,check-blog,og}.mjs` | Decoded agent | Blog build steps. |
 | `client/public/og/blog-*.png` | Decoded agent | Generated, do not hand-edit. |
-| Everything else in `client/src` | VS Code Claude | Home page, case studies, shared components. |
-| `client/src/App.jsx`, `scripts/prerender.mjs`, `vercel.json`, this file | Shared | Change only via a pull request, never a direct push to `main`. |
+| Everything else in `client/` | VS Code Claude | Home page, case studies, shared components, `index.css`, `scripts/prerender.mjs`, `vercel.json`. |
+| `client/src/App.jsx`, `client/package.json`, this file | Shared | Change only via a pull request, never a direct push to `main`. |
+
+The blog is deliberately isolated: it touches only three lines of shared code (one lazy
+import and one route branch in `App.jsx`, the `build` script in `package.json`) plus one
+nav link. Keep it that way. Blog styles live in `components/blog/article.css`, not
+`index.css`; blog prerendering lives in `scripts/prerender-blog.mjs`, not `prerender.mjs`.
 
 Both: never push to `main` directly. Branch, open a PR, let Vercel build the preview.
 Log anything another agent would be surprised by in `docs/CHANGELOG-agents.md`.
@@ -22,31 +28,41 @@ Log anything another agent would be surprised by in `docs/CHANGELOG-agents.md`.
 
 React 19 + Vite 7, Tailwind v4 (CSS-first `@theme` in `src/index.css`), Framer Motion,
 self-hosted Inter (UI) and Source Serif 4 (article text). Static build on Vercel.
-No router library: `src/App.jsx` matches `window.location.pathname`, and
-`scripts/prerender.mjs` writes a real HTML file per route after the build.
+No router library: `src/App.jsx` matches `window.location.pathname`. After the Vite
+build, `scripts/prerender.mjs` writes per-route HTML for case studies and the sitemap,
+then `scripts/prerender-blog.mjs` validates posts, writes the blog pages, adds them to
+the sitemap and writes `rss.xml`.
 
 ```bash
 cd client
 npm install
 npm run dev      # local dev server
-npm run build    # vite build + prerender (per-route HTML, sitemap, RSS)
+npm run build    # vite build + both prerender steps; fails on an invalid blog post
 npm run lint     # must pass; CI runs it
-node scripts/og.mjs   # regenerate blog social cards (needs playwright locally)
+node scripts/check-blog.mjs   # validate blog posts in a second, no build
+node scripts/og.mjs           # regenerate blog social cards (needs playwright locally)
 ```
 
-## Adding a blog post
+## Adding a blog post: data only, no code
+
+**Read `docs/blog-authoring.md` first.** It is the full reference for every block and
+figure spec, with copy-paste examples.
 
 1. Create `client/src/content/blog/<slug>.js` exporting `{ meta, blocks }`. Plain JS, no
    JSX and no asset imports: `scripts/prerender.mjs` imports it in Node.
 2. Register it in `client/src/content/blog/index.js` (newest first).
-3. New figures: add the component under `client/src/components/blog/diagrams/` (or
-   `demos/`) and map its id in `client/src/components/blog/registry.jsx`.
-4. `node scripts/og.mjs` to make the social card, and commit the PNG.
+3. Diagrams and demos are **data**: `{ t: "figure", kind: "flow" | "compare" | "split" |
+   "gate", … }`. Do not write a component for one post.
+4. `node scripts/check-blog.mjs` (seconds), then `node scripts/og.mjs` for the social card.
 5. `npm run lint && npm run build`, then check `/blog/<slug>` in the preview.
 
-Every block type used in content must be handled in **both** `components/blog/Blocks.jsx`
-(the React render) and `scripts/prerender.mjs` (the crawler-visible HTML). If you add a
-block type, add it to both or crawlers silently lose that content.
+`npm run build` validates every post (`src/content/blog/validate.js`) and **fails** on a
+bad one, with the exact block and field named. That is the safety net for unattended runs.
+
+Only when a story truly needs a picture none of the four kinds can draw: add a new
+generic `kind` (component + `figures/index.jsx` + validator + docs), never a one-off. A new
+block *type* must be handled in `components/blog/Blocks.jsx`, `scripts/prerender-blog.mjs`
+and `src/content/blog/validate.js`, or crawlers silently lose that content.
 
 ## Writing rules for posts
 

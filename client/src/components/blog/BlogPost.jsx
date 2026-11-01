@@ -2,6 +2,7 @@
 // and figures that break out wider than the text.
 // The reading serif is imported here, not in main.jsx, so it only loads on /blog routes.
 import "@fontsource-variable/source-serif-4";
+import "./article.css";
 import { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
@@ -104,7 +105,7 @@ export default function BlogPost({ slug }) {
             {post.title}
           </h1>
 
-          <p className="mt-5 font-serif text-[1.3rem] leading-[1.5] text-subtle">{post.dek}</p>
+          <p className="mt-5 font-reading text-[1.3rem] leading-[1.5] text-subtle">{post.dek}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 border-y border-hairline py-4">
             <img

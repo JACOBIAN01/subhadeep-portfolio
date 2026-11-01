@@ -4,7 +4,7 @@ import { Fragment } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { tokenize, slugId } from "../../content/inline";
-import { getFigure } from "./registry";
+import FigureSpec from "./figures";
 
 /** Inline **bold**, `code` and [links](href). */
 export function Inline({ text }) {
@@ -41,15 +41,6 @@ function Figure({ caption, children }) {
       </motion.div>
       {caption && <figcaption>{caption}</figcaption>}
     </figure>
-  );
-}
-
-function MissingFigure({ id, alt }) {
-  return (
-    <div className="rounded-2xl border border-dashed border-hairline bg-canvas-alt p-6 font-sans text-[13px] text-subtle">
-      <strong className="text-ink">Figure “{id}” is not registered.</strong>
-      <p className="mt-1">{alt}</p>
-    </div>
   );
 }
 
@@ -178,15 +169,12 @@ export default function Blocks({ blocks }) {
           </figure>
         );
 
-      case "diagram":
-      case "demo": {
-        const Figure_ = getFigure(b.id);
+      case "figure":
         return (
           <Figure key={i} caption={b.caption}>
-            {Figure_ ? <Figure_ /> : <MissingFigure id={b.id} alt={b.alt} />}
+            <FigureSpec spec={b} />
           </Figure>
         );
-      }
 
       case "keytakeaway":
         return (

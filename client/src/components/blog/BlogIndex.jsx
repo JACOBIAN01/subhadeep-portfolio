@@ -1,5 +1,6 @@
 // /blog — the post list.
 import "@fontsource-variable/source-serif-4";
+import "./article.css";
 import { useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
@@ -38,7 +39,7 @@ export default function BlogIndex() {
           <h1 className="font-sans text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
             Writing
           </h1>
-          <p className="mt-5 max-w-xl font-serif text-[1.25rem] leading-relaxed text-subtle">
+          <p className="mt-5 max-w-xl font-reading text-[1.25rem] leading-relaxed text-subtle">
             Long-form explainers of one trending tech story a week, from zero, with diagrams you
             can watch and demos you can run.
           </p>
@@ -69,7 +70,7 @@ export default function BlogIndex() {
                 {post.title}
               </h2>
 
-              <p className="mt-3 max-w-2xl font-serif text-[1.0625rem] leading-relaxed text-subtle">
+              <p className="mt-3 max-w-2xl font-reading text-[1.0625rem] leading-relaxed text-subtle">
                 {post.dek}
               </p>
 
