@@ -6,7 +6,7 @@ import SectionTitle from "./SectionTitle";
 import Marquee from "./Marquee";
 import Modal from "./Modal";
 import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION, TEACHING_CLIPS } from "../data/profileData";
-import AutoplayVideo from "./AutoplayVideo";
+import TeachingReel from "./TeachingReel";
 import { TeachingStatsMarquee } from "./StatsStrip";
 import { FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
@@ -125,26 +125,7 @@ export default function Experience() {
           </span>
         </p>
 
-        <div className="grid sm:grid-cols-2 gap-6 mb-16">
-          {TEACHING_CLIPS.map((clip, i) => (
-            <motion.figure
-              key={clip.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.7, ease: EASE, delay: (i % 2) * 0.08 }}
-              className="rounded-3xl border border-hairline bg-white overflow-hidden"
-            >
-              <div className="bg-canvas-alt">
-                <AutoplayVideo clip={clip} label={clip.title} />
-              </div>
-              <figcaption className="p-5">
-                <div className="text-base font-medium text-ink">{clip.title}</div>
-                <div className="text-sm text-subtle mt-1">{clip.context}</div>
-              </figcaption>
-            </motion.figure>
-          ))}
-        </div>
+        <TeachingReel clips={TEACHING_CLIPS} />
 
         <TeachingStatsMarquee />
 

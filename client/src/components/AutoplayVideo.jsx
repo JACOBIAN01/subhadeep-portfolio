@@ -31,9 +31,17 @@ export default function AutoplayVideo({ clip, label }) {
       preload="metadata"
       className="w-full h-auto"
     >
-      {/* AV1 first for browsers that can decode it; H.264 plays everywhere else. */}
+      <VideoSources clip={clip} />
+    </video>
+  );
+}
+
+// AV1 first for browsers that can decode it; H.264 plays everywhere else.
+export function VideoSources({ clip }) {
+  return (
+    <>
       {clip.av1 && <source src={clip.av1} type='video/mp4; codecs="av01.0.05M.10"' />}
       <source src={clip.src} type="video/mp4" />
-    </video>
+    </>
   );
 }
