@@ -1,6 +1,6 @@
 {
   "title": "How $6.3 billion left Binance without anyone stealing a key",
-  "dek": "The largest crypto theft on record did not start with a cracked password or a stolen vault key. It started with one engineer's laptop, and a system that did exactly what it was told.",
+  "dek": "The largest crypto theft on record did not start with a cracked password or a stolen vault key. Binance says it may have started with one engineer's laptop, and a system that did exactly what it was told.",
   "description": "An explainer from zero: hot and cold wallets, why a withdrawal is really a signature, the confused-deputy problem behind the $6.3 billion Binance theft, and why $3 billion of it could be frozen while the rest could not.",
   "date": "2026-11-01",
   "updated": "2026-11-01",
@@ -33,11 +33,15 @@
         },
         {
           "when": "30 Oct",
-          "what": "Binance says the incident likely began with a compromised laptop belonging to a DevOps engineer, and that it has found no evidence of a private key leak. Tether, Circle and others freeze roughly $3 billion on-chain."
+          "what": "Binance says the incident may have begun with a compromised laptop belonging to a DevOps engineer, and that it has found no evidence of a private key leak. Tether, Circle and others freeze roughly $3 billion on-chain."
         },
         {
           "when": "31 Oct",
           "what": "The FBI attributes the theft to TraderTraitor, a unit linked to North Korea. Binance says it has reserved enough assets to cover about 90% of the losses and will cover the rest."
+        },
+        {
+          "when": "1 Nov",
+          "what": "Binance starts restoring withdrawals in phases and says it has replaced about 95% of the stolen assets. It still has not published a root cause."
         }
       ]
     },
@@ -183,7 +187,7 @@
     {
       "t": "callout",
       "kind": "documented",
-      "c": "Binance says the attacker likely got in through a **compromised DevOps engineer's laptop**, reaching a service container used to submit withdrawals, and that there is **no evidence of a private key leak**. Analysts have described the pattern as the attacker causing Binance's own systems to sign transactions, rather than stealing keys outright.",
+      "c": "Binance says the attack may have started with a **compromised DevOps engineer's laptop**, from which the attacker reached a service container used to submit withdrawals. It has also reported further points of breach, and says there is **no evidence of a private key leak**. Analysts have described the pattern as the attacker causing Binance's own systems to sign transactions, rather than stealing keys outright.",
       "src": "Binance via ABC News and BleepingComputer; The Hacker News"
     },
     {
@@ -395,6 +399,10 @@
         {
           "label": "Binance breach: figures, freezes and attribution (The Hacker News)",
           "href": "https://thehackernews.com/2026/10/binance-suffers-security-breach.html"
+        },
+        {
+          "label": "Binance opens withdrawals in phases after the theft (CoinDesk, 1 Nov)",
+          "href": "https://www.coindesk.com/markets/2026/11/01/binance-opens-crypto-withdrawals-in-phases-starting-with-bitcoin-following-usd6-3-billion-hack"
         },
         {
           "label": "Elliptic: analysis of the largest crypto theft on record",
