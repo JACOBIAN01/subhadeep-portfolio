@@ -4,7 +4,7 @@ import { MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import Home from "./pages/Home";
 const CaseStudy = lazy(() => import("./components/CaseStudy"));
-const Blog = lazy(() => import("./components/blog/Blog"));
+const Blog = lazy(() => import("./pages/Blog"));
 import "./index.css";
 
 export default function App() {

@@ -1,0 +1,407 @@
+{
+  "slug": "binance-6-3-billion",
+  "title": "How $6.3 billion left Binance without anyone stealing a key",
+  "dek": "The largest crypto theft on record did not start with a cracked password or a stolen vault key. It started with one engineer's laptop, and a system that did exactly what it was told.",
+  "description": "An explainer from zero: hot and cold wallets, why a withdrawal is really a signature, the confused-deputy problem behind the $6.3 billion Binance theft, and why $3 billion of it could be frozen while the rest could not.",
+  "date": "2026-11-02",
+  "updated": "2026-11-02",
+  "tags": [
+    "Security",
+    "Crypto",
+    "Systems"
+  ],
+  "series": "Decoded",
+  "seriesNo": "04",
+  "blocks": [
+    {
+      "t": "lead",
+      "c": "On 29 October 2026, somebody moved roughly $6.3 billion out of the world's largest crypto exchange. Binance says no private key was leaked. Both of those things are true at once, and the reason why is one of the most useful ideas in computer security."
+    },
+    {
+      "t": "p",
+      "c": "If you have never touched crypto, do not skip this. The bug class here is not about crypto at all. It is about what happens when a program is allowed to act on your behalf, and somebody else learns how to ask it nicely. You will meet this in web apps, in CI pipelines, in cloud IAM, and in every AI agent being built right now."
+    },
+    {
+      "t": "h2",
+      "c": "What actually happened"
+    },
+    {
+      "t": "timeline",
+      "items": [
+        {
+          "when": "29 Oct",
+          "what": "Unauthorised withdrawals leave Binance. Binance later estimates the impact at about $6.3 billion and temporarily suspends deposits and withdrawals."
+        },
+        {
+          "when": "30 Oct",
+          "what": "Binance says the incident likely began with a compromised laptop belonging to a DevOps engineer, and that it has found no evidence of a private key leak. Tether, Circle and others freeze roughly $3 billion on-chain."
+        },
+        {
+          "when": "31 Oct",
+          "what": "The FBI attributes the theft to TraderTraitor, a unit linked to North Korea. Binance says it has reserved enough assets to cover about 90% of the losses and will cover the rest."
+        }
+      ]
+    },
+    {
+      "t": "callout",
+      "kind": "documented",
+      "c": "Binance's estimate is about **$6.3 billion**. Chainalysis put the value at the time of theft at about **$5.91 billion**; Elliptic at about **$6.43 billion**. Any of those is comfortably the largest crypto theft on record: the previous largest, the Bybit theft of February 2025, was around **$1.5 billion**.",
+      "src": "Binance statement via ABC News; The Hacker News, citing Chainalysis and Elliptic"
+    },
+    {
+      "t": "p",
+      "c": "Binance's co-CEO Richard Teng said the attack \"was not a single 'one-click' action\". Binance has said it found further points of breach and has not published a root cause. So everything below explains the **class** of failure that fits the facts released so far, not a reconstruction of the attack. When Binance publishes its post-mortem, I will update this page."
+    },
+    {
+      "t": "h2",
+      "c": "First, where an exchange keeps your coins"
+    },
+    {
+      "t": "p",
+      "c": "When you buy crypto on an exchange, you usually do not hold it. The exchange does, and it owes you a balance, the way a bank owes you the number in your passbook. It keeps those coins in two very different places."
+    },
+    {
+      "t": "figure",
+      "kind": "split",
+      "label": "Where an exchange keeps customer funds",
+      "panes": [
+        {
+          "kicker": "Cold wallet",
+          "title": "The vault",
+          "body": "Keys kept offline. Slow to open, on purpose. Most customer funds sleep here.",
+          "icon": "lock",
+          "tone": "blue",
+          "share": 95,
+          "shareLabel": "most funds"
+        },
+        {
+          "kicker": "Hot wallet",
+          "title": "The till",
+          "body": "Online so withdrawals pay out instantly. Holds a working balance, not everything.",
+          "icon": "unlock",
+          "tone": "orange",
+          "share": 5,
+          "shareLabel": "a working balance"
+        }
+      ],
+      "mover": "₿",
+      "out": "pays out to you",
+      "caption": "Cold wallet and hot wallet. Most of the money sleeps; a little works the counter. Our build: illustrative proportions.",
+      "alt": "A cold wallet holds most customer funds offline, with keys kept off the internet, and is slow to use deliberately. A hot wallet holds a small working balance online so that withdrawals can be paid out instantly. Exchanges keep most funds cold and refill the hot wallet as needed."
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Cold wallet.** The vault. Keys are kept offline, often on dedicated hardware in a safe. Moving money out is deliberately slow and involves people. Most customer funds live here.",
+        "**Hot wallet.** The cash register. Connected to the internet so that when you hit withdraw at 2am, the coins actually arrive. It holds a working balance, not everything."
+      ]
+    },
+    {
+      "t": "p",
+      "c": "This split is good design. It is the same reason a shop keeps the day's float in the till and the rest in the night safe. The trade-off is that the till has to be reachable by software, because the whole point is that it answers automatically."
+    },
+    {
+      "t": "h2",
+      "c": "A withdrawal is not a transfer. It is a signature."
+    },
+    {
+      "t": "p",
+      "c": "Here is the part most explanations skip. On a blockchain there is no database row holding your balance that somebody can edit. A transaction is a message that says \"move 2 ETH from address A to address B\", and it is only valid if it carries a **digital signature** produced by the private key for address A."
+    },
+    {
+      "t": "p",
+      "c": "A private key is just a very large secret number. The signature proves the message was approved by whoever holds that number, without ever revealing it. The network checks the signature, sees it is valid, and the money moves. The network has no idea whether the human who owns the key wanted this. It only checks the maths."
+    },
+    {
+      "t": "quote",
+      "c": "The blockchain does not ask \"should this happen?\" It asks \"is this signed?\""
+    },
+    {
+      "t": "p",
+      "c": "So an exchange cannot keep its hot-wallet key in a file that any service can read. Instead it runs a **signing service**: one small, heavily guarded component that holds the key and does exactly one job. Other systems send it a request: here is a withdrawal, please sign it. The key itself never leaves."
+    },
+    {
+      "t": "figure",
+      "kind": "flow",
+      "label": "How a withdrawal gets signed",
+      "steps": [
+        {
+          "title": "Engineer laptop",
+          "sub": "trusted by the next box",
+          "icon": "laptop"
+        },
+        {
+          "title": "Internal service",
+          "sub": "asks for signatures",
+          "icon": "server"
+        },
+        {
+          "title": "Signing service",
+          "sub": "holds the key",
+          "icon": "key",
+          "focus": true
+        },
+        {
+          "title": "Blockchain",
+          "sub": "checks the maths only",
+          "icon": "globe"
+        }
+      ],
+      "runs": [
+        {
+          "label": "Customer withdrawal: approved",
+          "tone": "blue"
+        },
+        {
+          "label": "Rogue request: same road, same signature",
+          "tone": "red"
+        }
+      ],
+      "note": "The key never leaves box 03 in either case.",
+      "caption": "The key never moves. But whoever can reach the signing service can ask it to sign. Our build: a simplified model of a generic exchange, not Binance's architecture.",
+      "alt": "A withdrawal request travels from an internal service to a signing service that holds the private key. The signing service checks the request against its rules, signs it, and broadcasts it to the blockchain. The private key never leaves the signing service, so an attacker who reaches the internal service can obtain valid signatures without ever stealing the key."
+    },
+    {
+      "t": "p",
+      "c": "Read that diagram again, because it contains the whole story. The key is safe. The key is **always** safe. And it does not matter, because the thing that can ask the key to sign is now the thing worth attacking."
+    },
+    {
+      "t": "h2",
+      "c": "The confused deputy"
+    },
+    {
+      "t": "p",
+      "c": "Computer scientists named this in 1988 and the name stuck: the **confused deputy**. A deputy is a program that holds authority you do not have, and acts on requests. It gets confused when it cannot tell the difference between a request from someone allowed to make it and a request from someone who merely reached the same door."
+    },
+    {
+      "t": "p",
+      "c": "A classroom example. Your college portal lets you download your own marksheet at `/marksheet?id=2021CS045`. The server has database access; you do not. You change the number in the URL to a classmate's roll number and the server, holding authority you lack, happily fetches it. Nobody stole a database password. The deputy was confused."
+    },
+    {
+      "t": "p",
+      "c": "A signing service is a deputy with a very expensive authority. If an attacker reaches a machine that the signing service already trusts, they do not need the key. They need the machine's turn to speak."
+    },
+    {
+      "t": "callout",
+      "kind": "documented",
+      "c": "Binance says the attacker likely got in through a **compromised DevOps engineer's laptop**, reaching a service container used to submit withdrawals, and that there is **no evidence of a private key leak**. Analysts have described the pattern as the attacker causing Binance's own systems to sign transactions, rather than stealing keys outright.",
+      "src": "Binance via ABC News and BleepingComputer; The Hacker News"
+    },
+    {
+      "t": "p",
+      "c": "This is why \"we were not breached, a laptop was\" is not the defence it sounds like. A developer laptop that can reach production **is** production. It has the same blast radius and usually a fraction of the hardening: it browses the web, installs extensions, runs downloaded code, and travels in a bag."
+    },
+    {
+      "t": "h2",
+      "c": "Try it: the withdrawal desk"
+    },
+    {
+      "t": "p",
+      "c": "Enough words. Below is a small simulation of a withdrawal desk. A legitimate customer withdrawal and a rogue one both arrive, and you control which defences are switched on. Watch which requests get a signature."
+    },
+    {
+      "t": "figure",
+      "kind": "gate",
+      "label": "Withdrawal desk · our build",
+      "action": "Send both requests",
+      "rules": [
+        {
+          "id": "allowlist",
+          "name": "Address allowlist",
+          "hint": "Only pay out to destinations saved and cooled off in advance.",
+          "why": "destination is not on the allowlist",
+          "block": {
+            "field": "knownAddress",
+            "op": "is",
+            "value": false
+          }
+        },
+        {
+          "id": "limit",
+          "name": "Per-transaction limit",
+          "hint": "No single automated withdrawal above 100 ETH.",
+          "why": "amount is over the 100 ETH automated limit",
+          "block": {
+            "field": "amount",
+            "op": ">",
+            "value": 100
+          }
+        },
+        {
+          "id": "approver",
+          "name": "Second human approver",
+          "hint": "Anything unusual waits for a second person on a separate device.",
+          "why": "no second approver signed off",
+          "block": {
+            "field": "routine",
+            "op": "is",
+            "value": false
+          }
+        },
+        {
+          "id": "anomaly",
+          "name": "Anomaly detection",
+          "hint": "Flag withdrawals far outside the normal pattern.",
+          "why": "size is far outside the normal pattern",
+          "block": {
+            "field": "amount",
+            "op": ">",
+            "value": 1000
+          }
+        }
+      ],
+      "requests": [
+        {
+          "id": "customer",
+          "label": "Customer withdrawal",
+          "tag": "legitimate",
+          "detail": "0.4 ETH to an address this account has used before",
+          "fields": {
+            "amount": 0.4,
+            "knownAddress": true,
+            "routine": true
+          }
+        },
+        {
+          "id": "rogue",
+          "label": "Request from the compromised machine",
+          "detail": "12,000 ETH to an address first seen today",
+          "bad": true,
+          "tag": "rogue",
+          "fields": {
+            "amount": 12000,
+            "knownAddress": false,
+            "routine": false
+          }
+        }
+      ],
+      "passed": "Signed and paid out.",
+      "passedBad": "Signed. The money is gone.",
+      "stopped": "Blocked",
+      "openNote": "With no checks on, the desk cannot tell the two apart: both requests arrived through a machine it already trusts. Switch on any single defence and the rogue one stops, while the customer still gets paid.",
+      "caption": "Our build: a simplified model to show how approval rules work, not Binance's system and not an attack. Nothing here touches a real network.",
+      "alt": "An interactive simulation with four toggleable defences: an address allowlist, a per-transaction limit, a second human approver, and anomaly detection. With all defences off, a rogue withdrawal is signed. Switching on any one of them blocks it while still allowing a normal customer withdrawal through."
+    },
+    {
+      "t": "p",
+      "c": "Notice what the defences have in common. None of them tries to work out whether the laptop was hacked, because you cannot reliably know that. They assume a trusted machine will eventually lie, and they make one lie insufficient."
+    },
+    {
+      "t": "h2",
+      "c": "Why $3 billion froze and the rest ran"
+    },
+    {
+      "t": "p",
+      "c": "Within hours, roughly $3 billion of the stolen funds stopped moving. The rest did not, and the difference teaches you something important about what \"decentralised\" actually means."
+    },
+    {
+      "t": "figure",
+      "kind": "compare",
+      "label": "Same theft, two outcomes",
+      "lanes": [
+        {
+          "title": "USDT · USDC",
+          "status": "can be frozen",
+          "blocked": true,
+          "chip": "stuck",
+          "note": "Issued by Tether and Circle. Their contracts include a blacklist, so they can make tokens at a named address permanently unspendable."
+        },
+        {
+          "title": "Bitcoin · Ether",
+          "status": "cannot be frozen",
+          "blocked": false,
+          "chip": "gone",
+          "note": "No issuer, no blacklist, no office to call. They can only be traced, and refused at the exits where crypto turns back into normal money."
+        }
+      ],
+      "caption": "Same theft, two outcomes. A stablecoin has a company behind it; Bitcoin and Ether do not.",
+      "alt": "Stablecoins such as USDT and USDC are issued by companies, Tether and Circle, whose contracts include a blacklist function. They can freeze stolen tokens at a specific address. Bitcoin and Ether have no issuer and no such function, so nobody can freeze them; they can only be traced and refused at exchanges."
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Stablecoins are issued by a company.** USDT is Tether's ledger entry; USDC is Circle's. Their contracts include a blacklist. When they blacklist an address, the tokens are still sitting there, and they are permanently unspendable. That is a company making a decision, not a network rule.",
+        "**Bitcoin and Ether have no issuer.** There is no office to call. Nobody can freeze them. All anyone can do is watch where they go and refuse them at the exits where crypto turns back into normal money."
+      ]
+    },
+    {
+      "t": "callout",
+      "kind": "documented",
+      "c": "Roughly **$3 billion** was frozen on-chain: about **1.567 billion USDT** by Tether and roughly **$800 million USDC** by Circle, with Tether, Circle, Ripple and World Liberty Financial together freezing about $2.67 billion in stablecoins. Elliptic put total frozen funds at about **$2.84 billion**.",
+      "src": "The Hacker News, citing Tether, Circle and Elliptic"
+    },
+    {
+      "t": "p",
+      "c": "So the honest summary is that crypto is decentralised in exactly the places that hurt here, and centralised in exactly the places that helped. Worth remembering the next time someone tells you it is one or the other."
+    },
+    {
+      "t": "h2",
+      "c": "Who did it, and how sure is anyone"
+    },
+    {
+      "t": "p",
+      "c": "On 31 October the FBI attributed the theft to **TraderTraitor**, a unit linked to North Korea. TRM Labs and Chainalysis had each reached the same conclusion with high confidence, partly from funds commingled with an earlier theft. Elliptic urged caution, noting the laundering looked different from past North Korean operations."
+    },
+    {
+      "t": "p",
+      "c": "I am flagging that disagreement rather than flattening it, because attribution in security is probabilistic and the confident version you see in headlines is usually somebody's assessment, not a proven fact."
+    },
+    {
+      "t": "h2",
+      "c": "What this means for you"
+    },
+    {
+      "t": "p",
+      "c": "You are probably not running an exchange. You will almost certainly build something that acts on a user's behalf, which is the same problem in cheaper clothes."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "**Treat your dev machine as production.** If your laptop holds a token that can touch live data, it has the authority of live data. Short-lived credentials beat long-lived ones; a secrets manager beats a `.env` file that quietly lives forever.",
+        "**Check authority, not just identity.** \"Who is asking?\" is half the question. \"Is this particular request one they are allowed to make?\" is the half that stops the confused deputy. Check ownership on the server for every object you return.",
+        "**Make one compromised component insufficient.** Two approvers, spending limits, allowlists of known destinations. Boring, unglamorous, and the reason the rogue request in the demo above bounces.",
+        "**Cap the blast radius.** The reason the hot wallet exists is that the cold wallet makes a bad day survivable. Ask what the worst single request against your system could do, then put a ceiling on it.",
+        "**Watch the agents you are building.** An AI agent with your API keys is a deputy that takes instructions in English from whatever text it happens to read. Same bug class, brand new surface."
+      ]
+    },
+    {
+      "t": "divider"
+    },
+    {
+      "t": "keytakeaway",
+      "title": "Decoder card",
+      "items": [
+        "An exchange keeps most funds in a cold wallet and a working balance in a hot wallet.",
+        "A withdrawal is a signed message. A signing service holds the key and signs what it is asked.",
+        "Reach something the signer trusts and you get signatures without ever touching the key: the confused deputy.",
+        "Stablecoins can be frozen because a company issues them. Bitcoin and Ether cannot.",
+        "The fix is not a better secret. It is making one compromised machine not enough."
+      ]
+    },
+    {
+      "t": "p",
+      "c": "**Your turn.** Tether froze $1.5 billion of someone else's money with a single transaction. Is that a safety net worth having, or too much power for one company? I genuinely go back and forth. Tell me which side you land on."
+    },
+    {
+      "t": "sources",
+      "items": [
+        {
+          "label": "Binance estimates breach impact at $6.3 billion (ABC News)",
+          "href": "https://abc7news.com/story/binance-estimates-security-breach-impact-63-billion/19999397/"
+        },
+        {
+          "label": "Binance links theft to a compromised DevOps laptop (BleepingComputer)",
+          "href": "https://www.bleepingcomputer.com/news/security/binance-links-63-billion-crypto-theft-to-compromised-devops-laptop/"
+        },
+        {
+          "label": "Binance breach: figures, freezes and attribution (The Hacker News)",
+          "href": "https://thehackernews.com/2026/10/binance-suffers-security-breach.html"
+        },
+        {
+          "label": "Elliptic: analysis of the largest crypto theft on record",
+          "href": "https://www.elliptic.co/blog"
+        }
+      ]
+    }
+  ]
+}

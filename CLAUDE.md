@@ -1,95 +1,50 @@
 # Instructions for Claude working in this repo
 
-Two Claude sessions work here: **Claude in VS Code** (on Subhadeep's machine) and the
-**Decoded agent** (a cloud session that also runs the LinkedIn series in
-`JACOBIAN01/decoded-content`). Neither can see the other's working tree, so **GitHub is
-the only shared state**. Pull before you start and push when you finish.
+Two Claude sessions work here: **Claude in VS Code** (Subhadeep's machine) and the
+**Decoded agent** (cloud; also runs the LinkedIn series in `JACOBIAN01/decoded-content`).
+GitHub is the only shared state: pull before you start, push when you finish, never push
+to `main` directly (branch → PR → Vercel preview).
 
-## Who owns what
+## The blog: one template, posts are JSON
 
-| Area | Owner | Rule |
+| File | Owner | What it is |
 |---|---|---|
-| `client/src/content/**` | Decoded agent | Posts and their data helpers. VS Code Claude should not edit these. |
-| `client/src/components/blog/**` | Decoded agent | Blog layout, figures, `article.css`. |
-| `client/scripts/{prerender-blog,check-blog,og}.mjs` | Decoded agent | Blog build steps. |
-| `client/public/og/blog-*.png` | Decoded agent | Generated, do not hand-edit. |
-| Everything else in `client/` | VS Code Claude | Home page, case studies, shared components, `index.css`, `scripts/prerender.mjs`, `vercel.json`. |
-| `client/src/App.jsx`, `client/package.json`, this file | Shared | Change only via a pull request, never a direct push to `main`. |
+| `client/src/pages/Blog.jsx` | Decoded agent | Template: `/blog` index and `/blog/<slug>` post pages |
+| `client/src/components/BlogFigures.jsx` | Decoded agent | Animated / interactive figures |
+| `client/src/content/blog/*.json` | Decoded agent | **One file per post. The only thing that changes weekly.** |
+| `client/public/og/blog-*.png` | Decoded agent | Link-preview image per post |
+| Everything else | VS Code Claude | The rest of the site |
 
-The blog is deliberately isolated: it touches only three lines of shared code (one lazy
-import and one route branch in `App.jsx`, the `build` script in `package.json`) plus one
-nav link. Keep it that way. Blog styles live in `components/blog/article.css`, not
-`index.css`; blog prerendering lives in `scripts/prerender-blog.mjs`, not `prerender.mjs`.
+The blog touches existing code in exactly three places; keep it that way:
+`App.jsx` (lazy import + `/blog` route), `scripts/prerender.mjs` (blog pages join the
+existing per-page loop, so each post gets its own title, description and preview image
+for LinkedIn), and one "Writing" link in `Navbar.jsx`. No new npm packages.
 
-Both: never push to `main` directly. Branch, open a PR, let Vercel build the preview.
-Log anything another agent would be surprised by in `docs/CHANGELOG-agents.md`.
+## Adding a post: no code changes
 
-## Stack
+Add `client/src/content/blog/<slug>.json` and `client/public/og/blog-<slug>.png`.
+Vite finds the JSON automatically (`import.meta.glob`). Then `npm run lint && npm run build`.
+The Decoded agent validates each post and generates its image in `decoded-content`
+(`tools/blog/`) before pushing.
 
-React 19 + Vite 7, Tailwind v4 (CSS-first `@theme` in `src/index.css`), Framer Motion,
-self-hosted Inter (UI) and Source Serif 4 (article text). Static build on Vercel.
-No router library: `src/App.jsx` matches `window.location.pathname`. After the Vite
-build, `scripts/prerender.mjs` writes per-route HTML for case studies and the sitemap,
-then `scripts/prerender-blog.mjs` validates posts, writes the blog pages, adds them to
-the sitemap and writes `rss.xml`.
-
-```bash
-cd client
-npm install
-npm run dev      # local dev server
-npm run build    # vite build + both prerender steps; fails on an invalid blog post
-npm run lint     # must pass; CI runs it
-node scripts/check-blog.mjs   # validate blog posts in a second, no build
-node scripts/og.mjs           # regenerate blog social cards (needs playwright locally)
+```json
+{
+  "slug": "kebab-case", "title": "…", "dek": "…", "description": "…",
+  "date": "YYYY-MM-DD", "series": "Decoded", "seriesNo": "04",
+  "blocks": [ { "t": "lead", "c": "…" } ]
+}
 ```
 
-## Adding a blog post: data only, no code
+Blocks: `lead`, `p`, `h2`, `h3`, `ul`/`ol` (`items`), `quote`, `callout` (`kind`:
+`documented` + `src` | `ourbuild` | `note`), `timeline` (`items: [{when, what}]`), `code`,
+`keytakeaway` (`items`), `sources` (`items: [{label, href}]`), `divider`, and `figure`
+with `kind`: `flow` (steps + runs), `compare` (lanes), `split` (2 panes), `gate`
+(interactive rules + requests). Each figure kind's fields are listed above its function in
+`BlogFigures.jsx`. Text supports `**bold**`, `` `code` `` and `[text](https://…)`.
 
-**Read `docs/blog-authoring.md` first.** It is the full reference for every block and
-figure spec, with copy-paste examples.
+## Writing rules (same as the LinkedIn series)
 
-1. Create `client/src/content/blog/<slug>.js` exporting `{ meta, blocks }`. Plain JS, no
-   JSX and no asset imports: `scripts/prerender.mjs` imports it in Node.
-2. Register it in `client/src/content/blog/index.js` (newest first).
-3. Diagrams and demos are **data**: `{ t: "figure", kind: "flow" | "compare" | "split" |
-   "gate", … }`. Do not write a component for one post.
-4. `node scripts/check-blog.mjs` (seconds), then `node scripts/og.mjs` for the social card.
-5. `npm run lint && npm run build`, then check `/blog/<slug>` in the preview.
-
-`npm run build` validates every post (`src/content/blog/validate.js`) and **fails** on a
-bad one, with the exact block and field named. That is the safety net for unattended runs.
-
-Only when a story truly needs a picture none of the four kinds can draw: add a new
-generic `kind` (component + `figures/index.jsx` + validator + docs), never a one-off. A new
-block *type* must be handled in `components/blog/Blocks.jsx`, `scripts/prerender-blog.mjs`
-and `src/content/blog/validate.js`, or crawlers silently lose that content.
-
-## Writing rules for posts
-
-These match the Decoded series rules in the "LinkedIn Agent" claude.ai Project
-(`decoded/post-selection-rules.md`), and apply to anything published here.
-
-- **Audience: students and curious beginners in India.** Explain from zero, then go one
-  layer deeper for engineers. A reader who stops halfway should still have learned the
-  main idea.
-- **Every scary or surprising claim is sourced and attributed** in a `callout` with
-  `kind: "documented"` and a `src`. If a fact is contested, say who disagrees rather than
-  flattening it.
-- **Label our simplifications** `kind: "ourbuild"`, or say "Our build" in the figure
-  caption. Never present a teaching model as the real system's architecture.
-- **No how-to-attack detail.** Explain the bug class and the defence, never payloads,
-  request shapes or steps that would help someone reproduce an attack.
-- **No fake urgency and no bait.** No "you won't believe", no invented danger.
-- Interactive demos must run entirely in the browser and touch no network.
-- Accessibility: every figure needs an `alt` that explains the mechanism in words; it is
-  also what crawlers and screen readers get.
-
-## Design
-
-Light, Apple-like, one sans family (Inter) plus Source Serif 4 for article body text.
-Tokens live in `src/index.css` (`--color-ink`, `--color-subtle`, `--color-hairline`,
-`--color-canvas`, `--color-canvas-alt`, `--color-accent`). Reading column is
-`max-w-[44rem]`; figures break out with `lg:-mx-24`. Respect
-`prefers-reduced-motion` (the app sets `MotionConfig reducedMotion="user"`; CSS-driven
-motion goes behind `data-animated`). Check every new page at 390 px wide with no
-horizontal scroll.
+Students and beginners in India, explained from zero, then one layer deeper. Every scary
+claim in a `documented` callout with its source; contested facts say who disagrees.
+Label simplifications "Our build". No how-to-attack detail. No fake urgency. Every figure
+has an `alt` explaining the mechanism in words.
