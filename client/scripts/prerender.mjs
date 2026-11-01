@@ -13,10 +13,12 @@ const setMeta = (html, attr, key, value) =>
     (_, a, b) => `${a}${esc(value)}${b}`
   );
 
-// Blog posts (one JSON per post) and the /blog index get the same per-page tags.
+// Blog posts (one JSON per post, file name = slug) and the /blog index get the same
+// per-page tags. A post without a title or description is skipped, like on the site.
 const posts = readdirSync("src/content/blog")
   .filter((f) => f.endsWith(".json"))
-  .map((f) => JSON.parse(readFileSync(`src/content/blog/${f}`, "utf8")));
+  .map((f) => ({ ...JSON.parse(readFileSync(`src/content/blog/${f}`, "utf8")), slug: f.slice(0, -5) }))
+  .filter((p) => typeof p.title === "string" && typeof p.description === "string");
 const PAGES = [
   ...CASE_META.map((c) => ({ ...c, path: `work/${c.slug}`, img: `/og/${c.slug}.png` })),
   { title: "Writing", description: "One trending tech story a week, explained from zero.", path: "blog", img: "/preview.jpg" },

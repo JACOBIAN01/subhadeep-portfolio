@@ -13,23 +13,31 @@ to `main` directly (branch → PR → Vercel preview).
 | `client/src/components/BlogFigures.jsx` | Decoded agent | Animated / interactive figures |
 | `client/src/content/blog/*.json` | Decoded agent | **One file per post. The only thing that changes weekly.** |
 | `client/public/og/blog-*.png` | Decoded agent | Link-preview image per post |
+| `client/src/components/PageHeader.jsx`, `client/src/utils/slugify.js` | Shared | Top bar and slug helper used by both the blog and the case studies |
 | Everything else | VS Code Claude | The rest of the site |
 
-The blog touches existing code in exactly three places; keep it that way:
+The blog touches existing code in four small places; keep it that way:
 `App.jsx` (lazy import + `/blog` route), `scripts/prerender.mjs` (blog pages join the
 existing per-page loop, so each post gets its own title, description and preview image
-for LinkedIn), and one "Writing" link in `Navbar.jsx`. No new npm packages.
+for LinkedIn), `vercel.json` (a `/blog/:slug` fallback so a mistyped link shows the blog's
+"Post not found"), and one "Writing" link in `Navbar.jsx`. No new npm packages.
 
 ## Adding a post: no code changes
 
 Add `client/src/content/blog/<slug>.json` and `client/public/og/blog-<slug>.png`.
-Vite finds the JSON automatically (`import.meta.glob`). Then `npm run lint && npm run build`.
+**The file name is the slug** (it becomes `/blog/<slug>`). Vite finds the JSON
+automatically (`import.meta.glob`), and each post is its own download, so a post page
+loads only that post. Then `npm run lint && npm run build`.
+
+A post without `title`, `date` or `blocks` is skipped rather than breaking the blog, and
+a block with bad data is hidden rather than breaking the page. Check the preview anyway:
+skipped content fails silently.
 The Decoded agent validates each post and generates its image in `decoded-content`
 (`tools/blog/`) before pushing.
 
 ```json
 {
-  "slug": "kebab-case", "title": "…", "dek": "…", "description": "…",
+  "title": "…", "dek": "…", "description": "…",
   "date": "YYYY-MM-DD", "series": "Decoded", "seriesNo": "04",
   "blocks": [ { "t": "lead", "c": "…" } ]
 }

@@ -1,5 +1,7 @@
-// Animated and interactive figures for blog posts, drawn from the post's JSON.
-// { "t": "figure", "kind": "flow" | "compare" | "split" | "gate", ... }. Specs: CLAUDE.md.
+// Figures for blog posts, drawn from a post's JSON:
+//   { "t": "figure", "kind": "flow" | "compare" | "split" | "gate", ... }
+// Each kind's fields are listed above its function. Missing or odd data never crashes:
+// a figure draws what it can, or nothing.
 import { useEffect, useRef, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,30 +11,47 @@ import {
   FiCheck, FiX, FiPlay, FiRotateCcw,
 } from "react-icons/fi";
 
+/* ------------------------------------------------------------------ shared bits */
+
 const ICONS = {
   key: FiKey, lock: FiLock, unlock: FiUnlock, laptop: FiMonitor, server: FiServer,
   database: FiDatabase, globe: FiGlobe, user: FiUser, users: FiUsers, mail: FiMail,
   search: FiSearch, shield: FiShield, alert: FiAlertTriangle, cloud: FiCloud,
   file: FiFileText, phone: FiSmartphone,
 };
-const TONES = {
-  blue: ["#0066cc", "#eff6ff"], orange: ["#ff9500", "#fff7ed"], red: ["#d93025", "#fdecea"],
-  green: ["#1f9d55", "#eafaf0"], purple: ["#6a3fc6", "#f5f1fd"], grey: ["#86868b", "#f5f5f7"],
-};
-const tone = (t, fallback = "blue") => TONES[t] || TONES[fallback];
 
-function Icon({ name }) {
-  const C = ICONS[name];
-  return C ? <C size={14} aria-hidden="true" /> : null;
+// "tone" names a post can use, as [text colour, background colour].
+const TONES = {
+  blue: ["#0066cc", "#eff6ff"],
+  orange: ["#ff9500", "#fff7ed"],
+  red: ["#d93025", "#fdecea"],
+  green: ["#1f9d55", "#eafaf0"],
+  purple: ["#6a3fc6", "#f5f1fd"],
+  grey: ["#86868b", "#f5f5f7"],
+};
+
+function toneColour(name, fallback = "blue") {
+  return (TONES[name] || TONES[fallback])[0];
 }
 
-function Frame({ label, action, children }) {
+function toneBackground(name, fallback = "blue") {
+  return (TONES[name] || TONES[fallback])[1];
+}
+
+const asList = (value) => (Array.isArray(value) ? value : []);
+
+function Icon({ name }) {
+  const IconComponent = ICONS[name];
+  return IconComponent ? <IconComponent size={14} aria-hidden="true" /> : null;
+}
+
+function Frame({ label, buttons, children }) {
   return (
     <div className="rounded-3xl border border-hairline bg-canvas p-4 font-sans sm:p-6">
-      {(label || action) && (
+      {(label || buttons) && (
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-faint">{label}</span>
-          {action}
+          {buttons}
         </div>
       )}
       {children}
@@ -40,273 +59,480 @@ function Frame({ label, action, children }) {
   );
 }
 
-/** Is `ref` on screen? Animations only run while visible. */
-function useVisible() {
+// True while the element is on screen, so animations only run when someone can see them.
+function useOnScreen() {
   const ref = useRef(null);
-  const [on, setOn] = useState(false);
+  const [onScreen, setOnScreen] = useState(false);
+
   useEffect(() => {
-    const io = new IntersectionObserver(([e]) => setOn(e.isIntersecting), { threshold: 0.35 });
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), {
+      threshold: 0.35,
+    });
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
   }, []);
-  return [ref, on];
+
+  return [ref, onScreen];
 }
 
-// ---------------------------------------------------------------- flow
-// steps: [{title, sub, icon, focus}] (2–5) · runs: [{label, tone}] (1–3, cycled) · note
+/* ------------------------------------------------------------------ flow */
+// A path through a system: boxes in order, with a dot travelling through them.
+// steps: [{ title, sub, icon, focus }]   2–5 boxes; focus draws a heavier border
+// runs:  [{ label, tone }]               optional; several runs take turns
+// note:  small text under the legend
+
+const SECONDS_PER_STEP = 0.6;
+const GRID_COLUMNS = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-3", 4: "sm:grid-cols-4", 5: "sm:grid-cols-5" };
+
 function Flow({ spec }) {
-  const { steps, runs = [{}], note } = spec;
-  const [ref, live] = useVisible();
-  const [run, setRun] = useState(0);
-  const pass = steps.length * 0.6 + 1.6;
+  const steps = asList(spec.steps);
+  const runs = asList(spec.runs).length > 0 ? spec.runs : [{}];
+  const [ref, onScreen] = useOnScreen();
+  const [runIndex, setRunIndex] = useState(0);
+  const secondsPerRun = steps.length * SECONDS_PER_STEP + 1.6;
+
+  // Switch to the next run after each pass.
   useEffect(() => {
-    if (!live || runs.length < 2) return;
-    const id = setInterval(() => setRun((r) => (r + 1) % runs.length), pass * 1000);
-    return () => clearInterval(id);
-  }, [live, runs.length, pass]);
-  const [c] = tone(runs[run].tone);
-  const cols = ["", "", "sm:grid-cols-2", "sm:grid-cols-3", "sm:grid-cols-4", "sm:grid-cols-5"][steps.length];
+    if (!onScreen || runs.length < 2) return;
+    const timer = setInterval(() => setRunIndex((i) => (i + 1) % runs.length), secondsPerRun * 1000);
+    return () => clearInterval(timer);
+  }, [onScreen, runs.length, secondsPerRun]);
+
+  const run = runs[runIndex] || {};
+  const dotColour = toneColour(run.tone);
 
   return (
     <Frame label={spec.label}>
-      <div ref={ref} className={`grid grid-cols-2 gap-3 sm:gap-2 ${cols}`}>
-        {steps.map((s, i) => (
+      <div ref={ref} className={`grid grid-cols-2 gap-3 sm:gap-2 ${GRID_COLUMNS[steps.length] || ""}`}>
+        {steps.map((step, i) => (
           <div key={i} className="relative">
             <div
               className="h-full rounded-2xl bg-white p-3"
-              style={{ border: s.focus ? "2px solid #1d1d1f" : "1px solid var(--color-hairline)" }}
+              style={{ border: step.focus ? "2px solid #1d1d1f" : "1px solid var(--color-hairline)" }}
             >
               <div className="flex items-center justify-between text-ink">
-                <span className="text-[10px] font-bold tracking-[0.1em] text-faint">{String(i + 1).padStart(2, "0")}</span>
-                <Icon name={s.icon} />
+                <span className="text-[10px] font-bold tracking-[0.1em] text-faint">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <Icon name={step.icon} />
               </div>
-              <div className="mt-1.5 text-[13px] font-semibold leading-tight text-ink">{s.title}</div>
-              {s.sub && <div className="mt-0.5 text-[11px] leading-snug text-subtle">{s.sub}</div>}
+              <div className="mt-1.5 text-[13px] font-semibold leading-tight text-ink">{step.title}</div>
+              {step.sub && <div className="mt-0.5 text-[11px] leading-snug text-subtle">{step.sub}</div>}
             </div>
-            {live && (
+
+            {onScreen && (
               <motion.div
-                key={`${run}-${i}`}
-                aria-hidden="true"
+                key={`${runIndex}-${i}`}
                 className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full"
-                style={{ background: c }}
+                style={{ background: dotColour }}
                 initial={{ opacity: 0, scale: 0.4 }}
                 animate={{ opacity: [0, 1, 1, 0], scale: [0.4, 1, 1, 0.4] }}
                 transition={{
-                  duration: 0.95, delay: i * 0.6, times: [0, 0.25, 0.7, 1],
-                  repeat: runs.length < 2 ? Infinity : 0, repeatDelay: pass - 0.95,
+                  duration: 0.95,
+                  delay: i * SECONDS_PER_STEP,
+                  times: [0, 0.25, 0.7, 1],
+                  repeat: runs.length < 2 ? Infinity : 0,
+                  repeatDelay: secondsPerRun - 0.95,
                 }}
               />
             )}
           </div>
         ))}
       </div>
-      {(runs[run].label || note) && (
+
+      {(run.label || spec.note) && (
         <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-          {runs[run].label && (
-            <motion.span key={run} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 text-[13px] font-semibold" style={{ color: c }}>
-              <span className="h-2.5 w-2.5 rounded-full" style={{ background: c }} /> {runs[run].label}
+          {run.label && (
+            <motion.span
+              key={runIndex}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-[13px] font-semibold"
+              style={{ color: dotColour }}
+            >
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: dotColour }} />
+              {run.label}
             </motion.span>
           )}
-          {note && <span className="text-[12px] text-subtle">{note}</span>}
+          {spec.note && <span className="text-[12px] text-subtle">{spec.note}</span>}
         </div>
       )}
     </Frame>
   );
 }
 
-// ---------------------------------------------------------------- compare
-// lanes: [{title, status, blocked, chip, note, tone}] (2–3)
+/* ------------------------------------------------------------------ compare */
+// Same input, different outcomes: each lane sends a chip along; blocked lanes stop at a wall.
+// lanes: [{ title, status, blocked, chip, note, tone }]   2–3 lanes
+
+function Lane({ lane }) {
+  const statusColour = toneColour(lane.tone, lane.blocked ? "green" : "red");
+  const stopsAtWall = Boolean(lane.blocked);
+
+  return (
+    <div className="rounded-2xl border border-hairline bg-white p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <span className="text-sm font-semibold text-ink">{lane.title}</span>
+        <span className="text-right text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color: statusColour }}>
+          {lane.status}
+        </span>
+      </div>
+
+      <div className="relative mt-3 h-11 overflow-hidden rounded-xl bg-canvas-alt">
+        {stopsAtWall && (
+          <div className="absolute inset-y-0 right-[32%] w-1 rounded-full" style={{ background: statusColour }} />
+        )}
+        <motion.div
+          className="absolute top-1/2 flex h-7 -translate-y-1/2 items-center whitespace-nowrap rounded-full px-3 text-[11px] font-bold text-white shadow"
+          style={{ background: stopsAtWall ? "#86868b" : "#d93025" }}
+          initial={{ left: "2%" }}
+          whileInView={{ left: stopsAtWall ? ["2%", "56%", "56%"] : ["2%", "102%"] }}
+          transition={{
+            duration: stopsAtWall ? 2.6 : 2.2,
+            times: stopsAtWall ? [0, 0.55, 1] : [0, 1],
+            repeat: Infinity,
+            repeatDelay: 1.4,
+            ease: "easeInOut",
+          }}
+        >
+          {lane.chip || (stopsAtWall ? "stopped" : "through")}
+        </motion.div>
+      </div>
+
+      {lane.note && <p className="mt-2.5 text-[12px] leading-relaxed text-subtle">{lane.note}</p>}
+    </div>
+  );
+}
+
 function Compare({ spec }) {
+  const lanes = asList(spec.lanes);
   return (
     <Frame label={spec.label}>
-      <div className={`grid gap-3 ${spec.lanes.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
-        {spec.lanes.map((l, i) => {
-          const [c] = tone(l.tone, l.blocked ? "green" : "red");
-          return (
-            <div key={i} className="rounded-2xl border border-hairline bg-white p-4">
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="text-sm font-semibold text-ink">{l.title}</span>
-                <span className="text-right text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color: c }}>{l.status}</span>
-              </div>
-              <div className="relative mt-3 h-11 overflow-hidden rounded-xl bg-canvas-alt" aria-hidden="true">
-                {l.blocked && <div className="absolute inset-y-0 right-[32%] w-1 rounded-full" style={{ background: c }} />}
-                <motion.div
-                  className="absolute top-1/2 flex h-7 -translate-y-1/2 items-center whitespace-nowrap rounded-full px-3 text-[11px] font-bold text-white shadow"
-                  style={{ background: l.blocked ? "#86868b" : "#d93025" }}
-                  initial={{ left: "2%" }}
-                  whileInView={{ left: l.blocked ? ["2%", "56%", "56%"] : ["2%", "102%"] }}
-                  transition={{ duration: l.blocked ? 2.6 : 2.2, times: l.blocked ? [0, 0.55, 1] : [0, 1], repeat: Infinity, repeatDelay: 1.4, ease: "easeInOut" }}
-                >
-                  {l.chip || (l.blocked ? "stopped" : "through")}
-                </motion.div>
-              </div>
-              {l.note && <p className="mt-2.5 text-[12px] leading-relaxed text-subtle">{l.note}</p>}
-            </div>
-          );
-        })}
+      <div className={`grid gap-3 ${lanes.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+        {lanes.map((lane, i) => (
+          <Lane key={i} lane={lane || {}} />
+        ))}
       </div>
     </Frame>
   );
 }
 
-// ---------------------------------------------------------------- split
-// panes: [{kicker, title, body, share, shareLabel, icon, tone}] (exactly 2) · mover · out
-function Split({ spec }) {
-  const travel = (delay) => ({
+/* ------------------------------------------------------------------ split */
+// Where things live: two panes side by side, with optional share bars and a moving token.
+// panes: [{ kicker, title, body, share, shareLabel, icon, tone }]   exactly 2
+// mover: a short token that travels between the panes (e.g. "₿")
+// out:   label for a second hop out of the right pane
+
+function travellingToken(delaySeconds) {
+  return {
     initial: { opacity: 0 },
     whileInView: { opacity: [0, 1, 1, 0] },
-    transition: { duration: 3.2, times: [0, 0.12, 0.8, 1], repeat: Infinity, repeatDelay: 1.2, delay },
-  });
-  const pane = (p, fallback) => {
-    const [c, bg] = tone(p.tone, fallback);
-    return (
-      <div className="flex-1 rounded-2xl border p-5 sm:p-6" style={{ borderColor: `${c}33`, background: bg }}>
-        <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: c }}>
-          <Icon name={p.icon} /> {p.kicker}
-        </div>
-        <div className="mt-2 text-lg font-semibold tracking-tight text-ink">{p.title}</div>
-        {p.body && <p className="mt-1.5 text-[13px] leading-relaxed text-subtle">{p.body}</p>}
-        {typeof p.share === "number" && (
-          <div className="mt-4">
-            <div className="h-2 overflow-hidden rounded-full bg-white">
-              <motion.div className="h-full rounded-full" style={{ background: c }} initial={{ width: 0 }} whileInView={{ width: `${p.share}%` }} viewport={{ once: true }} transition={{ duration: 1 }} />
-            </div>
-            <div className="mt-1.5 text-[11px] font-medium" style={{ color: c }}>{p.shareLabel || `${p.share}%`}</div>
-          </div>
-        )}
-      </div>
-    );
+    transition: { duration: 3.2, times: [0, 0.12, 0.8, 1], repeat: Infinity, repeatDelay: 1.2, delay: delaySeconds },
   };
-  const [a, b] = spec.panes;
+}
+
+function Pane({ pane, fallbackTone }) {
+  const colour = toneColour(pane.tone, fallbackTone);
+  const hasShare = typeof pane.share === "number";
+
+  return (
+    <div
+      className="flex-1 rounded-2xl border p-5 sm:p-6"
+      style={{ borderColor: `${colour}33`, background: toneBackground(pane.tone, fallbackTone) }}
+    >
+      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em]" style={{ color: colour }}>
+        <Icon name={pane.icon} /> {pane.kicker}
+      </div>
+      <div className="mt-2 text-lg font-semibold tracking-tight text-ink">{pane.title}</div>
+      {pane.body && <p className="mt-1.5 text-[13px] leading-relaxed text-subtle">{pane.body}</p>}
+
+      {hasShare && (
+        <div className="mt-4">
+          <div className="h-2 overflow-hidden rounded-full bg-white">
+            <motion.div
+              className="h-full rounded-full"
+              style={{ background: colour }}
+              initial={{ width: 0 }}
+              whileInView={{ width: `${pane.share}%` }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            />
+          </div>
+          <div className="mt-1.5 text-[11px] font-medium" style={{ color: colour }}>
+            {pane.shareLabel || `${pane.share}%`}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Split({ spec }) {
+  const [left, right] = asList(spec.panes);
+  if (!left || !right) return null;
+
   return (
     <Frame label={spec.label}>
       <div className="flex flex-col gap-4 sm:flex-row sm:gap-5">
-        {pane(a, "blue")}
-        <div className="relative flex items-center justify-center sm:w-16" aria-hidden="true">
+        <Pane pane={left} fallbackTone="blue" />
+        <div className="relative flex items-center justify-center sm:w-16">
           <div className="h-px w-full bg-hairline sm:h-full sm:w-px" />
-          {spec.mover && <motion.div {...travel(0)} className="absolute flex h-7 min-w-7 items-center justify-center rounded-full bg-ink px-1.5 text-[10px] font-bold text-white shadow-md">{spec.mover}</motion.div>}
+          {spec.mover && (
+            <motion.div
+              {...travellingToken(0)}
+              className="absolute flex h-7 min-w-7 items-center justify-center rounded-full bg-ink px-1.5 text-[10px] font-bold text-white shadow-md"
+            >
+              {spec.mover}
+            </motion.div>
+          )}
         </div>
-        {pane(b, "orange")}
+        <Pane pane={right} fallbackTone="orange" />
       </div>
+
       {spec.out && (
-        <div className="mt-4 flex items-center justify-end gap-2 text-[11px] font-medium text-subtle" aria-hidden="true">
+        <div className="mt-4 flex items-center justify-end gap-2 text-[11px] font-medium text-subtle">
           {spec.out}
-          {spec.mover && <motion.span {...travel(1.4)} className="flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white" style={{ background: tone(b.tone, "orange")[0] }}>{spec.mover}</motion.span>}
+          {spec.mover && (
+            <motion.span
+              {...travellingToken(1.4)}
+              className="flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white"
+              style={{ background: toneColour(right.tone, "orange") }}
+            >
+              {spec.mover}
+            </motion.span>
+          )}
         </div>
       )}
     </Frame>
   );
 }
 
-// ---------------------------------------------------------------- gate (interactive)
-// rules: [{id, name, hint, why, block: {field, op, value} | {any|all: [...]}}] (1–6)
-// requests: [{id, label, tag, detail, bad, fields}] (1–3) · action · passed · passedBad · stopped · openNote
-const OPS = {
-  ">": (a, b) => a > b, ">=": (a, b) => a >= b, "<": (a, b) => a < b, "<=": (a, b) => a <= b,
-  is: (a, b) => a === b, not: (a, b) => a !== b,
-  in: (a, b) => b.includes(a), notIn: (a, b) => !b.includes(a), includes: (a, b) => a.includes(b),
-};
-const matches = (c, f) =>
-  c.any ? c.any.some((x) => matches(x, f)) : c.all ? c.all.every((x) => matches(x, f)) : !!OPS[c.op]?.(f[c.field], c.value);
+/* ------------------------------------------------------------------ gate (interactive) */
+// The reader switches rules on, presses the button, and sees which requests get through.
+// rules:    [{ name, hint, why, block }]          1–6; `block` says when the rule stops a request
+// requests: [{ label, tag, detail, bad, fields }]  1–3; `bad: true` = should be stopped
+// action, passed, passedBad, stopped, openNote:    optional wording
+//
+// `block` is a condition on the request's `fields`, for example
+//   { "field": "amount", "op": ">", "value": 100 }
+// or several conditions: { "any": [ ... ] } / { "all": [ ... ] }.
+
+function conditionIsTrue(condition, fields) {
+  if (!condition || typeof condition !== "object") return false;
+  if (Array.isArray(condition.any)) return condition.any.some((c) => conditionIsTrue(c, fields));
+  if (Array.isArray(condition.all)) return condition.all.every((c) => conditionIsTrue(c, fields));
+
+  const actual = fields[condition.field];
+  const expected = condition.value;
+
+  switch (condition.op) {
+    case ">":
+      return actual > expected;
+    case ">=":
+      return actual >= expected;
+    case "<":
+      return actual < expected;
+    case "<=":
+      return actual <= expected;
+    case "is":
+      return actual === expected;
+    case "not":
+      return actual !== expected;
+    case "in":
+      return Array.isArray(expected) && expected.includes(actual);
+    case "notIn":
+      return Array.isArray(expected) && !expected.includes(actual);
+    case "includes":
+      return Array.isArray(actual) && actual.includes(expected);
+    default:
+      return false;
+  }
+}
+
+// The first switched-on rule that stops this request, or undefined if it gets through.
+function findBlockingRule(activeRules, request) {
+  const fields = request.fields && typeof request.fields === "object" ? request.fields : {};
+  return activeRules.find((rule) => conditionIsTrue(rule.block, fields));
+}
+
+function RuleSwitch({ rule, on, onToggle }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={onToggle}
+      className="flex items-start gap-3 rounded-xl border border-hairline bg-white p-3 text-left hover:border-ink/30"
+    >
+      <span
+        className="mt-0.5 flex h-5 w-9 flex-none items-center rounded-full p-0.5 transition-colors"
+        style={{ background: on ? "#1f9d55" : "#d2d2d7" }}
+        aria-hidden="true"
+      >
+        <motion.span className="h-4 w-4 rounded-full bg-white shadow" animate={{ x: on ? 16 : 0 }} />
+      </span>
+      <span>
+        <span className="block text-[13px] font-semibold text-ink">{rule.name}</span>
+        {rule.hint && <span className="mt-0.5 block text-[12px] leading-snug text-subtle">{rule.hint}</span>}
+      </span>
+    </button>
+  );
+}
+
+// One request's card. `step` counts how many rules have been checked so far (-1 = not run).
+function RequestCard({ spec, request, activeRules, step }) {
+  const blockingRule = findBlockingRule(activeRules, request);
+  const blockedAt = activeRules.indexOf(blockingRule); // -1 if it gets through
+  const finished = step >= 0 && (blockingRule ? step > blockedAt : step >= activeRules.length);
+
+  // Right outcome = a bad request stopped, or a good request let through.
+  const shouldBeStopped = Boolean(request.bad);
+  const wasStopped = Boolean(blockingRule);
+  const outcomeIsRight = wasStopped === shouldBeStopped;
+
+  let message;
+  if (wasStopped) message = `${spec.stopped || "Blocked"}: ${blockingRule.why}.`;
+  else if (shouldBeStopped) message = spec.passedBad || "Got through.";
+  else message = spec.passed || "Allowed.";
+
+  return (
+    <div className="rounded-2xl border border-hairline bg-white p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <span className="text-[13px] font-semibold text-ink">{request.label}</span>
+        <span
+          className="text-[11px] font-bold uppercase tracking-[0.08em]"
+          style={{ color: shouldBeStopped ? "#d93025" : "#0066cc" }}
+        >
+          {request.tag || (shouldBeStopped ? "bad" : "good")}
+        </span>
+      </div>
+      {request.detail && <p className="mt-1 text-[12px] text-subtle">{request.detail}</p>}
+
+      <ul className="mt-3 flex flex-col gap-1.5 text-[12px]">
+        {activeRules.length === 0 && <li className="italic text-faint">No rules switched on.</li>}
+        {activeRules.map((rule, i) => {
+          const checked = step > i && (blockedAt === -1 || i <= blockedAt);
+          const stoppedHere = checked && i === blockedAt;
+          return (
+            <li key={i} className="flex items-center gap-2 transition-opacity" style={{ opacity: checked ? 1 : 0.25 }}>
+              <span
+                className="flex h-4 w-4 items-center justify-center rounded-full text-white"
+                style={{ background: !checked ? "#d2d2d7" : stoppedHere ? "#d93025" : "#1f9d55" }}
+                aria-hidden="true"
+              >
+                {stoppedHere ? <FiX size={10} /> : <FiCheck size={10} />}
+              </span>
+              <span className={stoppedHere ? "font-semibold text-ink" : "text-subtle"}>{rule.name}</span>
+            </li>
+          );
+        })}
+      </ul>
+
+      <AnimatePresence>
+        {finished && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-3 rounded-xl px-3 py-2 text-[12px] font-semibold"
+            style={{
+              background: outcomeIsRight ? "#eafaf0" : "#fdecea",
+              color: outcomeIsRight ? "#1f7a3a" : "#c2331b",
+            }}
+          >
+            {message}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function Gate({ spec }) {
-  const off = () => Object.fromEntries(spec.rules.map((r) => [r.id, false]));
-  const [enabled, setEnabled] = useState(off);
+  const rules = asList(spec.rules).filter(Boolean);
+  const requests = asList(spec.requests).filter(Boolean);
+
+  const [switchedOn, setSwitchedOn] = useState(() => rules.map(() => false));
   const [step, setStep] = useState(-1); // -1 = not run yet
-  const active = spec.rules.filter((r) => enabled[r.id]);
-  const stopper = (req) => active.find((r) => matches(r.block, req.fields || {}));
-  const done = step > active.length;
 
+  const activeRules = rules.filter((_, i) => switchedOn[i]);
+  const finished = step > activeRules.length;
+
+  // While running, check one more rule every half second.
   useEffect(() => {
-    if (step < 0 || done) return;
-    const id = setTimeout(() => setStep((s) => s + 1), 520);
-    return () => clearTimeout(id);
-  }, [step, done]);
+    if (step < 0 || finished) return;
+    const timer = setTimeout(() => setStep((s) => s + 1), 520);
+    return () => clearTimeout(timer);
+  }, [step, finished]);
 
-  const toggle = (id) => {
-    setEnabled((e) => ({ ...e, [id]: !e[id] }));
+  function toggleRule(index) {
+    setSwitchedOn((current) => current.map((on, i) => (i === index ? !on : on)));
     setStep(-1);
-  };
-  const button = (
+  }
+
+  function reset() {
+    setSwitchedOn(rules.map(() => false));
+    setStep(-1);
+  }
+
+  const everythingGotThrough = requests.every((r) => !findBlockingRule(activeRules, r));
+
+  const buttons = (
     <div className="flex gap-2 text-[13px]">
-      <button type="button" onClick={() => setStep(0)} className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-1.5 font-medium text-white hover:bg-black">
+      <button
+        type="button"
+        onClick={() => setStep(0)}
+        className="inline-flex items-center gap-1.5 rounded-full bg-ink px-4 py-1.5 font-medium text-white hover:bg-black"
+      >
         <FiPlay size={12} aria-hidden="true" /> {spec.action || "Run"}
       </button>
-      <button type="button" onClick={() => { setEnabled(off()); setStep(-1); }} className="inline-flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1.5 text-subtle hover:text-ink">
+      <button
+        type="button"
+        onClick={reset}
+        className="inline-flex items-center gap-1.5 rounded-full border border-hairline px-3 py-1.5 text-subtle hover:text-ink"
+      >
         <FiRotateCcw size={12} aria-hidden="true" /> Reset
       </button>
     </div>
   );
 
   return (
-    <Frame label={spec.label || "Try it"} action={button}>
+    <Frame label={spec.label || "Try it"} buttons={buttons}>
       <div className="grid gap-2 sm:grid-cols-2">
-        {spec.rules.map((r) => (
-          <button key={r.id} type="button" role="switch" aria-checked={enabled[r.id]} onClick={() => toggle(r.id)} className="flex items-start gap-3 rounded-xl border border-hairline bg-white p-3 text-left hover:border-ink/30">
-            <span className="mt-0.5 flex h-5 w-9 flex-none items-center rounded-full p-0.5 transition-colors" style={{ background: enabled[r.id] ? "#1f9d55" : "#d2d2d7" }} aria-hidden="true">
-              <motion.span className="h-4 w-4 rounded-full bg-white shadow" animate={{ x: enabled[r.id] ? 16 : 0 }} />
-            </span>
-            <span>
-              <span className="block text-[13px] font-semibold text-ink">{r.name}</span>
-              {r.hint && <span className="mt-0.5 block text-[12px] leading-snug text-subtle">{r.hint}</span>}
-            </span>
-          </button>
+        {rules.map((rule, i) => (
+          <RuleSwitch key={i} rule={rule} on={Boolean(switchedOn[i])} onToggle={() => toggleRule(i)} />
         ))}
       </div>
 
-      <div className={`mt-4 grid gap-3 ${spec.requests.length > 1 ? "sm:grid-cols-2" : ""}`}>
-        {spec.requests.map((req) => {
-          const stop = stopper(req);
-          const stopAt = active.indexOf(stop);
-          const settled = step >= 0 && (stop ? step > stopAt : step >= active.length);
-          return (
-            <div key={req.id} className="rounded-2xl border border-hairline bg-white p-4">
-              <div className="flex items-baseline justify-between gap-3">
-                <span className="text-[13px] font-semibold text-ink">{req.label}</span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color: req.bad ? "#d93025" : "#0066cc" }}>{req.tag || (req.bad ? "bad" : "good")}</span>
-              </div>
-              {req.detail && <p className="mt-1 text-[12px] text-subtle">{req.detail}</p>}
-              <ul className="mt-3 flex flex-col gap-1.5 text-[12px]">
-                {active.length === 0 && <li className="italic text-faint">No rules switched on.</li>}
-                {active.map((r, i) => {
-                  const reached = step > i && (stopAt < 0 || i <= stopAt);
-                  const blocked = reached && r === stop;
-                  return (
-                    <li key={r.id} className="flex items-center gap-2 transition-opacity" style={{ opacity: reached ? 1 : 0.25 }}>
-                      <span className="flex h-4 w-4 items-center justify-center rounded-full text-white" style={{ background: !reached ? "#d2d2d7" : blocked ? "#d93025" : "#1f9d55" }} aria-hidden="true">
-                        {blocked ? <FiX size={10} /> : <FiCheck size={10} />}
-                      </span>
-                      <span className={blocked ? "font-semibold text-ink" : "text-subtle"}>{r.name}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-              <AnimatePresence>
-                {settled && (
-                  <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-xl px-3 py-2 text-[12px] font-semibold"
-                    style={{ background: stop ? "#eafaf0" : req.bad ? "#fdecea" : "#eff6ff", color: stop ? "#1f7a3a" : req.bad ? "#c2331b" : "#0066cc" }}>
-                    {stop ? `${spec.stopped || "Blocked"}: ${stop.why}.` : req.bad ? spec.passedBad || "Got through." : spec.passed || "Allowed."}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
+      <div className={`mt-4 grid gap-3 ${requests.length > 1 ? "sm:grid-cols-2" : ""}`}>
+        {requests.map((request, i) => (
+          <RequestCard key={i} spec={spec} request={request} activeRules={activeRules} step={step} />
+        ))}
       </div>
 
+      {/* Read the results out to screen-reader users when a run finishes. */}
       <p aria-live="polite" className="sr-only">
-        {done ? spec.requests.map((r) => `${r.label}: ${stopper(r) ? `blocked, ${stopper(r).why}` : "allowed"}.`).join(" ") : ""}
+        {finished
+          ? requests
+              .map((r) => {
+                const rule = findBlockingRule(activeRules, r);
+                return `${r.label}: ${rule ? `blocked, ${rule.why}` : "allowed"}.`;
+              })
+              .join(" ")
+          : ""}
       </p>
-      {done && spec.openNote && spec.requests.every((r) => !stopper(r)) && (
+
+      {finished && everythingGotThrough && spec.openNote && (
         <p className="mt-4 text-[13px] leading-relaxed text-subtle">{spec.openNote}</p>
       )}
     </Frame>
   );
 }
 
-const KINDS = { flow: Flow, compare: Compare, split: Split, gate: Gate };
+/* ------------------------------------------------------------------ pick the figure */
+
+const FIGURES = { flow: Flow, compare: Compare, split: Split, gate: Gate };
 
 export default function BlogFigure({ spec }) {
-  const C = KINDS[spec.kind];
-  return C ? <C spec={spec} /> : null;
+  const FigureComponent = FIGURES[spec?.kind];
+  return FigureComponent ? <FigureComponent spec={spec} /> : null;
 }

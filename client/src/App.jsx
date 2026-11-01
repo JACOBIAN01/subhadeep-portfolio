@@ -18,7 +18,7 @@ export default function App() {
           <Suspense fallback={null}>
             <CaseStudy slug={caseSlug} />
           </Suspense>
-        ) : path.startsWith("/blog") ? (
+        ) : path === "/blog" || path.startsWith("/blog/") ? (
           <Suspense fallback={null}>
             <Blog path={path} />
           </Suspense>
