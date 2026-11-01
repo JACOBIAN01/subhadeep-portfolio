@@ -4,22 +4,29 @@ import { MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import Home from "./pages/Home";
 const CaseStudy = lazy(() => import("./components/CaseStudy"));
+const BlogIndex = lazy(() => import("./components/blog/BlogIndex"));
+const BlogPost = lazy(() => import("./components/blog/BlogPost"));
 import "./index.css";
 
+function route(path) {
+  if (path.startsWith("/work/")) return { page: "case", slug: path.split("/")[2] };
+  if (path === "/blog" || path === "/blog/") return { page: "blogIndex" };
+  if (path.startsWith("/blog/")) return { page: "post", slug: path.split("/")[2] };
+  return { page: "home" };
+}
+
 export default function App() {
-  const path = window.location.pathname;
-  const caseSlug = path.startsWith("/work/") ? path.split("/")[2] : null;
+  const { page, slug } = route(window.location.pathname);
 
   return (
     <MotionConfig reducedMotion="user">
       <div className="bg-canvas text-ink overflow-x-hidden">
-        {caseSlug ? (
-          <Suspense fallback={null}>
-            <CaseStudy slug={caseSlug} />
-          </Suspense>
-        ) : (
-          <Home />
-        )}
+        <Suspense fallback={null}>
+          {page === "case" && <CaseStudy slug={slug} />}
+          {page === "blogIndex" && <BlogIndex />}
+          {page === "post" && <BlogPost slug={slug} />}
+          {page === "home" && <Home />}
+        </Suspense>
         <Analytics />
       </div>
     </MotionConfig>

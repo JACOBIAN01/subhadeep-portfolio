@@ -3,6 +3,10 @@
     {
       "source": "/work/:slug",
       "destination": "/index.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -12,6 +16,15 @@
         {
           "key": "Content-Disposition",
           "value": "inline; filename=\"Subhadeep_Ghorai_SDE_Resume.pdf\""
+        }
+      ]
+    },
+    {
+      "source": "/rss.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/rss+xml; charset=utf-8"
         }
       ]
     }
