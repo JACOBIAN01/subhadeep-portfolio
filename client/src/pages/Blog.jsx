@@ -20,7 +20,6 @@ import {
   summarize,
 } from "../data/blogMeta";
 import { slugify } from "../utils/slugify";
-import { EASE } from "../utils/motion";
 import self from "../assets/self.webp";
 
 /* ------------------------------------------------------------------ loading posts */
@@ -236,20 +235,14 @@ function Timeline({ items }) {
 
 function Figure({ block }) {
   // Only the interactive "gate" figure is useful to a screen reader as-is. For the
-  // animated ones, the reader hears the written description (`alt`) instead.
+  // diagrams, the reader hears the written description (`alt`) instead.
   const interactive = block.kind === "gate";
   return (
     <figure className="mt-10 lg:-mx-24">
       {block.alt && <p className="sr-only">{block.alt}</p>}
-      <motion.div
-        aria-hidden={!interactive}
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.55, ease: EASE }}
-      >
+      <div aria-hidden={!interactive}>
         <BlogFigure spec={block} />
-      </motion.div>
+      </div>
       {block.caption && (
         <figcaption className="mt-3.5 text-center font-sans text-[13px] leading-normal text-faint">
           {block.caption}

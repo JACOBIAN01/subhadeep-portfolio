@@ -10,7 +10,7 @@ to `main` directly (branch → PR → Vercel preview).
 | File | Owner | What it is |
 |---|---|---|
 | `client/src/pages/Blog.jsx` | Decoded agent | Template: `/blog` index and `/blog/<slug>` post pages |
-| `client/src/components/BlogFigures.jsx` | Decoded agent | Animated / interactive figures |
+| `client/src/components/BlogFigures.jsx` | Decoded agent | Still diagrams (flow, compare, split) and the interactive demo (gate) |
 | `client/src/content/blog/*.json` | Decoded agent | **One file per post. The only thing that changes weekly.** |
 | `client/public/og/blog-*.png` | Decoded agent | Link-preview image per post |
 | `client/src/data/blogMeta.js` | Decoded agent | Blog rules used by **both** the site and the build: which posts are published, slug from file name, reading time, tagline |
