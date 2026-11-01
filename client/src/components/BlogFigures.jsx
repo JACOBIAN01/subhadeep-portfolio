@@ -220,15 +220,57 @@ function Compare({ spec }) {
 /* ------------------------------------------------------------------ split */
 // Where things live: two panes side by side, with optional share bars and a moving token.
 // panes: [{ kicker, title, body, share, shareLabel, icon, tone }]   exactly 2
-// mover: a short token that travels between the panes (e.g. "₿")
-// out:   label for a second hop out of the right pane
+// mover: a short token that travels left pane -> right pane (e.g. "₿")
+// out:   label for a last hop out of the right pane (the token ends there)
 
-function travellingToken(delaySeconds) {
-  return {
-    initial: { opacity: 0 },
-    whileInView: { opacity: [0, 1, 1, 0] },
-    transition: { duration: 3.2, times: [0, 0.12, 0.8, 1], repeat: Infinity, repeatDelay: 1.2, delay: delaySeconds },
-  };
+// True on screens wide enough to show the panes side by side (Tailwind's `sm:` size).
+function useIsWide() {
+  const query = "(min-width: 640px)";
+  const [isWide, setIsWide] = useState(() => window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const onChange = () => setIsWide(media.matches);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  return isWide;
+}
+
+// Where the token stops, as [left %, top %] of the figure: the left pane, the right pane,
+// then the "out" label if there is one. Side by side on wide screens, stacked on phones.
+function tokenStops(isWide, hasOut) {
+  const stops = isWide ? [[25, 42], [75, 42]] : [[50, 22], [50, 70]];
+  if (hasOut) stops.push(isWide ? [97, 96] : [93, 97]);
+  return stops;
+}
+
+// The token fades in on the first stop, moves through each stop, and fades out on the last.
+function TravellingToken({ text, stops, colour, running }) {
+  const path = [stops[0], ...stops, stops[stops.length - 1]];
+  const visible = path.map((_, i) => (i === 0 || i === path.length - 1 ? 0 : 1));
+
+  return (
+    <motion.div
+      className="absolute z-10 flex h-7 min-w-7 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white shadow-md"
+      style={{ background: colour, x: "-50%", y: "-50%", left: `${stops[0][0]}%`, top: `${stops[0][1]}%`, opacity: 0 }}
+      animate={
+        running
+          ? { left: path.map(([left]) => `${left}%`), top: path.map(([, top]) => `${top}%`), opacity: visible }
+          : { opacity: 0 }
+      }
+      transition={{
+        duration: 1.4 * stops.length,
+        times: path.map((_, i) => i / (path.length - 1)),
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatDelay: 0.8,
+      }}
+    >
+      {text}
+    </motion.div>
+  );
 }
 
 function Pane({ pane, fallbackTone }) {
@@ -268,41 +310,35 @@ function Pane({ pane, fallbackTone }) {
 }
 
 function Split({ spec }) {
+  const [ref, onScreen] = useOnScreen();
+  const isWide = useIsWide();
   const [left, right] = asList(spec.panes);
   if (!left || !right) return null;
 
   return (
     <Frame label={spec.label}>
-      <div className="flex flex-col gap-4 sm:flex-row sm:gap-5">
-        <Pane pane={left} fallbackTone="blue" />
-        <div className="relative flex items-center justify-center sm:w-16">
-          <div className="h-px w-full bg-hairline sm:h-full sm:w-px" />
-          {spec.mover && (
-            <motion.div
-              {...travellingToken(0)}
-              className="absolute flex h-7 min-w-7 items-center justify-center rounded-full bg-ink px-1.5 text-[10px] font-bold text-white shadow-md"
-            >
-              {spec.mover}
-            </motion.div>
-          )}
+      <div ref={ref} className="relative">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-5">
+          <Pane pane={left} fallbackTone="blue" />
+          <div className="flex items-center justify-center sm:w-16">
+            <div className="h-px w-full bg-hairline sm:h-full sm:w-px" />
+          </div>
+          <Pane pane={right} fallbackTone="orange" />
         </div>
-        <Pane pane={right} fallbackTone="orange" />
-      </div>
 
-      {spec.out && (
-        <div className="mt-4 flex items-center justify-end gap-2 text-[11px] font-medium text-subtle">
-          {spec.out}
-          {spec.mover && (
-            <motion.span
-              {...travellingToken(1.4)}
-              className="flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white"
-              style={{ background: toneColour(right.tone, "orange") }}
-            >
-              {spec.mover}
-            </motion.span>
-          )}
-        </div>
-      )}
+        {spec.out && (
+          <div className="mt-4 pr-10 text-right text-[11px] font-medium text-subtle">{spec.out}</div>
+        )}
+
+        {spec.mover && (
+          <TravellingToken
+            text={spec.mover}
+            stops={tokenStops(isWide, Boolean(spec.out))}
+            colour="#1d1d1f"
+            running={onScreen}
+          />
+        )}
+      </div>
     </Frame>
   );
 }
@@ -349,6 +385,12 @@ function conditionIsTrue(condition, fields) {
   }
 }
 
+// "Blocked: amount is over the limit." or just "Blocked." if the rule gives no reason.
+function blockedMessage(spec, rule) {
+  const word = spec.stopped || "Blocked";
+  return typeof rule.why === "string" && rule.why ? `${word}: ${rule.why}.` : `${word}.`;
+}
+
 // The first switched-on rule that stops this request, or undefined if it gets through.
 function findBlockingRule(activeRules, request) {
   const fields = request.fields && typeof request.fields === "object" ? request.fields : {};
@@ -391,7 +433,7 @@ function RequestCard({ spec, request, activeRules, step }) {
   const outcomeIsRight = wasStopped === shouldBeStopped;
 
   let message;
-  if (wasStopped) message = `${spec.stopped || "Blocked"}: ${blockingRule.why}.`;
+  if (wasStopped) message = blockedMessage(spec, blockingRule);
   else if (shouldBeStopped) message = spec.passedBad || "Got through.";
   else message = spec.passed || "Allowed.";
 
@@ -515,7 +557,7 @@ function Gate({ spec }) {
           ? requests
               .map((r) => {
                 const rule = findBlockingRule(activeRules, r);
-                return `${r.label}: ${rule ? `blocked, ${rule.why}` : "allowed"}.`;
+                return `${r.label}: ${rule ? blockedMessage(spec, rule) : "allowed."}`;
               })
               .join(" ")
           : ""}

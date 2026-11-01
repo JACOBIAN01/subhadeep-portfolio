@@ -11,45 +11,51 @@ import PageHeader from "../components/PageHeader";
 import BlogFigure from "../components/BlogFigures";
 import { PROFILE } from "../data/profileData";
 import { SITE } from "../data/caseMeta";
+import {
+  BLOG_TAGLINE,
+  blocksOf,
+  isPublishable,
+  newestFirst,
+  slugFromFileName,
+  summarize,
+} from "../data/blogMeta";
 import { slugify } from "../utils/slugify";
 import self from "../assets/self.webp";
 
 /* ------------------------------------------------------------------ loading posts */
+// Which posts exist and their URLs follow src/data/blogMeta.js, the same rules the build
+// uses, so the list, the post pages and the sitemap always agree.
 
 // Vite gives each JSON file its own small download, fetched only when asked for.
-// So a post page downloads just that post, not every post.
+// So a post page downloads just that post.
 const POST_FILES = import.meta.glob("../content/blog/*.json", { import: "default" });
-
-// The file name is the post's slug: ".../binance-6-3-billion.json" -> "binance-6-3-billion".
-function slugFromPath(path) {
-  return path.split("/").pop().replace(".json", "");
-}
-
-// A post needs these fields to be shown at all. A broken file is skipped, never fatal.
-function isUsablePost(post) {
-  return (
-    Boolean(post) &&
-    typeof post.title === "string" &&
-    typeof post.date === "string" &&
-    Array.isArray(post.blocks)
-  );
-}
 
 async function loadPost(slug) {
   const loadFile = POST_FILES[`../content/blog/${slug}.json`];
   if (!loadFile) return null;
   const post = await loadFile();
-  return isUsablePost(post) ? { ...post, slug } : null;
+  return isPublishable(post) ? { ...post, slug } : null;
 }
 
-async function loadAllPosts() {
-  const posts = await Promise.all(
+// The /blog list. In production it reads blog/posts.json, a small summary the build writes,
+// so the list never downloads whole posts. The dev server has no build step, so there it
+// reads the post files directly; a file that fails to load is skipped, not fatal.
+async function loadPostList() {
+  if (!import.meta.env.DEV) {
+    const response = await fetch("/blog/posts.json");
+    return response.ok ? response.json() : [];
+  }
+
+  const results = await Promise.allSettled(
     Object.entries(POST_FILES).map(async ([path, loadFile]) => ({
-      ...(await loadFile()),
-      slug: slugFromPath(path),
+      post: await loadFile(),
+      slug: slugFromFileName(path),
     }))
   );
-  return posts.filter(isUsablePost).sort((a, b) => b.date.localeCompare(a.date));
+  return results
+    .filter((result) => result.status === "fulfilled" && isPublishable(result.value.post))
+    .map((result) => summarize(result.value.post, result.value.slug))
+    .sort(newestFirst);
 }
 
 /* ------------------------------------------------------------------ small helpers */
@@ -66,26 +72,27 @@ function formatDate(isoDate) {
   });
 }
 
-function countWords(text) {
-  return typeof text === "string" ? text.split(/\s+/).filter(Boolean).length : 0;
-}
-
-// About 220 words a minute, counting paragraphs, list items and timeline entries.
-function readingTime(post) {
-  let words = 0;
-  for (const block of post.blocks) {
-    if (!block) continue;
-    words += countWords(block.c);
-    for (const item of block.items || []) {
-      words += countWords(typeof item === "string" ? item : item?.what);
-    }
-  }
-  return Math.max(1, Math.round(words / 220));
-}
-
 // Inline formatting inside any text: **bold**, `code` and [link text](https://...).
 // Only complete pairs count: an unclosed "**" is left as plain text.
 const INLINE_PATTERN = /\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\)/g;
+
+// The same text with the formatting marks removed: "The **real** bug" -> "The real bug".
+function plainText(text) {
+  if (typeof text !== "string") return "";
+  return text.replace(INLINE_PATTERN, (whole, bold, code, linkText) => bold || code || linkText);
+}
+
+// Anchor ids for every heading in a post. Repeated headings get "-2", "-3", ... so each
+// link jumps to the right place. Returns a list matching the blocks, by position.
+function headingIds(blocks) {
+  const timesSeen = {};
+  return blocks.map((block) => {
+    if (!block || (block.t !== "h2" && block.t !== "h3")) return null;
+    const base = slugify(plainText(block.c)) || "section";
+    timesSeen[base] = (timesSeen[base] || 0) + 1;
+    return timesSeen[base] === 1 ? base : `${base}-${timesSeen[base]}`;
+  });
+}
 
 function Inline({ text }) {
   const source = typeof text === "string" ? text : "";
@@ -225,7 +232,7 @@ function Figure({ block }) {
   );
 }
 
-function Block({ block }) {
+function Block({ block, headingId }) {
   const items = Array.isArray(block.items) ? block.items : [];
 
   switch (block.t) {
@@ -234,9 +241,9 @@ function Block({ block }) {
     case "p":
       return <p className="blog-prose"><Inline text={block.c} /></p>;
     case "h2":
-      return <h2 className="blog-prose" id={slugify(block.c)}>{block.c}</h2>;
+      return <h2 className="blog-prose" id={headingId}><Inline text={block.c} /></h2>;
     case "h3":
-      return <h3 className="blog-prose" id={slugify(block.c)}>{block.c}</h3>;
+      return <h3 className="blog-prose" id={headingId}><Inline text={block.c} /></h3>;
     case "ul":
       return <ul className="blog-prose">{items.map((item, i) => <li key={i}><Inline text={item} /></li>)}</ul>;
     case "ol":
@@ -297,14 +304,29 @@ function ReadingProgress() {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
+    let waitingForFrame = false;
+
     function update() {
+      waitingForFrame = false;
       const page = document.documentElement;
       const scrollable = page.scrollHeight - page.clientHeight;
-      setPercent(scrollable > 0 ? (page.scrollTop / scrollable) * 100 : 0);
+      setPercent(scrollable > 0 ? Math.round((page.scrollTop / scrollable) * 1000) / 10 : 0);
     }
+
+    // Scroll and resize can fire many times per frame; redraw at most once per frame.
+    function scheduleUpdate() {
+      if (waitingForFrame) return;
+      waitingForFrame = true;
+      requestAnimationFrame(update);
+    }
+
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
   }, []);
 
   return (
@@ -346,7 +368,12 @@ function PostPage({ slug }) {
   if (post === undefined) return null;
   if (post === null) return <NotFound />;
 
-  const postUrl = `${SITE}/blog/${post.slug}`;
+  // The header uses the same tidy summary as the /blog list (plain text only), and each
+  // block is drawn inside SkipIfBroken, so odd data in the file can't crash the page.
+  const info = summarize(post, slug);
+  const blocks = blocksOf(post);
+  const ids = headingIds(blocks);
+  const postUrl = `${SITE}/blog/${slug}`;
   const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
 
   return (
@@ -356,13 +383,13 @@ function PostPage({ slug }) {
       <PageHeader backHref="/blog" backLabel="All posts" />
 
       <main id="main" className="mx-auto max-w-[44rem] px-6 pb-20 pt-12 sm:pt-16">
-        <SeriesLabel post={post} />
+        <SeriesLabel post={info} />
         <h1 className="mt-3 text-[2.1rem] font-semibold leading-[1.12] tracking-[-0.025em] text-ink sm:text-[2.75rem]">
-          {post.title}
+          {info.title}
         </h1>
-        {post.dek && (
+        {info.dek && (
           <p className="mt-5 text-[1.3rem] leading-[1.5] text-subtle" style={{ fontFamily: SERIF }}>
-            {post.dek}
+            {info.dek}
           </p>
         )}
 
@@ -370,26 +397,26 @@ function PostPage({ slug }) {
           <img src={self} alt="" width="36" height="36" className="h-9 w-9 rounded-full object-cover" />
           <span className="text-[14px] font-medium text-ink">{PROFILE.name}</span>
           <span aria-hidden="true">·</span>
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
+          <time dateTime={info.date}>{formatDate(info.date)}</time>
           <span aria-hidden="true">·</span>
-          <span>{readingTime(post)} min read</span>
+          <span>{info.minutes} min read</span>
           <a href={shareUrl} target="_blank" rel="noreferrer" className="ml-auto inline-flex items-center gap-1.5 hover:text-accent">
             <FaLinkedin aria-hidden="true" /> Share
           </a>
         </div>
 
         <article className="mt-10">
-          {post.blocks.map((block, i) =>
-            block ? (
+          {blocks.map((block, i) =>
+            block && typeof block === "object" ? (
               <SkipIfBroken key={i}>
-                <Block block={block} />
+                <Block block={block} headingId={ids[i]} />
               </SkipIfBroken>
             ) : null
           )}
         </article>
 
         <div className="mt-16 rounded-3xl border border-hairline bg-canvas-alt p-6 sm:p-8">
-          <SmallLabel>About {post.series || "this series"}</SmallLabel>
+          <SmallLabel>About {info.series || "this series"}</SmallLabel>
           <p className="mt-3 text-[15px] leading-relaxed text-ink">
             One trending tech story a week, explained from zero, with a demo you can try. Written for
             students and anyone who wants the mechanism rather than the headline.
@@ -414,7 +441,7 @@ function IndexPage() {
 
   useEffect(() => {
     document.title = `Writing | ${PROFILE.name}`;
-    loadAllPosts().then(setPosts).catch(() => setPosts([]));
+    loadPostList().then(setPosts).catch(() => setPosts([]));
   }, []);
 
   return (
@@ -423,8 +450,7 @@ function IndexPage() {
       <main id="main" className="mx-auto max-w-3xl px-6 pb-20 pt-16 sm:pt-24">
         <h1 className="text-4xl font-semibold tracking-tight text-ink sm:text-5xl">Writing</h1>
         <p className="mt-5 max-w-xl text-[1.25rem] leading-relaxed text-subtle" style={{ fontFamily: SERIF }}>
-          Long-form explainers of one trending tech story a week, from zero, with diagrams you can
-          watch and demos you can try.
+          {BLOG_TAGLINE}
         </p>
 
         <div className="mt-14">
@@ -433,7 +459,7 @@ function IndexPage() {
               <div className="flex flex-wrap gap-x-3 text-[12px] text-faint">
                 <SeriesLabel post={post} />
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
-                <span>· {readingTime(post)} min read</span>
+                <span>· {post.minutes} min read</span>
               </div>
               <h2 className="mt-2.5 text-2xl font-semibold leading-snug tracking-tight text-ink group-hover:text-accent sm:text-[1.75rem]">
                 {post.title}

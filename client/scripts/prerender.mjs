@@ -4,6 +4,7 @@
 // The React app still takes over in the browser. Also regenerates sitemap.xml.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { CASE_META, SITE } from "../src/data/caseMeta.js";
+import { BLOG_TAGLINE, isPublishable, newestFirst, slugFromFileName, summarize } from "../src/data/blogMeta.js";
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const template = readFileSync("dist/index.html", "utf8");
@@ -13,15 +14,15 @@ const setMeta = (html, attr, key, value) =>
     (_, a, b) => `${a}${esc(value)}${b}`
   );
 
-// Blog posts (one JSON per post, file name = slug) and the /blog index get the same
-// per-page tags. A post without a title or description is skipped, like on the site.
+// Blog posts get the same per-page tags. Which posts are published, and their URLs, come
+// from src/data/blogMeta.js, the same rules the site uses.
 const posts = readdirSync("src/content/blog")
   .filter((f) => f.endsWith(".json"))
-  .map((f) => ({ ...JSON.parse(readFileSync(`src/content/blog/${f}`, "utf8")), slug: f.slice(0, -5) }))
-  .filter((p) => typeof p.title === "string" && typeof p.description === "string");
+  .map((f) => ({ ...JSON.parse(readFileSync(`src/content/blog/${f}`, "utf8")), slug: slugFromFileName(f) }))
+  .filter(isPublishable);
 const PAGES = [
   ...CASE_META.map((c) => ({ ...c, path: `work/${c.slug}`, img: `/og/${c.slug}.png` })),
-  { title: "Writing", description: "One trending tech story a week, explained from zero.", path: "blog", img: "/preview.jpg" },
+  { title: "Writing", description: BLOG_TAGLINE, path: "blog", img: "/preview.jpg" },
   ...posts.map((p) => ({ ...p, path: `blog/${p.slug}`, img: `/og/blog-${p.slug}.png` })),
 ];
 
@@ -64,4 +65,7 @@ writeFileSync(
       .join("\n") +
     `\n</urlset>\n`
 );
+// The /blog list reads this small summary instead of downloading every full post.
+writeFileSync("dist/blog/posts.json", JSON.stringify(posts.map((p) => summarize(p, p.slug)).sort(newestFirst)));
+
 console.log(`prerendered ${CASE_META.length} case studies + ${posts.length} blog posts + sitemap`);
