@@ -20,7 +20,7 @@ to `main` directly (branch → PR → Vercel preview).
 The blog touches existing code in four small places; keep it that way:
 `App.jsx` (lazy import + `/blog` route), `scripts/prerender.mjs` (blog pages join the
 existing per-page loop, so each post gets its own title, description and preview image
-for LinkedIn), `vercel.json` (a `/blog/:slug` fallback so a mistyped link shows the blog's
+for LinkedIn), `vercel.json` (a `/blog/*` fallback so a mistyped link shows the blog's
 "Post not found"), and one "Writing" link in `Navbar.jsx`. No new npm packages.
 
 ## Adding a post: no code changes
@@ -32,8 +32,9 @@ loads only that post. The `/blog` list reads `blog/posts.json`, a small summary 
 `scripts/prerender.mjs` writes at build time (in `npm run dev` it reads the files directly).
 Then `npm run lint && npm run build`.
 
-A post is published only if it has a `title`, a `description` and a `date` written
-`YYYY-MM-DD` (the rule lives in `src/data/blogMeta.js`, shared by the site and the build, so
+A post is published only if it has a `title`, a `description` and a real `date` written
+`YYYY-MM-DD` that isn't in the future (a future-dated post goes live with the first build
+on or after its date, UTC) (the rule lives in `src/data/blogMeta.js`, shared by the site and the build, so
 the list, the post page and the sitemap always agree). Anything else is skipped everywhere,
 and a block with bad data is hidden rather than breaking the page. Check the preview anyway:
 skipped content fails silently.
@@ -49,11 +50,12 @@ The Decoded agent validates each post and generates its image in `decoded-conten
 ```
 
 Blocks: `lead`, `p`, `h2`, `h3`, `ul`/`ol` (`items`), `quote`, `callout` (`kind`:
-`documented` + `src` | `ourbuild` | `note`), `timeline` (`items: [{when, what}]`), `code`,
+`documented` + `src` | `ourbuild` | `note`), `timeline` (`items: [{when, what}]`), `code` (`c`),
 `keytakeaway` (`items`), `sources` (`items: [{label, href}]`), `divider`, and `figure`
 with `kind`: `flow` (steps + runs), `compare` (lanes), `split` (2 panes), `gate`
 (interactive rules + requests). Each figure kind's fields are listed above its function in
-`BlogFigures.jsx`. Text supports `**bold**`, `` `code` `` and `[text](https://…)`.
+`BlogFigures.jsx`. Text supports `**bold**`, `` `code` `` and `[text](https://…)`; only `https://`, `http://`,
+`/…` and `#…` links are clickable, anything else shows as plain text.
 
 ## Writing rules (same as the LinkedIn series)
 

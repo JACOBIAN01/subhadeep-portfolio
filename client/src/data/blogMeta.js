@@ -10,21 +10,31 @@ export function slugFromFileName(fileName) {
   return fileName.split("/").pop().replace(/\.json$/, "");
 }
 
-// A real calendar date written as YYYY-MM-DD.
+// A real calendar date written as YYYY-MM-DD. Date.parse alone isn't enough: it quietly
+// turns "2026-02-30" into 2 March, so the date must come back unchanged.
 function isIsoDate(text) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(text) && !Number.isNaN(Date.parse(text));
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return false;
+  const time = Date.parse(`${text}T00:00:00Z`);
+  return !Number.isNaN(time) && new Date(time).toISOString().slice(0, 10) === text;
+}
+
+// Today as YYYY-MM-DD (UTC).
+export function todayIso() {
+  return new Date().toISOString().slice(0, 10);
 }
 
 // A post is published only if it has a title, a description (needed for the LinkedIn
-// preview card) and a valid date. Anything else is skipped everywhere: no page, no list
-// entry, no sitemap entry.
-export function isPublishable(post) {
+// preview card) and a valid date that isn't after `today`. Anything else is skipped
+// everywhere: no page, no list entry, no sitemap entry. A post dated in the future goes
+// live with the first build on or after its date.
+export function isPublishable(post, today = todayIso()) {
   return (
     Boolean(post) &&
     typeof post.title === "string" &&
     typeof post.description === "string" &&
     typeof post.date === "string" &&
-    isIsoDate(post.date)
+    isIsoDate(post.date) &&
+    post.date <= today
   );
 }
 

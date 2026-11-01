@@ -4,7 +4,7 @@
 // The React app still takes over in the browser. Also regenerates sitemap.xml.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { CASE_META, SITE } from "../src/data/caseMeta.js";
-import { BLOG_TAGLINE, isPublishable, newestFirst, slugFromFileName, summarize } from "../src/data/blogMeta.js";
+import { BLOG_TAGLINE, isPublishable, newestFirst, slugFromFileName, summarize, todayIso } from "../src/data/blogMeta.js";
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const template = readFileSync("dist/index.html", "utf8");
@@ -14,12 +14,15 @@ const setMeta = (html, attr, key, value) =>
     (_, a, b) => `${a}${esc(value)}${b}`
   );
 
+// One date for the whole build, so every page and the sitemap agree on which posts are live.
+const today = todayIso();
+
 // Blog posts get the same per-page tags. Which posts are published, and their URLs, come
 // from src/data/blogMeta.js, the same rules the site uses.
 const posts = readdirSync("src/content/blog")
   .filter((f) => f.endsWith(".json"))
   .map((f) => ({ ...JSON.parse(readFileSync(`src/content/blog/${f}`, "utf8")), slug: slugFromFileName(f) }))
-  .filter(isPublishable);
+  .filter((post) => isPublishable(post, today));
 const PAGES = [
   ...CASE_META.map((c) => ({ ...c, path: `work/${c.slug}`, img: `/og/${c.slug}.png` })),
   { title: "Writing", description: BLOG_TAGLINE, path: "blog", img: "/preview.jpg" },
@@ -30,8 +33,8 @@ for (const c of PAGES) {
   const url = `${SITE}/${c.path}`;
   const title = `${c.title} | Subhadeep Ghorai`;
   let html = template
-    .replace(/<title>.*?<\/title>/s, `<title>${esc(title)}</title>`)
-    .replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`);
+    .replace(/<title>.*?<\/title>/s, () => `<title>${esc(title)}</title>`)
+    .replace(/(<link rel="canonical" href=")[^"]*(")/, (_, a, b) => `${a}${url}${b}`);
   html = setMeta(html, "name", "description", c.description);
   html = setMeta(html, "property", "og:url", url);
   html = setMeta(html, "property", "og:title", title);
@@ -41,15 +44,15 @@ for (const c of PAGES) {
   html = setMeta(html, "name", "twitter:image", img);
   html = setMeta(html, "name", "twitter:title", title);
   html = setMeta(html, "name", "twitter:description", c.description);
+  // Replacement text is passed as a function so "$" in post text (dollar amounts) stays literal.
   html = html.replace(
     '<div id="root"></div>',
-    `<div id="root"></div>\n    <noscript><h1>${esc(c.title)}</h1><p>${esc(c.description)}</p><p><a href="${SITE}/">Subhadeep Ghorai: portfolio</a></p></noscript>`
+    () => `<div id="root"></div>\n    <noscript><h1>${esc(c.title)}</h1><p>${esc(c.description)}</p><p><a href="${SITE}/">Subhadeep Ghorai: portfolio</a></p></noscript>`
   );
   mkdirSync(`dist/${c.path}`, { recursive: true });
   writeFileSync(`dist/${c.path}/index.html`, html);
 }
 
-const today = new Date().toISOString().slice(0, 10);
 const urls = [
   { loc: `${SITE}/`, priority: "1.0" },
   ...PAGES.map((c) => ({ loc: `${SITE}/${c.path}`, priority: "0.8" })),

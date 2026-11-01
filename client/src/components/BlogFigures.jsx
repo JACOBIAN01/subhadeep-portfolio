@@ -4,7 +4,7 @@
 // a figure draws what it can, or nothing.
 import { useEffect, useRef, useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   FiKey, FiLock, FiUnlock, FiMonitor, FiServer, FiDatabase, FiGlobe, FiUser, FiUsers,
   FiMail, FiSearch, FiShield, FiAlertTriangle, FiCloud, FiFileText, FiSmartphone,
@@ -62,16 +62,7 @@ function Frame({ label, buttons, children }) {
 // True while the element is on screen, so animations only run when someone can see them.
 function useOnScreen() {
   const ref = useRef(null);
-  const [onScreen, setOnScreen] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), {
-      threshold: 0.35,
-    });
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
+  const onScreen = useInView(ref, { amount: 0.35 });
   return [ref, onScreen];
 }
 
@@ -421,21 +412,28 @@ function RuleSwitch({ rule, on, onToggle }) {
   );
 }
 
-// One request's card. `step` counts how many rules have been checked so far (-1 = not run).
-function RequestCard({ spec, request, activeRules, step }) {
+// What happened to one request, and whether that was the right outcome. Used for both the
+// card and the screen-reader announcement, so the two always say the same thing.
+function requestOutcome(spec, request, activeRules) {
   const blockingRule = findBlockingRule(activeRules, request);
-  const blockedAt = activeRules.indexOf(blockingRule); // -1 if it gets through
-  const finished = step >= 0 && (blockingRule ? step > blockedAt : step >= activeRules.length);
-
   // Right outcome = a bad request stopped, or a good request let through.
   const shouldBeStopped = Boolean(request.bad);
   const wasStopped = Boolean(blockingRule);
-  const outcomeIsRight = wasStopped === shouldBeStopped;
 
   let message;
   if (wasStopped) message = blockedMessage(spec, blockingRule);
   else if (shouldBeStopped) message = spec.passedBad || "Got through.";
   else message = spec.passed || "Allowed.";
+
+  return { blockingRule, message, outcomeIsRight: wasStopped === shouldBeStopped };
+}
+
+// One request's card. `step` counts how many rules have been checked so far (-1 = not run).
+function RequestCard({ spec, request, activeRules, step }) {
+  const { blockingRule, message, outcomeIsRight } = requestOutcome(spec, request, activeRules);
+  const shouldBeStopped = Boolean(request.bad);
+  const blockedAt = activeRules.indexOf(blockingRule); // -1 if it gets through
+  const finished = step >= 0 && (blockingRule ? step > blockedAt : step >= activeRules.length);
 
   return (
     <div className="rounded-2xl border border-hairline bg-white p-4">
@@ -555,10 +553,7 @@ function Gate({ spec }) {
       <p aria-live="polite" className="sr-only">
         {finished
           ? requests
-              .map((r) => {
-                const rule = findBlockingRule(activeRules, r);
-                return `${r.label}: ${rule ? blockedMessage(spec, rule) : "allowed."}`;
-              })
+              .map((r) => `${r.label}: ${requestOutcome(spec, r, activeRules).message}`)
               .join(" ")
           : ""}
       </p>

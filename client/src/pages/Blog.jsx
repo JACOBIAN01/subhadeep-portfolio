@@ -3,7 +3,7 @@
 // The post format is described in CLAUDE.md at the repo root.
 import { Component, useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { FaLinkedin } from "react-icons/fa";
 import { FiArrowRight } from "react-icons/fi";
 import Footer from "../components/Footer";
@@ -20,6 +20,7 @@ import {
   summarize,
 } from "../data/blogMeta";
 import { slugify } from "../utils/slugify";
+import { EASE } from "../utils/motion";
 import self from "../assets/self.webp";
 
 /* ------------------------------------------------------------------ loading posts */
@@ -30,21 +31,36 @@ import self from "../assets/self.webp";
 // So a post page downloads just that post.
 const POST_FILES = import.meta.glob("../content/blog/*.json", { import: "default" });
 
+// blog/posts.json, the small summary the build writes: the posts that were live at build
+// time. Fetched once per visit; null if it can't be read.
+let builtListRequest;
+function fetchBuiltList() {
+  builtListRequest ??= fetch("/blog/posts.json")
+    .then((response) => (response.ok ? response.json() : null))
+    .then((list) => (Array.isArray(list) ? list : null))
+    .catch(() => null);
+  return builtListRequest;
+}
+
+// In production a post page shows only posts the build listed, so the page, the list and
+// the sitemap agree (a post dated in the future stays hidden until the next build after
+// its date). If the summary can't be read, the post's own rules decide.
 async function loadPost(slug) {
   const loadFile = POST_FILES[`../content/blog/${slug}.json`];
   if (!loadFile) return null;
-  const post = await loadFile();
-  return isPublishable(post) ? { ...post, slug } : null;
+  const [post, builtList] = await Promise.all([
+    loadFile(),
+    import.meta.env.DEV ? null : fetchBuiltList(),
+  ]);
+  const listed = !builtList || builtList.some((entry) => entry.slug === slug);
+  return listed && isPublishable(post) ? { ...post, slug } : null;
 }
 
-// The /blog list. In production it reads blog/posts.json, a small summary the build writes,
-// so the list never downloads whole posts. The dev server has no build step, so there it
-// reads the post files directly; a file that fails to load is skipped, not fatal.
+// The /blog list. In production it reads blog/posts.json, so the list never downloads
+// whole posts. The dev server has no build step, so there it reads the post files
+// directly; a file that fails to load is skipped, not fatal.
 async function loadPostList() {
-  if (!import.meta.env.DEV) {
-    const response = await fetch("/blog/posts.json");
-    return response.ok ? response.json() : [];
-  }
+  if (!import.meta.env.DEV) return (await fetchBuiltList()) || [];
 
   const results = await Promise.allSettled(
     Object.entries(POST_FILES).map(async ([path, loadFile]) => ({
@@ -61,7 +77,6 @@ async function loadPostList() {
 /* ------------------------------------------------------------------ small helpers */
 
 const SERIF = 'Charter, "Iowan Old Style", "Source Serif 4", Georgia, "Times New Roman", serif';
-const EASE = [0.16, 1, 0.3, 1];
 
 function formatDate(isoDate) {
   return new Date(`${isoDate}T00:00:00Z`).toLocaleDateString("en-GB", {
@@ -73,8 +88,19 @@ function formatDate(isoDate) {
 }
 
 // Inline formatting inside any text: **bold**, `code` and [link text](https://...).
-// Only complete pairs count: an unclosed "**" is left as plain text.
-const INLINE_PATTERN = /\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((.+?)\)/g;
+// Only complete pairs count: an unclosed "**" is left as plain text. Link text can't
+// contain brackets (so "[1] and [the report](...)" links only "the report"), and a URL may
+// contain one level of brackets, as in Wikipedia's ".../Foo_(bar)".
+const INLINE_PATTERN = /\*\*(.+?)\*\*|`(.+?)`|\[([^[\]]+)\]\(((?:[^()\s]|\([^()\s]*\))+)\)/g;
+
+// Only web links and links within this site are made clickable. Anything else in a post
+// (data:, mailto:, "//other-site") is shown as plain text.
+function safeHref(href) {
+  if (typeof href !== "string") return null;
+  if (/^https?:\/\//i.test(href)) return href;
+  if (/^\/(?!\/)/.test(href) || href.startsWith("#")) return href;
+  return null;
+}
 
 // The same text with the formatting marks removed: "The **real** bug" -> "The real bug".
 function plainText(text) {
@@ -104,12 +130,13 @@ function Inline({ text }) {
     parts.push(source.slice(lastEnd, match.index));
     if (bold) parts.push(<strong key={match.index}>{bold}</strong>);
     else if (code) parts.push(<code key={match.index}>{code}</code>);
-    else
+    else if (safeHref(linkHref))
       parts.push(
-        <a key={match.index} href={linkHref} target="_blank" rel="noreferrer">
+        <a key={match.index} href={safeHref(linkHref)} target="_blank" rel="noreferrer">
           {linkText}
         </a>
       );
+    else parts.push(linkText);
     lastEnd = match.index + whole.length;
   }
 
@@ -257,7 +284,7 @@ function Block({ block, headingId }) {
     case "code":
       return (
         <pre className="mt-8 overflow-x-auto rounded-2xl border border-hairline bg-white p-5 text-[13px] leading-relaxed">
-          <code>{block.code}</code>
+          <code>{typeof block.c === "string" ? block.c : block.code}</code>
         </pre>
       );
     case "figure":
@@ -283,9 +310,13 @@ function Block({ block, headingId }) {
           <ul className="mt-3 flex flex-col gap-2">
             {items.map((item, i) => (
               <li key={i} className="text-[14px]">
-                <a href={item.href} target="_blank" rel="noreferrer" className="text-subtle hover:text-ink">
-                  {item.label}
-                </a>
+                {safeHref(item.href) ? (
+                  <a href={safeHref(item.href)} target="_blank" rel="noreferrer" className="text-subtle hover:text-ink">
+                    {item.label}
+                  </a>
+                ) : (
+                  <span className="text-subtle">{item.label}</span>
+                )}
               </li>
             ))}
           </ul>
@@ -300,38 +331,12 @@ function Block({ block, headingId }) {
 
 /* ------------------------------------------------------------------ pages */
 
+// framer-motion tracks scroll and window size and moves the bar without re-rendering React.
 function ReadingProgress() {
-  const [percent, setPercent] = useState(0);
-
-  useEffect(() => {
-    let waitingForFrame = false;
-
-    function update() {
-      waitingForFrame = false;
-      const page = document.documentElement;
-      const scrollable = page.scrollHeight - page.clientHeight;
-      setPercent(scrollable > 0 ? Math.round((page.scrollTop / scrollable) * 1000) / 10 : 0);
-    }
-
-    // Scroll and resize can fire many times per frame; redraw at most once per frame.
-    function scheduleUpdate() {
-      if (waitingForFrame) return;
-      waitingForFrame = true;
-      requestAnimationFrame(update);
-    }
-
-    update();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    return () => {
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-    };
-  }, []);
-
+  const { scrollYProgress } = useScroll();
   return (
     <div className="fixed inset-x-0 top-0 z-50 h-0.5" aria-hidden="true">
-      <div className="h-full bg-accent" style={{ width: `${percent}%` }} />
+      <motion.div className="h-full origin-left bg-accent" style={{ scaleX: scrollYProgress }} />
     </div>
   );
 }
@@ -481,7 +486,9 @@ function IndexPage() {
   );
 }
 
+// "/blog" -> list, "/blog/<slug>" -> post, anything deeper -> "Post not found".
 export default function Blog({ path }) {
-  const slug = path.split("/")[2];
+  const [, slug, ...extra] = path.split("/").filter(Boolean);
+  if (extra.length > 0) return <NotFound />;
   return slug ? <PostPage slug={slug} /> : <IndexPage />;
 }
