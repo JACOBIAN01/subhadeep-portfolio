@@ -4,6 +4,7 @@ import { MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
 import Home from "./pages/Home";
 const CaseStudy = lazy(() => import("./components/CaseStudy"));
+const Blog = lazy(() => import("./pages/Blog"));
 import "./index.css";
 
 export default function App() {
@@ -16,6 +17,10 @@ export default function App() {
         {caseSlug ? (
           <Suspense fallback={null}>
             <CaseStudy slug={caseSlug} />
+          </Suspense>
+        ) : path === "/blog" || path.startsWith("/blog/") ? (
+          <Suspense fallback={null}>
+            <Blog path={path} />
           </Suspense>
         ) : (
           <Home />

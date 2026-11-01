@@ -2,18 +2,13 @@ import { useEffect } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import AutoplayVideo from "./AutoplayVideo";
 import Footer from "./Footer";
+import PageHeader from "./PageHeader";
 import { FLAGSHIP_PROJECTS, PROJECTS, PROFILE } from "../data/profileData";
 import { getCaseMeta } from "../data/caseMeta";
-
-const slugify = (name) =>
-  name
-    .split(":")[0]
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+import { projectSlug } from "../utils/slugify";
 
 function findCase(slug) {
-  const flagship = FLAGSHIP_PROJECTS.find((p) => slugify(p.name) === slug);
+  const flagship = FLAGSHIP_PROJECTS.find((p) => projectSlug(p.name) === slug);
   if (flagship) {
     return {
       name: flagship.name,
@@ -61,16 +56,7 @@ export default function CaseStudy({ slug }) {
 
   return (
     <>
-      <header className="border-b border-hairline">
-        <div className="mx-auto max-w-4xl px-6 h-14 flex items-center justify-between text-sm">
-          <a href="/#projects" className="text-subtle hover:text-ink transition-colors duration-300">
-            &larr; All projects
-          </a>
-          <a href="/" className="font-medium text-ink">
-            {PROFILE.name}
-          </a>
-        </div>
-      </header>
+      <PageHeader backHref="/#projects" backLabel="All projects" />
 
       <main id="main" className="mx-auto max-w-4xl px-6 py-16 md:py-24">
         <div className="text-sm font-medium text-accent mb-3">Case study</div>

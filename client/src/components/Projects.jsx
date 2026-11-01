@@ -4,16 +4,9 @@ import SectionTitle from "./SectionTitle";
 import AutoplayVideo from "./AutoplayVideo";
 import { PROJECTS, FLAGSHIP_PROJECTS } from "../data/profileData";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { projectSlug } from "../utils/slugify";
 
 const EASE = [0.16, 1, 0.3, 1];
-
-function slugify(title) {
-  return title
-    .split(":")[0]
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 export default function Projects() {
   const allProjects = PROJECTS.map((p) => ({
@@ -36,7 +29,7 @@ export default function Projects() {
         {FLAGSHIP_PROJECTS.map((project, fi) => (
           <motion.div
             key={project.name}
-            id={slugify(project.name)}
+            id={projectSlug(project.name)}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -138,7 +131,7 @@ export default function Projects() {
               </a>
 
               <a
-                href={`/work/${slugify(project.name)}`}
+                href={`/work/${projectSlug(project.name)}`}
                 className="inline-flex items-center gap-2 text-sm text-accent hover:text-ink transition-colors duration-300"
               >
                 Read case study &rarr;
