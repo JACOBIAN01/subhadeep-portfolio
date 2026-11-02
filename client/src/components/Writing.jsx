@@ -19,27 +19,27 @@ function PostCard({ post, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.7, ease: EASE, delay: index * 0.1 }}
-      className="group flex flex-col rounded-[28px] border border-hairline bg-white p-8 transition-shadow duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className="group flex flex-col rounded-2xl border border-hairline bg-white p-5 md:p-6 transition-shadow duration-500 hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
     >
       {post.series && (
-        <div className="text-xs font-bold uppercase tracking-[0.12em] text-accent">
+        <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-accent">
           {post.series} {post.seriesNo && `#${post.seriesNo}`}
         </div>
       )}
-      <h3 className="mt-3 text-xl font-semibold leading-snug tracking-tight text-ink transition-colors duration-300 group-hover:text-accent md:text-2xl">
+      <h3 className="mt-2 text-lg font-semibold leading-snug tracking-tight text-ink transition-colors duration-300 group-hover:text-accent">
         {post.title}
       </h3>
       {post.dek && (
-        <p className="mt-4 line-clamp-3 text-[15px] leading-relaxed text-subtle">{post.dek}</p>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-subtle">{post.dek}</p>
       )}
 
       {/* Pushes the date row to the bottom so cards in a row line up. */}
       <div className="flex-1" />
-      <div className="mt-6 flex items-center justify-between gap-4 border-t border-hairline pt-5 text-xs text-subtle">
+      <div className="mt-4 flex items-center justify-between gap-4 border-t border-hairline pt-3 text-xs text-subtle">
         <span>
           <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.minutes} min read
         </span>
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+        <span className="inline-flex items-center gap-1 text-[13px] font-medium text-accent">
           Read <FiArrowRight aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5" />
         </span>
       </div>
@@ -55,6 +55,14 @@ export default function Writing() {
       .then((list) => setPosts(list.slice(0, CARDS_SHOWN)))
       .catch(() => setPosts([]));
   }, []);
+
+  // The section appears only once the post list has loaded, too late for the browser's own
+  // jump to "#writing". So when the page was opened at /#writing, scroll here ourselves.
+  useEffect(() => {
+    if (posts.length > 0 && window.location.hash === "#writing") {
+      document.getElementById("writing")?.scrollIntoView();
+    }
+  }, [posts.length]);
 
   // Nothing published yet (or the list couldn't load): show no empty section.
   if (posts.length === 0) return null;
@@ -74,7 +82,7 @@ export default function Writing() {
             </a>
           }
         />
-        <div className={`grid gap-6 md:gap-8 ${posts.length > 1 ? "md:grid-cols-2 lg:grid-cols-3" : "max-w-2xl"}`}>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post, i) => (
             <PostCard key={post.slug} post={post} index={i} />
           ))}
