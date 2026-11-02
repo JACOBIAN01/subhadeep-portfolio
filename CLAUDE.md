@@ -14,14 +14,17 @@ to `main` directly (branch → PR → Vercel preview).
 | `client/src/content/blog/*.json` | Decoded agent | **One file per post. The only thing that changes weekly.** |
 | `client/public/og/blog-*.png` | Decoded agent | Link-preview image per post |
 | `client/src/data/blogMeta.js` | Decoded agent | Blog rules used by **both** the site and the build: which posts are published, slug from file name, reading time, tagline |
+| `client/src/data/blogList.js` | Shared | Loads posts for the blog pages and the home page's Writing cards (reads `blog/posts.json` in production) |
 | `client/src/components/PageHeader.jsx`, `client/src/utils/slugify.js` | Shared | Top bar and slug helper used by both the blog and the case studies |
+| `client/src/components/Writing.jsx` | VS Code Claude | Home-page "Writing" section: the 3 newest posts as cards, each linking to its post |
 | Everything else | VS Code Claude | The rest of the site |
 
-The blog touches existing code in four small places; keep it that way:
+The blog touches existing code in five small places; keep it that way:
 `App.jsx` (lazy import + `/blog` route), `scripts/prerender.mjs` (blog pages join the
 existing per-page loop, so each post gets its own title, description and preview image
 for LinkedIn), `vercel.json` (a `/blog/*` fallback so a mistyped link shows the blog's
-"Post not found"), and one "Writing" link in `Navbar.jsx`. No new npm packages.
+"Post not found"), one "Writing" link in `Navbar.jsx`, and the `<Writing />` section in `pages/Home.jsx`
+(new posts show there automatically). No new npm packages.
 
 ## Adding a post: no code changes
 
