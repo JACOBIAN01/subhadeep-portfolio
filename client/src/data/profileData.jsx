@@ -45,10 +45,26 @@ import {
   SiJsonwebtokens,
 } from "react-icons/si";
 
+// Single source of truth for every figure repeated on the site. Resume, llms.txt and
+// index.html meta tags are plain files and must be updated by hand to match.
+export const METRICS = {
+  rating: 4.48, // Newton instructor rating
+  csat: 91.55, // Newton CSAT, %
+  responses: 569, // lecture feedback responses behind the rating
+  learners: "500+",
+  lectures: "100+",
+  batches: "10+",
+  studentsGraded: 441,
+  gradingMinutes: 110,
+  codingalRating: 4.46,
+  codingalSessions: "2,500+",
+};
+
+export const NEWTON_ROLE = "SDE + Instructor 1";
+
 export const PROFILE = {
   name: "Subhadeep Ghorai",
-  title:
-    "Software Engineer @ Newton School of Technology · System Design Educator to 500+ Engineers (4.44/5 ★ & 91.55% CSAT)",
+  title: `${NEWTON_ROLE} @ Newton School of Technology · System Design Educator to ${METRICS.learners} Engineers (${METRICS.rating}/5 ★ & ${METRICS.csat}% CSAT)`,
   location: "Kolkata, West Bengal, India",
   email: "subhadeepghorai23@gmail.com",
   booking: "https://calendly.com/subhadeepghorai23/30min",
@@ -65,15 +81,15 @@ export const ABOUT = {
     "and that difference shows up in code review, in architecture decisions, in how a team actually learns from its mistakes.",
   ],
   paragraphs: [
-    "I'm a Software Engineer & Subject Matter Expert (SME) at Newton School of Technology, building LLM evaluation pipelines on the MERN stack and teaching System Design across 10+ batches.",
-    "Before this, I spent two years at Codingal (Teacher Trainee to Teacher Mentor), mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for their 700+ teacher training organisation.",
-    "I'm currently open to SDE and New Grad roles. Drop a note or DM.",
+    `I'm an ${NEWTON_ROLE} at Newton School of Technology, building LLM evaluation pipelines on the MERN stack and teaching System Design across ${METRICS.batches} batches.`,
+    "Before this, I spent two years at Codingal (Teacher Trainee to Teacher Mentor), mentoring students worldwide while building Atlas, an internal ops platform that replaced a manual Google Form and Canva workflow for teacher training.",
+    "I'm currently open to SDE, New Grad and Instructor roles. Drop a note or DM.",
   ],
   highlights: [
-    "4.44/5 instructor rating across 569 student responses (91.55% CSAT), 10+ batches, 100+ lectures at Newton School of Technology",
-    "Built Repo-Score-V2 and WAP-Agent, AI evaluation pipelines automating 150+ GitHub PR reviews; resolved 99 student grievances individually",
-    "Designed and shipped Atlas, an internal ops platform for Codingal's 700+ teacher training organisation: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
-    "Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, 2,500+ live coding sessions, 4.46/5 rating",
+    `${METRICS.rating}/5 instructor rating across ${METRICS.responses} student responses (${METRICS.csat}% CSAT), ${METRICS.batches} batches, ${METRICS.lectures} lectures at Newton School of Technology`,
+    "Built RepoScore-V2 and WAP-Agent, LLM-powered evaluation pipelines that automate grading of student GitHub projects",
+    "Designed and shipped Atlas, an internal ops platform for Codingal teacher training: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
+    `Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, ${METRICS.codingalSessions} live coding sessions, ${METRICS.codingalRating}/5 rating`,
   ],
   languages: [
     "Bengali: Native",
@@ -143,11 +159,11 @@ export const STACK_GROUPS = [
 export const PROJECTS = [
   {
     name: "SESD-Agent: LLM Orchestration for Grading at Scale",
-    desc: "Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks for 300+ engineers; 441 students graded in about 110 minutes.",
+    desc: `Three orchestrated Claude API pipelines that grade GitHub repos, case studies, and coding streaks; ${METRICS.studentsGraded} students graded in about ${METRICS.gradingMinutes} minutes.`,
     tech: ["Node.js", "Claude API", "LLM Orchestration", "GitHub API"],
     slug: "sesd-agent",
     features: [
-      "Project Evaluator: reads each student's GitHub repo, identifies required docs (idea.md and 4 UML diagrams), and scores backend/frontend quality out of 10; 441 students graded in about 110 minutes",
+      `Project Evaluator: reads each student's GitHub repo, identifies required docs (idea.md and 4 UML diagrams), and scores backend/frontend quality out of 10; ${METRICS.studentsGraded} students graded in about ${METRICS.gradingMinutes} minutes`,
       "Case Study Evaluator: scores research depth, clarity, and real-world impact out of 5 from a Drive report or blog post; 154 case studies graded in about 40 minutes",
       "Streak Evaluator: pulls GitHub, LeetCode, and Codeforces contribution calendars directly (no LLM involved) and converts the longest coding streak into a 0-10 score in about 500ms per student",
       "Every score writes straight back to the same Google Sheet the cohort already tracks",
@@ -155,9 +171,9 @@ export const PROJECTS = [
     stack: ["Node.js", "Claude API", "GitHub API", "Google Sheets API", "LeetCode API", "Codeforces API", ],
     repo: "https://github.com/JACOBIAN01/SESD-Agent",
     stats: [
-      { k: "Students Graded", v: "441" },
+      { k: "Students Graded", v: String(METRICS.studentsGraded) },
       { k: "Case Studies Graded", v: "154" },
-      { k: "Grading Time (441 Students)", v: "~110 min" },
+      { k: `Grading Time (${METRICS.studentsGraded} Students)`, v: `~${METRICS.gradingMinutes} min` },
       { k: "Streak Score Latency", v: "~500ms" },
     ],
   },
@@ -184,11 +200,11 @@ export const PROJECTS = [
   },
   {
     name: "Atlas: Internal Operations Platform for Teacher Training",
-    desc: "An internal operations platform built for Codingal's 700+ teacher training organisation, replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
+    desc: "An internal operations platform built for Codingal's teacher training programme (~105 teachers submitting work, inside a 700+ teacher organisation), replacing a Google Form and a Canva workflow for tracking module completions and issuing certificates.",
     tech: ["React 19", "Vite 7", "Tailwind 4", "Express", "Google Apps Script", "Google Sheets API"],
     slug: "atlas",
     features: [
-      "Module submission and completion tracking for a 700+ teacher organisation",
+      "Module submission and completion tracking for ~105 active teachers",
       "Automated certificate generation across 37 distinct specializations",
       "Rework-flagging pipeline surfaces low-quality submissions before certification",
       "Runs at $0/month infrastructure cost on Vercel + Google Sheets/Apps Script",
@@ -243,14 +259,14 @@ export const FLAGSHIP_PROJECTS = [
 
 export const EXPERIENCE = [
   {
-    role: "Instructor & Software Engineer",
+    role: NEWTON_ROLE,
     org: "Newton School of Technology",
     period: "Dec 2025 – Present",
     bullets: [
       "Built and deployed LLM-powered evaluation pipelines, including RepoScore-V2 and WAP-Agent, automating assessment workflows.",
       "Designed and developed internal tools and full-stack applications using the MERN stack, contributing to project evaluation pipelines, learning platforms, and operational efficiency initiatives.",
-      "Delivered 100+ lectures across 10+ batches, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.",
-      "Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for 500+ aspiring software engineers.",
+      `Delivered ${METRICS.lectures} lectures across ${METRICS.batches} batches, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.`,
+      `Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for ${METRICS.learners} aspiring software engineers.`,
     ],
   },
   {
@@ -258,9 +274,9 @@ export const EXPERIENCE = [
     org: "Codingal",
     period: "Dec 2023 – Jan 2026",
     bullets: [
-      "Designed and shipped Atlas, an operations platform (React, Node.js, Google Sheets API) replacing manual spreadsheet/Canva workflows for 700+ teachers; onboarded 100+ in first 10 days and automated 168+ certificates.",
-      "Mentored 100+ students across 10+ countries through 2,500+ live coding sessions in Java, Python, AI, and Web Development.",
-      "Achieved a 4.46/5 average rating and 80% student renewal rate through engaging, personalized learning.",
+      "Designed and shipped Atlas, an operations platform (React, Node.js, Google Sheets API) replacing manual spreadsheet/Canva workflows for Codingal's teacher training programme (700+ teacher organisation); onboarded 100+ teachers in the first 10 days and automated 168+ certificates.",
+      `Mentored 100+ students across 10+ countries through ${METRICS.codingalSessions} live coding sessions in Java, Python, AI, and Web Development.`,
+      `Achieved a ${METRICS.codingalRating}/5 average rating and 80% student renewal rate through engaging, personalized learning.`,
       "Conducted training sessions for newly onboarded teachers and assessed teaching and communication skills as a Teacher Mentor.",
     ],
   },
@@ -307,8 +323,7 @@ export const TEACHING_CLIPS = [
 // naming specific students negatively, and off-topic exam/CGPA requests -
 // none of that belongs on a public page regardless of curation.
 export const TESTIMONIAL_STATS = {
-  total: 569,
-  positiveRate: 92.6, // rated "Awesome" or "Good"
+  total: METRICS.responses,
   period: "Jan-Apr 2026",
 };
 
@@ -436,17 +451,9 @@ export const JOB_CERTIFICATES = [
     title: "Certificate of Excellence – Codingal Inc.",
     org: "Codingal Inc.",
     date: "July 2024",
-    metric: "2,500+ live sessions • 4.46★ rating",
+    metric: `${METRICS.codingalSessions} live sessions • ${METRICS.codingalRating}★ rating`,
     desc: "Recognized for outstanding mentorship, innovation, and global educational impact.",
     img: "/certs/Coding_Instructor.jpg",
-  },
-  {
-    title: "Performance Recognition – 5+ Renewals in a Month",
-    org: "Codingal Inc.",
-    date: "Nov 2022",
-    metric: "5+ Monthly Renewals • 18% Client Growth",
-    desc: "Awarded for exceptional educator engagement and renewal performance.",
-    img: "/certs/Plus_Renewal.jpg",
   },
   {
     title: "Promotion – Senior Coding Instructor",

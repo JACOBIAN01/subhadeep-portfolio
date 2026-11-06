@@ -1,11 +1,11 @@
 # Subhadeep Ghorai
 
-> Software Engineer at Newton School of Technology building LLM evaluation pipelines on the MERN stack, and a System Design instructor who has taught 500+ engineers (4.44/5 instructor rating across 569 student responses, 91.55% CSAT). Based in Kolkata, West Bengal, India. Seeking SDE and new-grad roles.
+> SDE + Instructor 1 at Newton School of Technology building LLM evaluation pipelines on the MERN stack, and a System Design instructor who has taught 500+ engineers (4.48/5 instructor rating across 569 student responses, 91.55% CSAT). Based in Kolkata, West Bengal, India. Seeking SDE, new-grad and instructor roles.
 
 ## Experience
 
-- Instructor & Software Engineer, Newton School of Technology (Dec 2025 – Present): built and deployed LLM-powered evaluation pipelines (RepoScore-V2, WAP-Agent); delivered 100+ lectures across 10+ batches in System Design, OOP, Software Engineering and Design Patterns.
-- Teacher Mentor & Senior Coding Instructor, Codingal (Dec 2023 – Jan 2026): mentored 100+ students across 10+ countries through 2,500+ live coding sessions; built Atlas, an internal operations platform for a 700+ teacher organisation; 4.46/5 rating, 80% renewal rate.
+- SDE + Instructor 1, Newton School of Technology (Dec 2025 – Present): built and deployed LLM-powered evaluation pipelines (RepoScore-V2, WAP-Agent); delivered 100+ lectures across 10+ batches in System Design, OOP, Software Engineering and Design Patterns.
+- Teacher Mentor & Senior Coding Instructor, Codingal (Dec 2023 – Jan 2026): mentored 100+ students across 10+ countries through 2,500+ live coding sessions; built Atlas, an internal operations platform for Codingal teacher training (100+ teachers onboarded in 10 days); 4.46/5 rating, 80% renewal rate.
 
 ## Projects
 

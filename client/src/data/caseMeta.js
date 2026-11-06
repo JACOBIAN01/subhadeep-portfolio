@@ -23,7 +23,7 @@ export const CASE_META = [
   },
   {
     slug: "atlas",
-    title: "Atlas: internal operations platform for a 700+ teacher organisation",
+    title: "Atlas: internal operations platform for Codingal teacher training",
     description:
       "Replaced a Google Form and Canva workflow for module tracking and certificate issuing; 168 certificates automated at $0/month infrastructure.",
   },

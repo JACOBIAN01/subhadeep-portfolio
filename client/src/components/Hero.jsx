@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { PROFILE } from "../data/profileData";
+import { PROFILE, METRICS } from "../data/profileData";
 import { IoArrowForward } from "react-icons/io5";
 import Image from "../assets/self.webp";
 const EASE = [0.16, 1, 0.3, 1];
@@ -11,8 +11,8 @@ const PROOF = [
     label: "VS Code Marketplace extension",
     href: "https://marketplace.visualstudio.com/items?itemName=SubhadeepGhorai.eventloop-studio",
   },
-  { label: "Merged PR in electron/electron", href: "https://github.com/electron/electron/pull/53114" },
-  { label: "441 repos graded in ~110 min", href: "https://github.com/JACOBIAN01/SESD-Agent" },
+  { label: "Merged docs PR in electron/electron", href: "https://github.com/electron/electron/pull/53114" },
+  { label: `${METRICS.studentsGraded} repos graded in ~${METRICS.gradingMinutes} min`, href: "https://github.com/JACOBIAN01/SESD-Agent" },
 ];
 
 export default function Hero() {
@@ -39,7 +39,7 @@ export default function Hero() {
             <h1
               className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05]"
             >
-              I build tools that grade, schedule and teach at scale.
+              I build tools that grade and teach at scale.
             </h1>
 
             <motion.p
@@ -48,8 +48,8 @@ export default function Hero() {
               transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
               className="mt-6 text-xl md:text-2xl text-white/55 max-w-lg mx-auto md:mx-0 font-normal leading-relaxed"
             >
-              Software Engineer & System Design instructor at Newton School of Technology.
-              Seeking SDE and new-grad roles.
+              SDE + Instructor 1 at Newton School of Technology, teaching System Design.
+              Seeking SDE, new-grad and instructor roles.
             </motion.p>
 
             <motion.div

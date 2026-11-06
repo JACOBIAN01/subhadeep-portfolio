@@ -27,8 +27,7 @@ export default function Testimonials() {
         </p>
         <p className="text-sm text-accent font-medium mb-14">
           Curated from {TESTIMONIAL_STATS.total} lecture feedback responses (
-          {TESTIMONIAL_STATS.period}) &middot; {TESTIMONIAL_STATS.positiveRate}
-          % rated Awesome or Good
+          {TESTIMONIAL_STATS.period})
         </p>
 
         <div className="grid md:grid-cols-3 gap-6">

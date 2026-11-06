@@ -1,18 +1,19 @@
 // src/components/StatsStrip.jsx
 import { useEffect, useState } from "react";
 import Marquee from "./Marquee";
+import { METRICS } from "../data/profileData";
 
 // Rendered inside Experience.jsx as a subsection, not its own top-level
 // section, since it restates facts already covered by the EXPERIENCE
 // timeline just above it.
 export function TeachingStatsMarquee() {
   const stats = [
-    { k: "Live Sessions", v: 2500, suffix: "+" },
-    { k: "Student Rating", v: 4.44, suffix: "/5" },
-    { k: "Learners", v: 400, suffix: "+" },
+    { k: "Live Sessions (Codingal)", v: 2500, suffix: "+" },
+    { k: "Student Rating", v: METRICS.rating, suffix: "/5" },
+    { k: "Learners", v: parseInt(METRICS.learners, 10), suffix: "+" },
     { k: "Offline Lectures", v: 100, suffix: "+" },
     { k: "Workshops & Masterclasses", v: 5, suffix: "+" },
-    { k: "CSAT", v: 91.55, suffix: "%" },
+    { k: "CSAT", v: METRICS.csat, suffix: "%" },
   ];
 
   return (
