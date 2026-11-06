@@ -246,6 +246,14 @@ export const FLAGSHIP_PROJECTS = [
         stat: "6 real libuv phases modeled in Node.js mode",
       },
     ],
+    design: {
+      problem:
+        "A visualizer that replays a canned animation is only ever right about the one example it was built for.",
+      decision:
+        "Run the user's own file in a real Node vm sandbox with its own Promise intrinsics, and record every call-stack push/pop, console call, and timer/microtask/phase transition as an ExecutionStep.",
+      reasoning:
+        "Ordering comes from the engine instead of my model of it, so recursion, closures, and async/await behave as they really do. The trade-off: panels show only what was recorded, and Browser mode models Web APIs and the macrotask queue rather than running a real browser.",
+    },
     stack: ["TypeScript", "VS Code Extension API", "Node.js vm", "Acorn", "React", "esbuild"],
     repo: "https://github.com/JACOBIAN01/EventLoop-Studio",
     marketplace:
