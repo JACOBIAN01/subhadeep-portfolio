@@ -43,27 +43,6 @@ export default function About() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="mt-14 border-t border-hairline pt-10"
-        >
-          <h3 className="text-sm font-medium text-ink mb-5">At a glance</h3>
-          <ul className="space-y-3">
-            {ABOUT.highlights.map((h) => (
-              <li
-                key={h}
-                className="flex items-start gap-3 text-[15px] text-subtle leading-relaxed"
-              >
-                <span className="mt-2.5 h-1 w-1 rounded-full bg-faint shrink-0" />
-                {h}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-
         <p className="mt-10 text-sm text-subtle">
           {ABOUT.languages.join(" · ")}
         </p>

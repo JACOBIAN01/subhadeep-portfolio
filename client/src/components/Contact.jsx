@@ -66,7 +66,7 @@ export default function Contact() {
               name="message"
               aria-label="Message"
               rows={5}
-              placeholder="Tell me about the project..."
+              placeholder="Role, team, or what you'd like to discuss"
               required
               className={`md:col-span-2 ${fieldClass}`}
             />

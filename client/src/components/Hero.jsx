@@ -73,10 +73,10 @@ export default function Hero() {
                 Resume
               </a>
               <a
-                href="#contact"
+                href="#teaching"
                 className="group flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-300"
               >
-                Get in Touch
+                See How I Teach
                 <IoArrowForward
                   aria-hidden="true"
                   className="transition-transform duration-300 group-hover:translate-x-1"
@@ -120,7 +120,7 @@ export default function Hero() {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full h-auto max-h-[520px] object-contain rounded-2xl"
+                className="w-full h-auto max-h-[400px] object-contain rounded-2xl"
               />
             </div>
 

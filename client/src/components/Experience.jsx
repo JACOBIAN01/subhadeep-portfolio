@@ -3,11 +3,8 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
-import Marquee from "./Marquee";
 import Modal from "./Modal";
-import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION, TEACHING_CLIPS } from "../data/profileData";
-import TeachingReel from "./TeachingReel";
-import { TeachingStatsMarquee } from "./StatsStrip";
+import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
 import { FaGraduationCap } from "react-icons/fa";
 import codingalLogo from "../assets/Codingal.png";
 import newtonLogo from "../assets/newton.jpeg"
@@ -112,39 +109,14 @@ export default function Experience() {
 
         {/* Divider */}
         <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mt-24 mb-10 text-center">
-          Teaching Impact
-        </h3>
-
-        <p className="text-center mb-8">
-          <span className="text-base font-medium text-ink">
-            Moments from 100+ lectures and workshops
-          </span>
-          <span className="block sm:inline text-sm text-subtle sm:ml-2 mt-1 sm:mt-0">
-            <span className="hidden sm:inline">· </span>
-            System Design, Electron, Node.js, CLI tooling
-          </span>
-        </p>
-
-        <TeachingReel clips={TEACHING_CLIPS} />
-
-        <TeachingStatsMarquee />
-
-        {/* Divider */}
-        <h3 className="text-sm font-medium tracking-wide uppercase text-subtle mt-24 mb-10 text-center">
           Recognitions & Job Certificates
         </h3>
 
-        {/* --- Infinite Smooth Certificates Carousel --- */}
-        <Marquee duration={26} gap="gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {JOB_CERTIFICATES.map((cert) => (
             <CertCard key={cert.title} cert={cert} />
           ))}
-          <div className="flex gap-8" aria-hidden="true" inert={true}>
-            {JOB_CERTIFICATES.map((cert) => (
-              <CertCard key={`dup-${cert.title}`} cert={cert} />
-            ))}
-          </div>
-        </Marquee>
+        </div>
       </div>
 
       <Modal
@@ -178,8 +150,8 @@ export default function Experience() {
 
 function CertCard({ cert }) {
   return (
-    <div className="shrink-0 w-80 md:w-95 bg-white border border-hairline rounded-3xl overflow-hidden transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-      <div className="w-full h-72 md:h-80 bg-canvas-alt flex items-center justify-center p-4">
+    <div className="bg-white border border-hairline rounded-3xl overflow-hidden transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="w-full h-56 bg-canvas-alt flex items-center justify-center p-4">
         <img
           src={cert.img}
           alt={cert.title}

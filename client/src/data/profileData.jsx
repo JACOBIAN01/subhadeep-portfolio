@@ -8,6 +8,9 @@ import {
   FaLinkedin,
   FaEnvelope,
   FaCalendarAlt,
+  FaRobot,
+  FaProjectDiagram,
+  FaClipboardCheck,
 } from "react-icons/fa";
 
 import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
@@ -43,6 +46,9 @@ import {
   SiGoogleappsscript,
   SiClaude,
   SiJsonwebtokens,
+  SiDocker,
+  SiKubernetes,
+  SiAmazonwebservices,
 } from "react-icons/si";
 
 // Single source of truth for every figure repeated on the site. Resume, llms.txt and
@@ -98,11 +104,9 @@ export const ABOUT = {
   ],
 };
 
-// Every entry here is backed by a specific project, PR, or teaching credit
-// on this site, not a general self-reported skill list. Java and Python were
-// deliberately left out: both are taught (see the Codingal bullet in
-// EXPERIENCE) but neither appears in any shipped project's stack, so listing
-// them here would claim more than the evidence supports.
+// Core groups are backed by projects on this site. "Cloud & DevOps" and
+// "AI / LLM" are skills the author lists on the resume and is still building
+// project evidence for; add the projects here as they ship.
 export const STACK_GROUPS = [
   {
     label: "Languages",
@@ -145,6 +149,24 @@ export const STACK_GROUPS = [
       { name: "Git", icon: <SiGit className="text-2xl" /> },
       { name: "GitHub Actions", icon: <SiGithubactions className="text-2xl" /> },
       { name: "Vercel", icon: <SiVercel className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "Cloud & DevOps",
+    items: [
+      { name: "Docker", icon: <SiDocker className="text-2xl" /> },
+      { name: "Kubernetes", icon: <SiKubernetes className="text-2xl" /> },
+      { name: "AWS", icon: <SiAmazonwebservices className="text-2xl" /> },
+      { name: "CI/CD", icon: <SiGithubactions className="text-2xl" /> },
+    ],
+  },
+  {
+    label: "AI / LLM",
+    items: [
+      { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
+      { name: "Prompt Engineering", icon: <FaRobot className="text-2xl" /> },
+      { name: "LLM Evaluation", icon: <FaClipboardCheck className="text-2xl" /> },
+      { name: "Agent Orchestration", icon: <FaProjectDiagram className="text-2xl" /> },
     ],
   },
   {
@@ -390,32 +412,6 @@ export const TESTIMONIALS = [
     rating: "Awesome",
     date: "January 13, 2026",
   },
-];
-
-// Short one-liners from the same feedback set, too brief to carry a full card
-// alone but real. Used in a scrolling ticker to reflect actual volume rather
-// than implying only the curated quotes above exist.
-export const TESTIMONIAL_TICKER = [
-  "Loved it",
-  "Good revision",
-  "Great explanation",
-  "Nothing to say, everything great",
-  "10/10 class, you should also take our lectures",
-  "Best explanation and question solving",
-  "Really awesome lab, I like it and understand it",
-  "Great class, sir helped us with revision and it was really nice",
-  "This class was much better than the last one",
-  "Nice interactive class",
-  "Great teaching skill",
-  "Class was good, I understand everything, my doubts were cleared",
-  "Everything is extraordinary",
-  "Sir teaches very well",
-  "Fully understood the ER diagram",
-  "Quite easily understood the UML sequence diagram",
-  "Good session",
-  "Understood everything at once",
-  "Nice session, understood everything",
-  "Very good teacher, best teacher",
 ];
 
 // Verbatim excerpt from a manager appreciation email (24 March 2026), named

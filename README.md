@@ -63,7 +63,7 @@ docs/SEO-notes.md           # SEO, social-preview and AI-discoverability notes
 
 - Each figure appears once in `profileData.jsx` and is reused, so sections can't disagree.
 - Student testimonials are anonymised and verbatim, and include a non-glowing one on purpose.
-- Skills listed are limited to technologies used in a project shown on the site.
+- Core skills are backed by a project on the site. "Cloud & DevOps" and "AI / LLM" are resume skills still waiting on project evidence.
 
 ## Contact
 
