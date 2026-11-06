@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import GlassCard from "./GlassCard";
 import SectionTitle from "./SectionTitle";
+import Marquee from "./Marquee";
 import Modal from "./Modal";
 import { JOB_CERTIFICATES, EXPERIENCE, MANAGER_APPRECIATION } from "../data/profileData";
 import { FaGraduationCap } from "react-icons/fa";
@@ -112,11 +113,16 @@ export default function Experience() {
           Recognitions & Job Certificates
         </h3>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Marquee duration={26} gap="gap-8">
           {JOB_CERTIFICATES.map((cert) => (
             <CertCard key={cert.title} cert={cert} />
           ))}
-        </div>
+          <div className="flex gap-8" aria-hidden="true" inert={true}>
+            {JOB_CERTIFICATES.map((cert) => (
+              <CertCard key={`dup-${cert.title}`} cert={cert} />
+            ))}
+          </div>
+        </Marquee>
       </div>
 
       <Modal
@@ -150,8 +156,8 @@ export default function Experience() {
 
 function CertCard({ cert }) {
   return (
-    <div className="bg-white border border-hairline rounded-3xl overflow-hidden transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-      <div className="w-full h-56 bg-canvas-alt flex items-center justify-center p-4">
+    <div className="shrink-0 w-80 md:w-95 bg-white border border-hairline rounded-3xl overflow-hidden transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+      <div className="w-full h-72 md:h-80 bg-canvas-alt flex items-center justify-center p-4">
         <img
           src={cert.img}
           alt={cert.title}

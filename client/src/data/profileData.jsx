@@ -11,6 +11,9 @@ import {
   FaRobot,
   FaProjectDiagram,
   FaClipboardCheck,
+  FaPlug,
+  FaTerminal,
+  FaDatabase,
 } from "react-icons/fa";
 
 import EventLoopDemo1 from "../assets/EventLoopDemo1.mp4";
@@ -57,6 +60,7 @@ export const METRICS = {
   rating: 4.48, // Newton instructor rating
   csat: 91.55, // Newton CSAT, %
   responses: 569, // lecture feedback responses behind the rating
+  fullyUnderstood: 84.7, // % of responses "understood completely" (482 of 569)
   learners: "500+",
   lectures: "100+",
   batches: "10+",
@@ -93,7 +97,7 @@ export const ABOUT = {
   ],
   highlights: [
     `${METRICS.rating}/5 instructor rating across ${METRICS.responses} student responses (${METRICS.csat}% CSAT), ${METRICS.batches} batches, ${METRICS.lectures} lectures at Newton School of Technology`,
-    "Built RepoScore-V2 and WAP-Agent, LLM-powered evaluation pipelines that automate grading of student GitHub projects",
+    `Built SESD-Agent, an LLM evaluation system (RepoScore-V2, WAP-Agent) that evaluated 150+ student PRs and graded ${METRICS.studentsGraded} students in ~${METRICS.gradingMinutes} minutes; resolved 99 student grievances individually`,
     "Designed and shipped Atlas, an internal ops platform for Codingal teacher training: 100+ teachers onboarded in the first 10 days, 168 certificates automated",
     `Two years at Codingal, Teacher Trainee → Teacher Mentor: 100+ students mentored across 10+ countries, ${METRICS.codingalSessions} live coding sessions, ${METRICS.codingalRating}/5 rating`,
   ],
@@ -105,8 +109,9 @@ export const ABOUT = {
 };
 
 // Core groups are backed by projects on this site. "Cloud & DevOps" and
-// "AI / LLM" are skills the author lists on the resume and is still building
-// project evidence for; add the projects here as they ship.
+// "AI / LLM" are skills the author lists on the resume. The AI / LLM list
+// covers current industry skills; the author will add project evidence later
+// (only Claude API, LLM evaluation and agent orchestration are shown in projects today).
 export const STACK_GROUPS = [
   {
     label: "Languages",
@@ -165,6 +170,9 @@ export const STACK_GROUPS = [
     items: [
       { name: "Claude API", icon: <SiClaude className="text-2xl" /> },
       { name: "Prompt Engineering", icon: <FaRobot className="text-2xl" /> },
+      { name: "Tool Use / Function Calling", icon: <FaPlug className="text-2xl" /> },
+      { name: "MCP (Model Context Protocol)", icon: <FaTerminal className="text-2xl" /> },
+      { name: "RAG & Vector Search", icon: <FaDatabase className="text-2xl" /> },
       { name: "LLM Evaluation", icon: <FaClipboardCheck className="text-2xl" /> },
       { name: "Agent Orchestration", icon: <FaProjectDiagram className="text-2xl" /> },
     ],
@@ -293,7 +301,8 @@ export const EXPERIENCE = [
     org: "Newton School of Technology",
     period: "Dec 2025 – Present",
     bullets: [
-      "Built and deployed LLM-powered evaluation pipelines, including RepoScore-V2 and WAP-Agent, automating assessment workflows.",
+      `Built and deployed SESD-Agent, an LLM-powered evaluation system whose pipelines (including RepoScore-V2 and WAP-Agent) automate assessment: ${METRICS.studentsGraded} students graded in ~${METRICS.gradingMinutes} minutes, 150+ student PRs evaluated with feedback.`,
+      "Resolved 99 student grievances individually, alongside delivering lectures, labs and workshops.",
       "Designed and developed internal tools and full-stack applications using the MERN stack, contributing to project evaluation pipelines, learning platforms, and operational efficiency initiatives.",
       `Delivered ${METRICS.lectures} lectures across ${METRICS.batches} batches, mentoring students in System Design, OOP, Software Engineering, Design Patterns, and scalable application architecture.`,
       `Collaborated with academic and engineering teams to create technical content, conduct project reviews and mock interviews, and improve learning outcomes for ${METRICS.learners} aspiring software engineers.`,
@@ -414,13 +423,39 @@ export const TESTIMONIALS = [
   },
 ];
 
+// Short one-liners from the same feedback set, too brief to carry a full card
+// alone but real. Used in a scrolling ticker to reflect actual volume rather
+// than implying only the curated quotes above exist.
+export const TESTIMONIAL_TICKER = [
+  "Loved it",
+  "Good revision",
+  "Great explanation",
+  "Nothing to say, everything great",
+  "10/10 class, you should also take our lectures",
+  "Best explanation and question solving",
+  "Really awesome lab, I like it and understand it",
+  "Great class, sir helped us with revision and it was really nice",
+  "This class was much better than the last one",
+  "Nice interactive class",
+  "Great teaching skill",
+  "Class was good, I understand everything, my doubts were cleared",
+  "Everything is extraordinary",
+  "Sir teaches very well",
+  "Fully understood the ER diagram",
+  "Quite easily understood the UML sequence diagram",
+  "Good session",
+  "Understood everything at once",
+  "Nice session, understood everything",
+  "Very good teacher, best teacher",
+];
+
 // Verbatim excerpt from a manager appreciation email (24 March 2026), named
 // with permission. Trimmed to two contiguous sentences, no wording changed.
 export const MANAGER_APPRECIATION = {
   quote:
     "The feedback from students about your sessions has been consistently very positive. You connect with students well, understand them, and create a strong learning experience for them.",
   name: "Aditya Kumar",
-  role: "SDE & Instructor, Newton School of Technology",
+  role: "My manager · SDE & Instructor, Newton School of Technology",
 };
 
 export const Leadership = [

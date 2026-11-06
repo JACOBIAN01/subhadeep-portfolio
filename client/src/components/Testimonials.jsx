@@ -1,8 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import SectionTitle from "./SectionTitle";
+import Marquee from "./Marquee";
 import {
   TESTIMONIALS,
+  TESTIMONIAL_TICKER,
   TESTIMONIAL_STATS,
 } from "../data/profileData";
 
@@ -59,7 +61,28 @@ export default function Testimonials() {
           ))}
         </div>
 
+        <div className="mt-14">
+          <Marquee duration={36} gap="gap-4">
+            {TESTIMONIAL_TICKER.map((line) => (
+              <TickerItem key={line} text={line} />
+            ))}
+            <div className="flex gap-4" aria-hidden="true" inert={true}>
+              {TESTIMONIAL_TICKER.map((line) => (
+                <TickerItem key={`dup-${line}`} text={line} />
+              ))}
+            </div>
+          </Marquee>
+        </div>
       </div>
     </section>
+  );
+}
+
+function TickerItem({ text }) {
+  return (
+    <div className="shrink-0 flex items-center gap-2 border border-hairline rounded-full px-4 py-2 text-xs text-subtle whitespace-nowrap">
+      <span className="h-1 w-1 rounded-full bg-faint shrink-0" aria-hidden="true" />
+      {text}
+    </div>
   );
 }
